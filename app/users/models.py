@@ -1,0 +1,41 @@
+from datetime import datetime
+from flask import current_app
+from itsdangerous import JSONWebSignatureSerializer as JWSSerializer
+from app import db, bcrypt, constants
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    profile_img = db.Column(db.String(20), nullable=False, default='default.jpg')
+    password = db.Column(db.String(60), nullable=False)
+    join_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
+
+    def __init__(self, email, username, password):
+        self.email = email
+        self.username = username
+        self.password = bcrypt.generate_password_hash(
+            password,
+            current_app.config.get('BCRYPT_LOG_ROUNDS')
+        ).decode()
+
+    def __repr__(self):
+        return 'user {} {} {}'.format(self.username, self.email, self.id)
+
+    def generate_auth_token(self):
+        s = JWSSerializer(current_app.config.get('SECRET_KEY'))
+        return s.dumps({'user_id': self.id, 'type': constants.AUTH_TOKEN})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = JWSSerializer(current_app.config.get('SECRET_KEY'))
+        try:
+            data = s.loads(token)
+            user_id = data['user_id']
+            if data['type'] != constants.AUTH_TOKEN:
+                raise ValueError('Invalid token type')
+        except:
+            return None
+
+        return User.query.get(user_id)

@@ -1,0 +1,5 @@
+venv
+app/site.db
+app/.env
+**/*.pyc
+.idea/**
