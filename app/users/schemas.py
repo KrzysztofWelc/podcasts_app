@@ -31,3 +31,8 @@ class UserSchema(Schema):
     username = fields.String(required=True)
     id = fields.String(required=True)
     profile_img = fields.String(required=True)
+
+
+class LoginSchema(Schema):
+    email = fields.Email(required=True)
+    password = fields.String(required=True)

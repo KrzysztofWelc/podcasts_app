@@ -23,9 +23,12 @@ class User(db.Model):
     def __repr__(self):
         return 'user {} {} {}'.format(self.username, self.email, self.id)
 
+    def check_password(self, plain_password):
+        return bcrypt.check_password_hash(self.password, plain_password)
+
     def generate_auth_token(self):
         s = JWSSerializer(current_app.config.get('SECRET_KEY'))
-        return s.dumps({'user_id': self.id, 'type': constants.AUTH_TOKEN})
+        return s.dumps({'user_id': self.id, 'type': constants.AUTH_TOKEN}).decode()
 
     @staticmethod
     def verify_auth_token(token):

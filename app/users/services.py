@@ -1,8 +1,6 @@
-import pprint
+from marshmallow import ValidationError
 from app.users.models import User
 from app import db
-
-pp = pprint.PrettyPrinter(indent=4)
 
 
 def register_user(data):
@@ -12,3 +10,11 @@ def register_user(data):
     db.session.commit()
 
     return user
+
+
+def login_user(data):
+    user = User.query.filter_by(email=data['email']).first()
+    if user and user.check_password(data['password']):
+        return user.generate_auth_token(), user
+    else:
+        raise ValidationError({'general': 'wrong email of passowrd'})
