@@ -1,5 +1,5 @@
 from marshmallow import ValidationError
-from app.users.models import User
+from app.users.models import User, BlackListedToken
 from app import db
 
 
@@ -17,4 +17,10 @@ def login_user(data):
     if user and user.check_password(data['password']):
         return user.generate_auth_token(), user
     else:
-        raise ValidationError({'general': 'wrong email of passowrd'})
+        raise ValidationError({'general': ['wrong email of password']})
+
+
+def logout_user(token):
+    blt = BlackListedToken(token)
+    db.session.add(blt)
+    db.session.commit()
