@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import request, make_response
-from app.users.models import User
+from app.users.models import User, BlackListedToken
 
 
 def login_required(f):
@@ -11,11 +11,12 @@ def login_required(f):
         if auth_header:
             token = auth_header.split(' ')[1]
             user = User.verify_auth_token(token)
-            if user:
+            token_check = BlackListedToken.query.filter_by(token=token).first()
+            if user and not token_check:
                 request.user = user
                 request.token = token
             else:
-                return make_response({'message': 'you are not authenticated2'}), 401
+                return make_response({'message': 'you are not authenticated'}), 401
         else:
             return make_response({'message': 'you are not authenticated'}), 401
         return f(*args, **kwargs)
