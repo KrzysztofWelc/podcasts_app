@@ -42,3 +42,15 @@ class User(db.Model):
             return None
 
         return User.query.get(user_id)
+
+
+class BlackListedToken(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(40), nullable=False)
+    blacklisted_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+
+    def __init__(self, token):
+        self.token = token
+
+    def __repr__(self):
+        return self.token

@@ -1,7 +1,8 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, make_response
 from marshmallow import ValidationError
 from app.users.schemas import RegisterSchema, UserSchema, LoginSchema
-from app.users.services import register_user, login_user
+from app.users.services import register_user, login_user, logout_user
+from app.users.decorators import login_required
 
 users = Blueprint('users', __name__)
 
@@ -25,3 +26,10 @@ def login():
         return {'token': jwt, 'user': UserSchema().dump(user)}
     except ValidationError as err:
         return err.messages
+
+
+@users.route('/logout', methods=['POST'])
+@login_required
+def logout():
+    logout_user(request.token)
+    return make_response()
