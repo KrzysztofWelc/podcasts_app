@@ -10,12 +10,17 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 
-def create_app():
+def create_app(config=None):
     app = Flask(__name__)
-    app_settings = os.getenv(
-        'APP_SETTINGS',
-        'app.config.DevelopmentConfig'
-    )
+
+    if not config:
+        app_settings = os.getenv(
+            'APP_SETTINGS',
+            'app.config.DevelopmentConfig'
+        )
+    else:
+        app_settings = config
+
     app.config.from_object(app_settings)
     db.init_app(app)
     bcrypt.init_app(app)

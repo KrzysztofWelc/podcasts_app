@@ -8,8 +8,9 @@ def register_user(data):
     user = User(**data)
     db.session.add(user)
     db.session.commit()
+    token = user.generate_auth_token()
 
-    return user
+    return token, user
 
 
 def login_user(data):

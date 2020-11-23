@@ -28,8 +28,12 @@ class User(db.Model):
 
     def generate_auth_token(self):
         s = JWSSerializer(current_app.config.get('SECRET_KEY'))
-        return s.dumps({'user_id': self.id, 'type': constants.AUTH_TOKEN,
-                        'gen_time': datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}).decode()
+        payload = {'user_id': self.id,
+                   'type': constants.AUTH_TOKEN,
+                   'gen_time': datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}
+        token = s.dumps(payload).decode()
+
+        return token
 
     @staticmethod
     def verify_auth_token(token):

@@ -11,11 +11,10 @@ users = Blueprint('users', __name__)
 def register():
     try:
         data = RegisterSchema().load(request.json)
-        user = register_user(data)
-        res = UserSchema().dump(user)
-        return res
+        jwt, user = register_user(data)
+        return make_response({'token': jwt, 'user': UserSchema().dump(user)}), 201
     except ValidationError as err:
-        return err.messages
+        return make_response(err.messages), 400
 
 
 @users.route('/login', methods=['POST'])
@@ -32,4 +31,4 @@ def login():
 @login_required
 def logout():
     logout_user(request.token)
-    return make_response()
+    return make_response(), 200

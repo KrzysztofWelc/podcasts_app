@@ -1,5 +1,6 @@
 venv
 app/site.db
+app/test.db
 app/.env
 **/*.pyc
 .idea/**
