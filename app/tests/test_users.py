@@ -6,30 +6,6 @@ from app.models import User, BlackListedToken
 from app.tests.base import BaseTestCase
 
 
-def register_user(self, email, password, username):
-    return self.client.post(
-        '/users/register',
-        data=json.dumps(dict(
-            email=email,
-            password=password,
-            password2=password,
-            username=username
-        )),
-        content_type='application/json',
-    )
-
-
-def login_user(self, email, password):
-    return self.client.post(
-        '/auth/login',
-        data=json.dumps(dict(
-            email=email,
-            password=password
-        )),
-        content_type='application/json',
-    )
-
-
 class TestUserModel(BaseTestCase):
     def test_user_registration(self):
         email = 'test1@mail.com'
@@ -46,8 +22,8 @@ class TestUserModel(BaseTestCase):
                 )),
                 content_type='application/json'
             )
-            data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 201)
+            data = json.loads(response.data.decode())
             self.assertEqual(response.content_type, 'application/json')
             self.assertTrue(data.get('token'))
             self.assertEqual(data.get('user').get('email'), email)
@@ -72,8 +48,8 @@ class TestUserModel(BaseTestCase):
                     password=password)),
                 content_type='application/json'
             )
-            data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
+            data = json.loads(response.data.decode())
             self.assertEqual(response.content_type, 'application/json')
             self.assertTrue(data.get('token'))
             self.assertEqual(data.get('user').get('email'), email)

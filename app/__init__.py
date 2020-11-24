@@ -26,6 +26,8 @@ def create_app(config=None):
     bcrypt.init_app(app)
 
     from app.users.routes import users
+    from app.podcasts.routes import podcasts
     app.register_blueprint(users, url_prefix='/users')
+    app.register_blueprint(podcasts, url_prefix='/podcasts')
 
     return app

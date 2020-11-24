@@ -9,7 +9,10 @@ def login_required(f):
 
         auth_header = request.headers.get('auth_token', '')
         if auth_header:
-            token = auth_header.split(' ')[1]
+            try:
+                token = auth_header.split(' ')[1]
+            except IndexError:
+                return make_response({'message': 'invalid token format'}), 401
             user = User.verify_auth_token(token)
             token_check = BlackListedToken.query.filter_by(token=token).first()
             if user and not token_check:

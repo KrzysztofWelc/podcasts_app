@@ -11,6 +11,7 @@ class User(db.Model):
     profile_img = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     join_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    podcasts = db.relationship('Podcast', backref='author', lazy=True)
 
     def __init__(self, email, username, password):
         self.email = email
@@ -51,7 +52,7 @@ class User(db.Model):
 
 class BlackListedToken(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    token = db.Column(db.String(40), nullable=False)
+    token = db.Column(db.String(500), nullable=False)
     blacklisted_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     def __init__(self, token):

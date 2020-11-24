@@ -1,6 +1,6 @@
 from flask_testing import TestCase
-# from flask import current_app
 from app import db, create_app
+from app.models import User
 
 
 class BaseTestCase(TestCase):
@@ -10,7 +10,11 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         db.create_all()
+        u = User(email='testuser@mail.com', username='testuser', password='Test123%')
+        db.session.add(u)
         db.session.commit()
+        self.user = u
+        self.token = u.generate_auth_token()
 
     def tearDown(self):
         db.session.remove()
