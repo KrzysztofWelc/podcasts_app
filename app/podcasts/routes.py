@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, request, make_response
 from flask.views import MethodView
 from marshmallow import ValidationError
@@ -13,8 +14,13 @@ class PodcastsAPI(MethodView):
     @login_required
     def post(self):
         try:
-            data = AddPodcastSchema().load(request.json)
-            p = create_podcast(data, request.user)
+            data = AddPodcastSchema().load(request.form)
+            audio = request.files.get('audio_file')
+            if not audio:
+                raise ValidationError({'audio_file': ['audio file is required']})
+            if os.path.splitext(audio.filename)[1] != '.mp3':
+                raise ValidationError({'audio_file': ['audio file must be in mp3 format']})
+            p = create_podcast(data, audio, request.user)
             res = PodcastSchema().dump(p)
             return make_response(res), 201
         except ValidationError as err:

@@ -1,6 +1,7 @@
 venv
 app/site.db
 app/test.db
+app/static/podcasts/*.mp3
 app/.env
 **/*.pyc
 .idea/**

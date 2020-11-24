@@ -7,7 +7,7 @@ class Podcast(db.Model):
     title = db.Column(db.String(45), nullable=False)
     description = db.Column(db.String(500))
     publish_date = db.Column(db.String(25))
-    # file = db.Column(db.String(20), nullable=False)
+    audio_file = db.Column(db.String(20), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __init__(self, title, description, author):

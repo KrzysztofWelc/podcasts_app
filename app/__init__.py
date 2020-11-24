@@ -22,6 +22,7 @@ def create_app(config=None):
         app_settings = config
 
     app.config.from_object(app_settings)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     db.init_app(app)
     bcrypt.init_app(app)
 
