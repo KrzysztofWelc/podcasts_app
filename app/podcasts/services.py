@@ -4,6 +4,11 @@ from app import db
 from app.podcasts.models import Podcast
 
 
+def get_podcast(podcast_id):
+    p = Podcast.query.filter_by(id=podcast_id).first()
+    return p
+
+
 def create_podcast(data, audio_file, user):
     p = Podcast(**data, author=user)
     a = save_audio(audio_file)
