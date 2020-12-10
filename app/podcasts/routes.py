@@ -4,7 +4,7 @@ from flask.views import MethodView
 from marshmallow import ValidationError
 from app.users.decorators import login_required
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
-from app.podcasts.services import create_podcast, get_podcast, update_podcast
+from app.podcasts.services import create_podcast, get_podcast, update_podcast, delete_podcast
 
 podcasts = Blueprint('podcasts', __name__)
 
@@ -47,10 +47,21 @@ class PodcastsAPI(MethodView):
         except ValidationError as err:
             return make_response(err.messages), 400
 
+    def delete(self):
+        try:
+            podcast_id = request.args.get('podcast_id')
+            podcast = get_podcast(podcast_id)
+            if not podcast:
+                return make_response({'general': 'podcast not found'}), 404
+            delete_podcast(podcast)
+            return make_response(), 200
+        except ValidationError as err:
+            return make_response(err.messages), 400
+
 
 # accessing this resource you have to have '/' at the end of url
 podcasts.add_url_rule(
     '/',
     view_func=PodcastsAPI.as_view('podcasts_api'),
-    methods=['POST', 'GET', 'PATCH']
+    methods=['POST', 'GET', 'PATCH', 'DELETE']
 )

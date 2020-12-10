@@ -2,6 +2,14 @@ import secrets, os
 from flask import current_app as app
 from app import db
 from app.podcasts.models import Podcast
+from app.constants import ROOT_DIR
+
+
+def delete_podcast(podcast):
+    db.session.delete(podcast)
+    db.session.commit()
+    path = os.path.join(ROOT_DIR, 'static', 'podcasts', podcast.audio_file)
+    os.remove(path)
 
 
 def update_podcast(podcast, data):
