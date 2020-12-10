@@ -7,6 +7,11 @@ class AddPodcastSchema(Schema):
     description = fields.String(required=True)
 
 
+class EditPodcastSchema(Schema):
+    title = fields.String()
+    description = fields.String()
+
+
 class PodcastSchema(Schema):
     id = fields.Integer(required=True)
     title = fields.String(required=True)

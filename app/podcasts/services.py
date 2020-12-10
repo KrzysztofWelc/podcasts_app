@@ -4,6 +4,14 @@ from app import db
 from app.podcasts.models import Podcast
 
 
+def update_podcast(podcast, data):
+    for field in data:
+        setattr(podcast, field, data[field])
+    db.session.commit()
+
+    return podcast
+
+
 def get_podcast(podcast_id):
     p = Podcast.query.filter_by(id=podcast_id).first()
     return p
