@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {HashRouter as Router, Switch, Route, Link} from "react-router-dom";
 
 export default function App()
