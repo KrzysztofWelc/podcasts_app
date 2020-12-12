@@ -8,15 +8,23 @@
     "build": "webpack --mode production ./index.tsx --output ./../static/js/main.js"
   },
   "dependencies": {
+    "@types/jest": "^26.0.18",
+    "@types/node": "^14.14.12",
+    "@types/react-router-dom": "^5.1.6",
+    "easy-peasy": "^4.0.1",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-cookie": "^4.0.3",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.2.0",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
-    "@types/react": "^16.8.24",
-    "@types/react-dom": "^16.0.5",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/styled-components": "^5.1.5",
     "@types/webpack": "4.1.4",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.4.3",
+    "typescript": "^4.1.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   }
