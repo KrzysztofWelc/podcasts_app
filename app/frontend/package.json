@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack --mode development --watch ./index.tsx -o ./../static/js/main.js",
-    "build": "webpack --mode production ./index.tsx --output ./../static/js/main.js"
+    "dev": "webpack --mode development --watch index.js -o ./../static/js/main.js",
+    "build": "webpack --mode production index.js --output ./../static/js/main.js"
   },
   "dependencies": {
     "@types/jest": "^26.0.18",
@@ -19,10 +19,15 @@
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.8",
+    "@babel/preset-react": "^7.12.13",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.1.5",
     "@types/webpack": "4.1.4",
+    "babel-loader": "^8.2.2",
+    "file-loader": "^6.2.0",
     "ts-loader": "^6.2.1",
     "typescript": "^4.1.2",
     "webpack": "^4.41.5",
