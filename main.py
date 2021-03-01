@@ -1,17 +1,10 @@
 import unittest
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
 from app import create_app, db, models
 
 app = create_app()
 
-migrate = Migrate(app, db)
-manager = Manager(app)
 
-manager.add_command('db', MigrateCommand)
-
-
-@manager.command
+@app.cli.command('test')
 def test():
     tests = unittest.TestLoader().discover('app/tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
@@ -20,15 +13,15 @@ def test():
     return 1
 
 
-@manager.command
+@app.cli.command('create_db')
 def create_db():
     db.create_all()
 
 
-@manager.command
+@app.cli.command('drop_db')
 def drop_db():
     db.drop_all()
 
 
 if __name__ == '__main__':
-    manager.run()
+    app.run()

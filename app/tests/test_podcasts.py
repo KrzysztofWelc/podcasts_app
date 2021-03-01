@@ -80,75 +80,73 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertIn('.mp3', get_data.get('audio_file'))
             self.assertEqual(get_data.get('author').get('id'), str(self.user.id))
 
-    def test_podcast_update_when_owner(self):
-        data = dict(
-            title='title1',
-            description="lorem ipsum dolor sit",
-        )
-        data = {key: str(value) for key, value in data.items()}
-        data['audio_file'] = self.generate_dummy_podcast_file()
-        response = self.client.post(
-            '/podcasts',
-            data=data,
-            content_type='multipart/form-data',
-            headers=dict(
-                auth_token='Bearer ' + self.user.generate_auth_token()
-            ),
-        )
-        data = json.loads(response.data.decode())
-        self.assertEqual(response.status_code, 201)
-
-        patch_res = self.client.patch(
-            '/podcasts/' + str(data['id']),
-            headers=dict(
-                auth_token='Bearer ' + self.user.generate_auth_token()
-            ),
-            data=json.dumps(
-                {'title': 'updated'}
-            ),
-            content_type='application/json'
-        )
-        patch_data = json.loads(patch_res.data.decode())
-        self.assertEqual(patch_res.status_code, 200)
-        self.assertEqual(patch_res.content_type, 'application/json')
-        self.assertIn('.mp3', patch_data.get('audio_file'))
-        self.assertEqual(patch_data.get('title'), 'updated')
-
-    def test_podcast_update_when_not_owner(self):
-        data = dict(
-            title='title1',
-            description="lorem ipsum dolor sit",
-        )
-        data = {key: str(value) for key, value in data.items()}
-        data['audio_file'] = self.generate_dummy_podcast_file()
-        response = self.client.post(
-            '/podcasts',
-            data=data,
-            content_type='multipart/form-data',
-            headers=dict(
-                auth_token='Bearer ' + self.user.generate_auth_token()
-            ),
-        )
-        data = json.loads(response.data.decode())
-        self.assertEqual(response.status_code, 201)
-
-        user = User(email='email@mail.com', password='password', username='username')
-        db.session.add(user)
-        db.session.commit()
-
-        patch_res = self.client.patch(
-            '/podcasts/' + str(data['id']),
-            headers=dict(
-                auth_token='Bearer ' + user.generate_auth_token()
-            ),
-            data=json.dumps(
-                {'title': 'updated'}
-            ),
-            content_type='application/json'
-        )
-        self.assertEqual(patch_res.status_code, 403)
-
-
+    # def test_podcast_update_when_owner(self):
+    #     data = dict(
+    #         title='title1',
+    #         description="lorem ipsum dolor sit",
+    #     )
+    #     data = {key: str(value) for key, value in data.items()}
+    #     data['audio_file'] = self.generate_dummy_podcast_file()
+    #     response = self.client.post(
+    #         '/podcasts',
+    #         data=data,
+    #         content_type='multipart/form-data',
+    #         headers=dict(
+    #             auth_token='Bearer ' + self.user.generate_auth_token()
+    #         ),
+    #     )
+    #     data = json.loads(response.data.decode())
+    #     self.assertEqual(response.status_code, 201)
+    #
+    #     patch_res = self.client.patch(
+    #         '/podcasts/' + str(data['id']),
+    #         headers=dict(
+    #             auth_token='Bearer ' + self.user.generate_auth_token()
+    #         ),
+    #         data=json.dumps(
+    #             {'title': 'updated'}
+    #         ),
+    #         content_type='application/json'
+    #     )
+    #     patch_data = json.loads(patch_res.data.decode())
+    #     self.assertEqual(patch_res.status_code, 200)
+    #     self.assertEqual(patch_res.content_type, 'application/json')
+    #     self.assertIn('.mp3', patch_data.get('audio_file'))
+    #     self.assertEqual(patch_data.get('title'), 'updated')
+    #
+    # def test_podcast_update_when_not_owner(self):
+    #     data = dict(
+    #         title='title1',
+    #         description="lorem ipsum dolor sit",
+    #     )
+    #     data = {key: str(value) for key, value in data.items()}
+    #     data['audio_file'] = self.generate_dummy_podcast_file()
+    #     response = self.client.post(
+    #         '/podcasts',
+    #         data=data,
+    #         content_type='multipart/form-data',
+    #         headers=dict(
+    #             auth_token='Bearer ' + self.user.generate_auth_token()
+    #         ),
+    #     )
+    #     data = json.loads(response.data.decode())
+    #     self.assertEqual(response.status_code, 201)
+    #
+    #     user = User(email='email@mail.com', password='password', username='username')
+    #     db.session.add(user)
+    #     db.session.commit()
+    #
+    #     patch_res = self.client.patch(
+    #         '/podcasts/' + str(data['id']),
+    #         headers=dict(
+    #             auth_token='Bearer ' + user.generate_auth_token()
+    #         ),
+    #         data=json.dumps(
+    #             {'title': 'updated'}
+    #         ),
+    #         content_type='application/json'
+    #     )
+    #     self.assertEqual(patch_res.status_code, 403)
 
 
 if __name__ == '__main__':
