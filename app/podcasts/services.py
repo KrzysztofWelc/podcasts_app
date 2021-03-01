@@ -19,7 +19,7 @@ def update_podcast(podcast, data):
     return podcast
 
 
-def get_podcast(**kwargs):
+def find_podcast(**kwargs):
     p = Podcast.query.filter_by(**kwargs).first()
     return p
 

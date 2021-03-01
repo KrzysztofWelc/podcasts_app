@@ -25,3 +25,26 @@ def login_required(f):
         return f(*args, **kwargs)
 
     return dec
+
+
+# has to be used after @login_required
+def is_allowed(x=None):
+    print(x)
+    def decorator(f):
+
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            if not request.token:
+                return make_response({'message': 'you are not authenticated'}), 401
+
+            return f(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+# def is_allowed(func):
+#     @wraps(func)
+#     def wrapper(podcast_id, *args, **kwargs):
+#         print(podcast_id)
+#         return func(*args, **kwargs)
+#     return wrapper
