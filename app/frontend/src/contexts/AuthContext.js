@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useCookies} from 'react-cookie'
 
@@ -10,9 +10,9 @@ export function useAuth() {
 
 
 export function AuthProvider({children}) {
-    const [currentUser, setCurrentUser] = useState()
+    const [currentUser, setCurrentUser] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [cookies, setCookie, removeCookie] = useCookies();
+    const [cookies, setCookie, removeCookie] = useCookies(['authToken']);
 
     const value = {
         currentUser,
@@ -26,6 +26,7 @@ export function AuthProvider({children}) {
             })
             setCurrentUser(res.data.user)
             setCookie('authToken', res.data.token)
+            localStorage.setItem('user', JSON.stringify(res.data.user))
         } catch (e) {
             if (e.response) {
                 return e.response.data
@@ -44,6 +45,7 @@ export function AuthProvider({children}) {
             console.log(res)
             setCurrentUser(res.data.user)
             setCookie('authToken', res.data.token)
+            localStorage.setItem('user', JSON.stringify(res.data.user))
         } catch (e) {
             if (e.response) {
                 return e.response.data
@@ -52,6 +54,15 @@ export function AuthProvider({children}) {
             }
         }
     }
+
+    useEffect(()=>{
+        if(cookies.authToken){
+            const user = localStorage.getItem('user')
+            if(user){
+                setCurrentUser(user)
+            }
+        }
+    },[])
 
     return (
         <AuthContext.Provider value={value}>

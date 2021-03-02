@@ -3,17 +3,13 @@ import {HashRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {AuthProvider} from "./contexts/AuthContext";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-
+import Navbar from "./UI/Navbar";
 
 export default function App() {
     return (
         <AuthProvider>
         <Router>
-            <ul>
-                <li><Link to='/login'>login</Link></li>
-                <li><Link to='/register'>register</Link></li>
-                <li><Link to='/'>home</Link></li>
-            </ul>
+            <Navbar/>
             <div className="container">
                 <Switch>
                     <Route path='/login'><Login/></Route>
