@@ -24,8 +24,8 @@ export function AuthProvider({children}) {
             const res = await axios.post('/users/login', {
                 email, password
             })
-            setCurrentUser(res.user)
-            setCookie('authToken', res.token)
+            setCurrentUser(res.data.user)
+            setCookie('authToken', res.data.token)
         } catch (e) {
             if (e.response) {
                 return e.response.data
@@ -41,8 +41,9 @@ export function AuthProvider({children}) {
                 email,
                 username, password, password2
             })
-            setCurrentUser(res.user)
-            setCookie('authToken', res.token)
+            console.log(res)
+            setCurrentUser(res.data.user)
+            setCookie('authToken', res.data.token)
         } catch (e) {
             if (e.response) {
                 return e.response.data
