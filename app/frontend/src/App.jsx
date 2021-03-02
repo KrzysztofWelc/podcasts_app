@@ -2,6 +2,7 @@ import React from 'react';
 import {HashRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {AuthProvider} from "./contexts/AuthContext";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 
 export default function App() {
@@ -15,7 +16,7 @@ export default function App() {
             </ul>
             <div className="container">
                 <Switch>
-                    <Route path='/login'><h1>login</h1></Route>
+                    <Route path='/login'><Login/></Route>
                     <Route path='/register'><Register/></Route>
                     <Route path='/'><h1>home</h1></Route>
                 </Switch>

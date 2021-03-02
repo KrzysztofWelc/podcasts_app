@@ -16,7 +16,23 @@ export function AuthProvider({children}) {
 
     const value = {
         currentUser,
-        signUp
+        signUp, logIn
+    }
+
+    async function logIn(email, password) {
+        try {
+            const res = await axios.post('/users/login', {
+                email, password
+            })
+            setCurrentUser(res.user)
+            setCookie('authToken', res.token)
+        } catch (e) {
+            if (e.response) {
+                return e.response.data
+            } else {
+                return {server: ['error']}
+            }
+        }
     }
 
     async function signUp(username, email, password, password2) {
@@ -28,9 +44,9 @@ export function AuthProvider({children}) {
             setCurrentUser(res.user)
             setCookie('authToken', res.token)
         } catch (e) {
-            if(e.response){
+            if (e.response) {
                 return e.response.data
-            }else {
+            } else {
                 return {server: ['error']}
             }
         }

@@ -30,7 +30,11 @@ def login():
         jwt, user = login_user(data)
         return {'token': jwt, 'user': UserSchema().dump(user)}
     except ValidationError as err:
-        return err.messages
+        return make_response(err.messages), 400
+    except SQLAlchemyError as err:
+        e = str(err)
+        print(e)
+        return make_response(e), 500
 
 
 @users.route('/logout', methods=['POST'])
