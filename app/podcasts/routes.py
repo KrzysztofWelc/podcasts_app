@@ -7,9 +7,13 @@ from app.users.decorators import login_required, is_allowed
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
 from app.podcasts.services import create_podcast, find_podcast, update_podcast, delete_podcast
 from app.podcasts.utils import get_chunk
-from app.podcasts.models import Podcast
 
 podcasts = Blueprint('podcasts', __name__)
+
+
+@podcasts.route('/test', methods=['POST'])
+def test():
+    return {'hello': 'world'}
 
 
 @podcasts.route('', methods=['POST'])
