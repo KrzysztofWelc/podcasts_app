@@ -12,11 +12,11 @@ export function useAuth() {
 export function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [cookies, setCookie, removeCookie] = useCookies(['authToken']);
+    const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
 
     const value = {
         currentUser,
-        signUp, logIn
+        signUp, logIn, logOut
     }
 
     async function logIn(email, password) {
@@ -55,11 +55,22 @@ export function AuthProvider({children}) {
         }
     }
 
+    async function logOut(){
+        try {
+            await axios.post('/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
+            removeCookie('authToken')
+            localStorage.removeItem('user')
+            setCurrentUser(null)
+        }catch (e){
+            console.log(e.response)
+        }
+    }
+
     useEffect(()=>{
         if(cookies.authToken){
             const user = localStorage.getItem('user')
             if(user){
-                setCurrentUser(user)
+                setCurrentUser(JSON.parse(user))
             }
         }
     },[])

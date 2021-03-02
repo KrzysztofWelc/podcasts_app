@@ -1,11 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext";
+import {useHistory} from 'react-router-dom'
 
 
 export default function Navbar() {
-    const {currentUser} = useAuth()
+    const {currentUser, logOut} = useAuth()
+    const history = useHistory()
 
+    async function handleLogout(){
+        await logOut()
+        history.push('/')
+    }
 
     return (
         <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -21,7 +27,10 @@ export default function Navbar() {
                             <Link className="nav-link" to="#">Home</Link>
                         </li>
                         <li className="nav-item active">
-                            <Link className="nav-link" to="#">Log out</Link>
+                            <Link className="nav-link" to="#">{currentUser.username}</Link>
+                        </li>
+                        <li className="nav-item active">
+                            <button onClick={handleLogout} className="nav-link btn" to="#">Log out</button>
                         </li>
                     </> : <>
                         <li className="nav-item active">
