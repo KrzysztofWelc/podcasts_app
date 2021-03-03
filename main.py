@@ -1,4 +1,5 @@
 import unittest
+import os
 from app import create_app, db, models
 
 app = create_app()
@@ -20,6 +21,11 @@ def create_db():
 
 @app.cli.command('drop_db')
 def drop_db():
+    podcasts_path = os.getcwd()+'/app/static/podcasts'
+    podcasts = os.listdir(podcasts_path)
+    for p in podcasts:
+        if p != '.gitkeep':
+            os.remove(podcasts_path+'/'+p)
     db.drop_all()
 
 
