@@ -8,6 +8,7 @@ export default function PublishPodcast() {
     const [uploading, setUploading] = useState(false)
     const [progress, setProgress] = useState('0')
     const [file, setFile] = useState()
+    const [errors, setErrors] = useState([])
     const cookies = useCookies()[0]
 
     function selectFileHandler(e) {
@@ -23,7 +24,6 @@ export default function PublishPodcast() {
 
         setUploading(true)
 
-        //    TODO: try return axios call
         try {
             await axios.post('/podcasts', data, {
                 headers: {
@@ -34,8 +34,17 @@ export default function PublishPodcast() {
                     setProgress(Math.round((100 * event.loaded) / event.total).toString(10));
                 }
             })
-        }catch (e){
-            console.log(e.response)
+        } catch (e) {
+            if (e.status === 500) {
+                setErrors(['server error'])
+            } else {
+                const err = e.response.data
+                const errArray = []
+                for (const key in err) {
+                    err[key].forEach(msg => errArray.push(`${key}: ${msg}`))
+                }
+                setErrors(errArray)
+            }
         }
         setUploading(false)
     }
@@ -43,7 +52,8 @@ export default function PublishPodcast() {
     return (
         <div className="card">
             {uploading && <div
-                style={{width: '100vw',
+                style={{
+                    width: '100vw',
                     height: '100vh',
                     backgroundColor: 'rgba(153, 204, 255, 0.5)',
                     zIndex: 1000,
@@ -59,6 +69,7 @@ export default function PublishPodcast() {
                 </div>
             </div>}
             <div className="card-body">
+                {errors.length !== 0 && errors.map(msg => <p>{msg}</p>)}
                 <h2>Publish podcast</h2>
                 <form onSubmit={submitHandler}>
                     <div className="form-group">
@@ -79,9 +90,9 @@ export default function PublishPodcast() {
                         <input onChange={selectFileHandler} type="file" className="custom-file-input"
                                id="customFileLangHTML"/>
                         <label className="custom-file-label" htmlFor="customFileLangHTML"
-                               data-browse="select">choose podcast file</label>
+                               data-browse="select">{file ? file.name : 'choose podcast file'}</label>
                     </div>
-                    <input disabled={!file} type="submit" className='btn btn-primary' value="Login"/>
+                    <input disabled={!file || !title || !description} type="submit" className='btn btn-primary' value="Login"/>
                 </form>
             </div>
         </div>

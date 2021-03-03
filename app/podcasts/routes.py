@@ -15,8 +15,6 @@ podcasts = Blueprint('podcasts', __name__)
 @podcasts.route('', methods=['POST'])
 @login_required
 def post_podcast():
-    print('json', request.json)
-    print('form', request.form)
     try:
         data = AddPodcastSchema().load(request.form)
         audio = request.files.get('audio_file')
@@ -29,7 +27,10 @@ def post_podcast():
         return make_response(res), 201
     except ValidationError as err:
         return make_response(err.messages), 400
-    
+    except SQLAlchemyError as err:
+        e = str(err)
+        print(e)
+        return make_response(e), 500
 
 
 @podcasts.route('/<podcast_id>', methods=['GET'])
