@@ -3,7 +3,9 @@ import {HashRouter as Router, Switch, Route} from "react-router-dom";
 import {AuthProvider} from "./contexts/AuthContext";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import PublishPodcast from "./pages/PublishPodcast";
 import Navbar from "./UI/Navbar";
+import PrivateRoute from "./logic/PrivateRoute";
 
 export default function App() {
     return (
@@ -12,9 +14,10 @@ export default function App() {
             <Navbar/>
             <div className="container">
                 <Switch>
-                    <Route path='/login'><Login/></Route>
-                    <Route path='/register'><Register/></Route>
-                    <Route path='/'><h1>home</h1></Route>
+                    <Route path='/login' component={Login}/>
+                    <Route path='/register' component={Register}/>
+                    <Route path='/publish_podcast' component={PublishPodcast}/>
+                    <Route path='/'><h2>hello</h2></Route>
                 </Switch>
             </div>
         </Router>

@@ -3,6 +3,7 @@ import re
 
 from flask import Blueprint, request, make_response, Response
 from marshmallow import ValidationError
+from sqlalchemy.exc import SQLAlchemyError
 from app.users.decorators import login_required, is_allowed
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
 from app.podcasts.services import create_podcast, find_podcast, update_podcast, delete_podcast
@@ -11,15 +12,11 @@ from app.podcasts.utils import get_chunk
 podcasts = Blueprint('podcasts', __name__)
 
 
-@podcasts.route('/test', methods=['POST'])
-def test():
-    return {'hello': 'world'}
-
-
 @podcasts.route('', methods=['POST'])
 @login_required
 def post_podcast():
-    make_response('12212')
+    print('json', request.json)
+    print('form', request.form)
     try:
         data = AddPodcastSchema().load(request.form)
         audio = request.files.get('audio_file')
@@ -32,6 +29,7 @@ def post_podcast():
         return make_response(res), 201
     except ValidationError as err:
         return make_response(err.messages), 400
+    
 
 
 @podcasts.route('/<podcast_id>', methods=['GET'])

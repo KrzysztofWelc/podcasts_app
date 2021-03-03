@@ -13,6 +13,7 @@ export default function Navbar() {
         history.push('/')
     }
 
+
     return (
         <nav className="navbar navbar-expand-sm navbar-light bg-light">
             <a className="navbar-brand" href="#">Navbar</a>
@@ -28,6 +29,9 @@ export default function Navbar() {
                         </li>
                         <li className="nav-item active">
                             <Link className="nav-link" to="#">{currentUser.username}</Link>
+                        </li>
+                        <li className="nav-item active">
+                            <Link className="nav-link" to="/publish_podcast">Publish</Link>
                         </li>
                         <li className="nav-item active">
                             <button onClick={handleLogout} className="nav-link btn" to="#">Log out</button>
