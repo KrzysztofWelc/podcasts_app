@@ -42,7 +42,7 @@ def get_podcast(podcast_id):
     return make_response(PodcastSchema().dump(podcast)), 200
 
 
-@podcasts.route('/all/<user_id>/<page>', methods=['POST'])
+@podcasts.route('/all/<user_id>/<page>', methods=['GET'])
 def get_all_users_podcasts(user_id, page=1):
     try:
         p = get_user_podcasts(user_id, page)

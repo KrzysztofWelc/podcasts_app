@@ -28,7 +28,7 @@ export default function Navbar() {
                             <Link className="nav-link" to="#">Home</Link>
                         </li>
                         <li className="nav-item active">
-                            <Link className="nav-link" to="#">{currentUser.username}</Link>
+                            <Link className="nav-link" to={`/user/${currentUser.id}`}>{currentUser.username}</Link>
                         </li>
                         <li className="nav-item active">
                             <Link className="nav-link" to="/publish_podcast">Publish</Link>
