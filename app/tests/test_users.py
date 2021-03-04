@@ -32,7 +32,7 @@ class TestUserModel(BaseTestCase):
             self.assertEqual(data.get('user').get('profile_img'), 'default.jpg')
 
     def test_user_login(self):
-        email = 'test1@mail.com'
+        email = 'test2@mail.com'
         password = 'Test1234'
         username = 'test1'
 
@@ -58,7 +58,7 @@ class TestUserModel(BaseTestCase):
             self.assertEqual(data.get('user').get('profile_img'), 'default.jpg')
 
     def test_user_logout(self):
-        email = 'test1@mail.com'
+        email = 'test3@mail.com'
         password = 'Test1234'
         username = 'test1'
 

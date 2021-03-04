@@ -1,3 +1,4 @@
+from secrets import token_hex
 from flask_testing import TestCase
 from app import db, create_app
 from app.models import User
@@ -10,7 +11,8 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         db.create_all()
-        u = User(email='testuser@mail.com', username='testuser', password='Test123%')
+        ip = token_hex(8)
+        u = User(email='martin{}@mail.com'.format(ip), username='testuser{}'.format(ip), password='Test123%')
         db.session.add(u)
         db.session.commit()
         self.user = u

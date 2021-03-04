@@ -11,6 +11,7 @@ from app.tests.utils import get_real_podcasts, delete_dummy_podcasts
 class TestPodcastsPackage(BaseTestCase):
     def setUp(self):
         super(TestPodcastsPackage, self).setUp()
+
         email = 'test1@mail.com'
         password = 'Test1234'
         username = 'test1'
@@ -79,6 +80,7 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(get_res.content_type, 'application/json')
             self.assertIn('.mp3', get_data.get('audio_file'))
             self.assertEqual(get_data.get('author').get('id'), str(self.user.id))
+
 
     # def test_podcast_update_when_owner(self):
     #     data = dict(
