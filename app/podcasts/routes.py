@@ -1,7 +1,7 @@
 import os
 import re
 
-from flask import Blueprint, request, make_response, Response
+from flask import Blueprint, request, make_response, Response, send_from_directory
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.users.decorators import login_required, is_allowed
@@ -99,3 +99,8 @@ def stream_podcast(podcast_file):
                     content_type='audio/mpeg', direct_passthrough=True)
     resp.headers.add('Content-Range', 'bytes {0}-{1}/{2}'.format(start, start + length - 1, file_size))
     return resp
+
+
+@podcasts.route('/image/<filename>')
+def get_podcast_image(filename):
+    return send_from_directory('static/podcast_covers', filename)
