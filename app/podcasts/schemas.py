@@ -25,4 +25,5 @@ class PodcastSchema(Schema):
     description = fields.String(required=True)
     publish_date = fields.String(required=True)
     audio_file = fields.String(required=True)
+    cover_img = fields.String()
     author = fields.Nested(UserSchema)

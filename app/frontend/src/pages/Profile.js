@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import {useParams} from 'react-router-dom'
-import {useAuth} from "../contexts/AuthContext";
+import PodcastTile from "../UI/PodcastTile";
 
 export default function Profile() {
     const {id} = useParams()
@@ -26,7 +26,15 @@ export default function Profile() {
 
         <h2>user {id}
         </h2>
+        <div className="d-flex">
+            {podcasts.map(podcasts => <PodcastTile
+                key={podcasts.id}
+                audio_file={podcasts.audio_file}
+                title={podcasts.title}
+                cover_img={podcasts.cover_img}
+                author={podcasts.author}
+            />)}
+        </div>
 
-        <ul>{podcasts.map(podcasts => <li>{podcasts.title}</li>)}</ul>
     </div>)
 }

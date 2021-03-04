@@ -9,6 +9,7 @@ class Podcast(db.Model):
     publish_date = db.Column(db.String(25))
     audio_file = db.Column(db.String(20), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    cover_img = db.Column(db.String(20), nullable=False, default='default.jpg')
 
     def __init__(self, title, description, author):
         self.title = title
