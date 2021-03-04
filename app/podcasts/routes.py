@@ -6,8 +6,9 @@ from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.users.decorators import login_required, is_allowed
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
-from app.podcasts.services import create_podcast, find_podcast, update_podcast, delete_podcast
+from app.podcasts.services import create_podcast, find_podcast, update_podcast, delete_podcast, get_user_podcasts
 from app.podcasts.utils import get_chunk
+from app.podcasts.exceptions import ResourceNotFound
 
 podcasts = Blueprint('podcasts', __name__)
 
@@ -41,6 +42,16 @@ def get_podcast(podcast_id):
     return make_response(PodcastSchema().dump(podcast)), 200
 
 
+@podcasts.route('/all/<user_id>/<page>', methods=['POST'])
+def get_all_users_podcasts(user_id, page=1):
+    try:
+        p = get_user_podcasts(user_id, page)
+        response = {'podcasts': PodcastSchema(many=True).dump(p)}
+        return make_response(response)
+    except ResourceNotFound as err:
+        return make_response({'error': err.message}), 404
+
+
 @podcasts.route('/<podcast_id>', methods=['PATCH'])
 @login_required
 @is_allowed()
@@ -55,6 +66,7 @@ def patch_podcast(podcast_id):
         return make_response(PodcastSchema().dump(updated_podcast)), 200
     except ValidationError as err:
         return make_response(err.messages), 400
+
 
 #
 # @podcasts.route('/<podcast_id>', methods=['DELETE'])
