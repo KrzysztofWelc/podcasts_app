@@ -6,3 +6,4 @@ app/.env
 **/*.pyc
 .idea/**
 **/node_modules
+app/static/js/main.js
