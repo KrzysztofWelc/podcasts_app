@@ -28,6 +28,7 @@ def login_required(f):
 
 
 # has to be used after @login_required
+# TOD: fix is_allowed decorator
 def is_allowed(x=None):
     print(x)
     def decorator(f):

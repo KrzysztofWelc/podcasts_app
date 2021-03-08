@@ -2,6 +2,9 @@ import unittest
 import json
 import io
 
+from sqlalchemy.exc import SQLAlchemyError
+
+
 from app import db
 from app.models import User, Podcast
 from app.tests.base import BaseTestCase
@@ -81,6 +84,33 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertIn('.mp3', get_data.get('audio_file'))
             self.assertEqual(get_data.get('author').get('id'), str(self.user.id))
 
+    def test_get_podcast_cover(self):
+        p = Podcast(author=self.user, title='test', description='lorem ipsum')
+        p.audio_file = 'test.mp3'
+        db.session.add(p)
+        db.session.commit()
+
+        with self.client:
+            res = self.client.get('/podcasts/image/'+p.cover_img)
+            self.assertEqual(res.status_code, 200)
+            self.assertTrue('image' in res.content_type)
+
+    # def test_get_users_podcasts_list(self):
+    #     try:
+    #         for i in range(0, 50):
+    #             p = Podcast(author=self.user, title='pod{}'.format(1), description='lorem ipsum{}'.format(1))
+    #             p.audio_file = 'test{}.mp3'.format(i)
+    #             db.session.add(p)
+    #             db.session.commit()
+    #     except:
+    #         p = Podcast.query.filter_by().all()
+    #         print('dassssssssssssssssssssssssssssssssssssssssssssssssssss\n\n\ndsaaaaaaaaaaaaaaaaaaaaaaaaa\nn\dsaaaaaaaaaa')
+    #
+    #     with self.client:
+    #         res = self.client.get('/podcasts/all/{}/{}'.format(self.user.id, 1))
+    #         self.assertEqual(res.status_code, 200)
+    #         res_data = json.loads(res.data.decode())
+    #         print(res_data)
 
     # def test_podcast_update_when_owner(self):
     #     data = dict(

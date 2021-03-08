@@ -11,12 +11,18 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState(null)
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
+    const [podcastURL, setPodcastURL] = useState("")
 
     const value = {
-        currentUser,
-        signUp, logIn, logOut
+        currentUser, podcastURL,
+        signUp, logIn, logOut,
+        setGlobalPodcastURL
+    }
+
+    function setGlobalPodcastURL(filename){
+        setPodcastURL(`/podcasts/stream/${filename}`)
     }
 
     async function logIn(email, password) {

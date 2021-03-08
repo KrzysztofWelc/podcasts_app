@@ -7,7 +7,16 @@ app = create_app()
 
 @app.cli.command('test')
 def test():
-    tests = unittest.TestLoader().discover('app/tests')
+    tests = unittest.TestLoader().discover('app/tests/endpoints')
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        return 0
+    return 1
+
+
+@app.cli.command('test_e2e')
+def test():
+    tests = unittest.TestLoader().discover('app/tests/e2e')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0

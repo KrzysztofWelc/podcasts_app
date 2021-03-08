@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {useCookies} from "react-cookie";
+import {useHistory} from 'react-router-dom'
 
 export default function PublishPodcast() {
     const [title, setTitle] = useState('')
@@ -10,6 +11,7 @@ export default function PublishPodcast() {
     const [file, setFile] = useState()
     const [errors, setErrors] = useState([])
     const cookies = useCookies()[0]
+    const history = useHistory()
 
     function selectFileHandler(e) {
         setFile(e.target.files[0])
@@ -34,6 +36,7 @@ export default function PublishPodcast() {
                     setProgress(Math.round((100 * event.loaded) / event.total).toString(10));
                 }
             })
+            history.push('/')
         } catch (e) {
             if (e.status === 500) {
                 setErrors(['server error'])
