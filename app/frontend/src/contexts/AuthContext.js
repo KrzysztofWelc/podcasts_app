@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useCookies} from 'react-cookie'
+import Loader from "../UI/Loader";
 
 const AuthContext = React.createContext()
 
@@ -11,7 +12,7 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState(null)
-    // const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
 
@@ -26,6 +27,7 @@ export function AuthProvider({children}) {
     }
 
     async function logIn(email, password) {
+        setLoading(true)
         try {
             const res = await axios.post('/users/login', {
                 email, password
@@ -40,9 +42,11 @@ export function AuthProvider({children}) {
                 return {server: ['error']}
             }
         }
+        setLoading(false)
     }
 
     async function signUp(username, email, password, password2) {
+        setLoading(true)
         try {
             const res = await axios.post('/users/register', {
                 email,
@@ -59,9 +63,11 @@ export function AuthProvider({children}) {
                 return {server: ['error']}
             }
         }
+        setLoading(false)
     }
 
     async function logOut(){
+        setLoading(true)
         try {
             await axios.post('/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
             removeCookie('authToken')
@@ -70,6 +76,7 @@ export function AuthProvider({children}) {
         }catch (e){
             console.log(e.response)
         }
+        setLoading(false)
     }
 
     useEffect(()=>{
@@ -83,7 +90,7 @@ export function AuthProvider({children}) {
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {loading ? <Loader/> : children}
         </AuthContext.Provider>
     )
 }
