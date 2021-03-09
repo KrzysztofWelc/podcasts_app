@@ -5,7 +5,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import PublishPodcast from "./pages/PublishPodcast";
 import Profile from "./pages/Profile";
-import Player from "./UI/Player";
+import PlayerWrapper from "./logic/PlayerWrapper";
 import Navbar from "./UI/Navbar";
 
 export default function App() {
@@ -23,7 +23,7 @@ export default function App() {
                         <Route path='/'><h2>hello</h2></Route>
                     </Switch>
                 </div>
-                <Player />
+                <PlayerWrapper />
             </Router>
         </AuthProvider>
 
