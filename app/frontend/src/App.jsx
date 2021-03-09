@@ -7,7 +7,6 @@ import PublishPodcast from "./pages/PublishPodcast";
 import Profile from "./pages/Profile";
 import Player from "./UI/Player";
 import Navbar from "./UI/Navbar";
-import PrivateRoute from "./logic/PrivateRoute";
 
 export default function App() {
 

@@ -72,7 +72,7 @@ export default function PublishPodcast() {
                 </div>
             </div>}
             <div className="card-body">
-                {errors.length !== 0 && errors.map(msg => <p>{msg}</p>)}
+                {errors.length !== 0 && errors.map(msg => <p key={Math.random()}>{msg}</p>)}
                 <h2>Publish podcast</h2>
                 <form onSubmit={submitHandler}>
                     <div className="form-group">
