@@ -1,12 +1,8 @@
 import React, {useState, useEffect, useRef} from "react";
-import throttle from "lodash.throttle";
-import debounce from "lodash.debounce";
-
 
 export default function Player({podcastURL}) {
     const [isPlaying, setIsPlaying] = useState(false)
-    // const [duration, setDuration] = useState(false)
-    const [currentTime, setCurrentTime] = useState('00:00')
+    const [currentPromile, setCurrentPromile] = useState(0)
     const audio = useRef()
 
     useEffect(()=>{
@@ -17,6 +13,7 @@ export default function Player({podcastURL}) {
         audio.current.load()
         audio.current.play()
         setIsPlaying(true)
+        console.log(audio.current.duration)
         // setDuration(audio.current.duration)
     }, [podcastURL])
 
@@ -31,17 +28,28 @@ export default function Player({podcastURL}) {
         }
     }
 
-    const progressHandler =(e)=>{
-        e.persist()
-        const raw_time = Math.round(e.target.currentTime)
-        const mins = Math.floor(raw_time/60)
-        const secs = raw_time - mins*60
+    const progressHandler = (e) =>{
+        const duration = audio.current.duration
+        const ctFloat = audio.current.currentTime
 
-        setCurrentTime(`${mins}:${secs}`)
+        const percent = (ctFloat/duration)*1000
+        setCurrentPromile(isNaN(percent) ? 0 : percent)
+    }
+
+    function setTimeHandler(e){
+        console.log(e.target.value, audio.current.duration)
+        const timeValue = parseInt(e.target.value, 10)
+        const duration = audio.current.duration
+        const ctFloat = (timeValue * duration)/1000
+
+        const percent = (ctFloat/duration)*1000
+        setCurrentPromile(percent)
+
+        audio.current.currentTime = ctFloat
     }
 
     return (
-        <div id='player' className='bg-primary' style={
+        <div id='player' className='bg-success' style={
             {
             position: 'fixed',
             bottom: 0,
@@ -53,7 +61,10 @@ export default function Player({podcastURL}) {
             boxSizing: 'border-box',
             textAlign: 'center'
         }}>
-            <audio onTimeUpdate={progressHandler} src={podcastURL} ref={audio}/>
+            <audio
+                onTimeUpdate={progressHandler}
+                onEnded={()=>setIsPlaying(false)}
+                src={podcastURL} ref={audio}/>
             <button
                 onClick={playPauseHandler}
                 style={
@@ -70,9 +81,9 @@ export default function Player({podcastURL}) {
                 width: '70%',
                 display: 'flex'
             }}>
-                <span>{currentTime}</span>
-                <input min='0' max='100' type="range" defaultValue='0' className="form-control-range mx-3"/>
-                <span></span>
+                {/*<span>{currentTime}</span>*/}
+                <input onChange={setTimeHandler} value={currentPromile} min='0' max='1000' type="range" className="form-control-range mx-3"/>
+                {/*<span>{duration}</span>*/}
             </div>
 
         </div>
