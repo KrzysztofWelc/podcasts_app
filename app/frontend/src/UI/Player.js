@@ -63,6 +63,7 @@ export default function Player({podcastURL}) {
         }}>
             <audio
                 onTimeUpdate={progressHandler}
+                onEnded={()=>setIsPlaying(false)}
                 src={podcastURL} ref={audio}/>
             <button
                 onClick={playPauseHandler}
