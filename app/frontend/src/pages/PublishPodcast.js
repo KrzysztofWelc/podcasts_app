@@ -3,6 +3,8 @@ import axios from "axios";
 import {useCookies} from "react-cookie";
 import {useHistory} from 'react-router-dom'
 
+//TODO: inspect the problem causing podcasts to be sometimes not uploaded
+
 export default function PublishPodcast() {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')

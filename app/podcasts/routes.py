@@ -68,7 +68,7 @@ def patch_podcast(podcast_id):
         return make_response(err.messages), 400
 
 
-#
+# TODO: add delete_podcast route
 # @podcasts.route('/<podcast_id>', methods=['DELETE'])
 # def delete_podcast(podcast_id):
 #     try:

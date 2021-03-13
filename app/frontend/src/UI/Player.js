@@ -61,6 +61,7 @@ export default function Player({podcastURL}) {
             boxSizing: 'border-box',
             textAlign: 'center'
         }}>
+            {/*TODO: debounce timeUpdate event*/}
             <audio
                 onTimeUpdate={progressHandler}
                 onEnded={()=>setIsPlaying(false)}
