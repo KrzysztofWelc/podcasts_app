@@ -5,7 +5,7 @@ from app.podcasts.schemas import PodcastSchema
 
 class AddCommentSchema(Schema):
     text = fields.String(required=True)
-    podcast_id = fields.String(required=True)
+    podcast_id = fields.Number(required=True)
 
 
 class CommentSchema(Schema):
