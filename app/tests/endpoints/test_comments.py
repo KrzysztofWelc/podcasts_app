@@ -49,3 +49,16 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.status_code, 201)
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(data['text'], text)
+            self.assertEqual(data['author']['id'], str(self.user.id))
+
+    def test_comment_get(self):
+        with self.client:
+            response = self.client.get(
+                '/comments/{}/2'.format(self.podcast.id)
+            )
+            
+            self.assertEqual(response.status_code, 200)
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(len(data['comments']), 10)
+            self.assertEqual(data['comments'][0]['text'], 'test comment')
