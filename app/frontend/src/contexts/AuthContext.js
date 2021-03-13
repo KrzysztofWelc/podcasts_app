@@ -3,6 +3,8 @@ import axios from "axios";
 import {useCookies} from 'react-cookie'
 import Loader from "../UI/Loader";
 
+//TODO: chnge file name to GlobalContext
+
 const AuthContext = React.createContext()
 
 export function useAuth() {

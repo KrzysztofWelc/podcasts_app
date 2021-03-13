@@ -95,6 +95,7 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(res.status_code, 200)
             self.assertTrue('image' in res.content_type)
 
+    # TODO: add missing tests
     # def test_get_users_podcasts_list(self):
     #     try:
     #         for i in range(0, 50):
