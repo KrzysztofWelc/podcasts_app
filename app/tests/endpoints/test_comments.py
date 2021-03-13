@@ -21,6 +21,9 @@ class TestPodcastsPackage(BaseTestCase):
         podcast.audio_file = 'test.mp3'
         db.session.add(user)
         db.session.add(podcast)
+        for i in range(20):
+            comment = Comment(text='test comment', author=user, podcast=podcast)
+            db.session.add(comment)
         db.session.commit()
         self.user = user
         self.podcast = podcast
@@ -56,7 +59,7 @@ class TestPodcastsPackage(BaseTestCase):
             response = self.client.get(
                 '/comments/{}/2'.format(self.podcast.id)
             )
-            
+
             self.assertEqual(response.status_code, 200)
             data = json.loads(response.data.decode())
             self.assertEqual(response.content_type, 'application/json')
