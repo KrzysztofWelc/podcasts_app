@@ -65,3 +65,21 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(len(data['comments']), 10)
             self.assertEqual(data['comments'][0]['text'], 'test comment')
+
+    def test_comment_delete(self):
+        with self.client:
+            comment = Comment(text='test', author=self.user, podcast=self.podcast)
+            db.session.add(comment)
+            db.session.commit()
+            response = self.client.delete(
+                '/comments/{}'.format(comment.id)
+            )
+
+            self.assertEqual(response.status_code, 200)
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.content_type, 'application/json')
+
+            check = Comment.query.filter_by(id=comment.id).first()
+            self.assertFalse(check)
+
+
