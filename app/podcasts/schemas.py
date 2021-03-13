@@ -7,7 +7,7 @@ class AddPodcastSchema(Schema):
     title = fields.String(required=True)
     description = fields.String(required=True)
 
-    @validates('title')
+    @validates('title') 
     def validate_title(self, value):
         p = Podcast.query.filter_by(title=value).first()
         if p:
