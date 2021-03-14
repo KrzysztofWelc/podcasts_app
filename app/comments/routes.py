@@ -35,10 +35,11 @@ def get_comments_list(podcast_id, page):
         return make_response({"_error": 'server error'}), 500
 
 
-@comments.route('/<comment_id>', methods=['DELETE'])
+@comments.route('', methods=['DELETE'])
 @login_required
-def remove_comment(comment_id):
+def remove_comment():
     try:
+        comment_id = request.json['comment_id']
         comment = get_single_comment(id=comment_id)
         if comment and comment.user_id == request.user.id:
             delete_comment(comment)

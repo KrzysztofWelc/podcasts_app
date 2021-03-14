@@ -72,7 +72,11 @@ class TestPodcastsPackage(BaseTestCase):
             db.session.add(comment)
             db.session.commit()
             response = self.client.delete(
-                '/comments/{}'.format(comment.id),
+                '/comments',
+                data=json.dumps(dict(
+                    comment_id=comment.id
+                )),
+                content_type='application/json',
                 headers=dict(
                     auth_token='Bearer ' + self.user.generate_auth_token()
                 )
