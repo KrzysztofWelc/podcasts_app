@@ -6,9 +6,9 @@ from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.users.decorators import login_required, is_allowed
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
-from app.podcasts.services import create_podcast, find_podcast, update_podcast, delete_podcast, get_user_podcasts
+from app.podcasts.services import create_podcast, find_podcast, update_podcast, get_user_podcasts
 from app.podcasts.utils import get_chunk
-from app.podcasts.exceptions import ResourceNotFound
+from app.exceptions import ResourceNotFound
 
 podcasts = Blueprint('podcasts', __name__)
 

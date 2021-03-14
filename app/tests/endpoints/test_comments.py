@@ -72,12 +72,13 @@ class TestPodcastsPackage(BaseTestCase):
             db.session.add(comment)
             db.session.commit()
             response = self.client.delete(
-                '/comments/{}'.format(comment.id)
+                '/comments/{}'.format(comment.id),
+                headers=dict(
+                    auth_token='Bearer ' + self.user.generate_auth_token()
+                )
             )
 
             self.assertEqual(response.status_code, 200)
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.content_type, 'application/json')
 
             check = Comment.query.filter_by(id=comment.id).first()
             self.assertFalse(check)

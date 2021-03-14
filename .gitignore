@@ -7,3 +7,4 @@ app/.env
 .idea/**
 **/node_modules
 app/static/js/main.js
+**/*.log
