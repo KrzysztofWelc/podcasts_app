@@ -12,7 +12,6 @@ users = Blueprint('users', __name__)
 def register():
     try:
         data = RegisterSchema().load(request.json)
-        print(data)
         jwt, user = register_user(data)
         return make_response({'token': jwt, 'user': UserSchema().dump(user)}), 201
     except ValidationError as err:

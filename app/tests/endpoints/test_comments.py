@@ -83,4 +83,29 @@ class TestPodcastsPackage(BaseTestCase):
             check = Comment.query.filter_by(id=comment.id).first()
             self.assertFalse(check)
 
+    def test_comment_update(self):
+        with self.client:
+            updated_text = 'hello123'
+            comment = Comment(text='test', author=self.user, podcast=self.podcast)
+            db.session.add(comment)
+            db.session.commit()
+            response = self.client.put(
+                '/comments',
+                data=json.dumps(dict(
+                    text=updated_text,
+                    comment_id=comment.id
+                )),
+                content_type='application/json',
+                headers=dict(
+                    auth_token='Bearer ' + self.user.generate_auth_token()
+                )
+            )
 
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.content_type, 'application/json')
+            data = json.loads(response.data.decode())
+            self.assertEqual(data['text'], updated_text)
+
+            check = Comment.query.filter_by(id=comment.id).first()
+            self.assertEqual(check.text, updated_text)
+            self.assertEqual(data['text'], updated_text)
