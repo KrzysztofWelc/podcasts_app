@@ -1,4 +1,5 @@
 import React from "react";
+import {useAuth} from "../contexts/GlobalContext";
 import Backdrop from "./Backdrop";
 
 const style = {
@@ -10,9 +11,15 @@ const style = {
     paddingBottom: '90px'
 
 }
-export default function PodcastInfo({podcast}){
-    return(<div className='position-fixed bg-dark text-light ' style={style}>
-        <h2>{podcast.title}</h2>
-        <p>{podcast.description}</p>
-    </div>)
+export default function PodcastInfo({podcast}) {
+    const {setPreviewedPodcast} = useAuth()
+
+    return (
+        <Backdrop clickAction={() => setPreviewedPodcast(null)}>
+            <div className='position-fixed bg-dark text-light ' style={style}>
+                <h2>{podcast.title}</h2>
+                <p>{podcast.description}</p>
+            </div>
+        </Backdrop>
+    )
 }

@@ -14,7 +14,7 @@ export default function App() {
         <AuthProvider>
             <Router>
                 <Navbar/>
-                <div className="container">
+                <div className="container pt-5">
                     <Switch>
                         <Route path='/login' component={Login}/>
                         <Route path='/register' component={Register}/>
