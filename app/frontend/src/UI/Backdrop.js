@@ -9,7 +9,8 @@ export default function Backdrop({clickAction, children}) {
                 height: '100vh',
                 top: 0,
                 left: 0,
-                backgroundColor: 'white'
+                backgroundColor: 'white',
+                zIndex: 50
             }}
             className='d-flex align-items-center justify-content-center'
             onClick={clickAction ? clickAction : ()=>{}}
