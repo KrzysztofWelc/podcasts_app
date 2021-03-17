@@ -3,12 +3,11 @@ import axios from "axios";
 import {useCookies} from 'react-cookie'
 import Loader from "../UI/Loader";
 
-//TODO: chnge file name to GlobalContext
 
-const AuthContext = React.createContext()
+const GlobalContext = React.createContext()
 
 export function useAuth() {
-    return useContext(AuthContext)
+    return useContext(GlobalContext)
 }
 
 
@@ -17,15 +16,17 @@ export function AuthProvider({children}) {
     const [loading, setLoading] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
+    const [currentPodcast, setCurrentPodcast] = useState(null)
 
     const value = {
-        currentUser, podcastURL,
+        currentUser,
         signUp, logIn, logOut,
-        setGlobalPodcastURL
+        setGlobalPodcastURL, podcastURL, currentPodcast
     }
 
-    function setGlobalPodcastURL(filename){
-        setPodcastURL(`/podcasts/stream/${filename}`)
+    function setGlobalPodcastURL(podcast){
+        setPodcastURL(`/podcasts/stream/${podcast.filename}`)
+        setCurrentPodcast(podcast)
     }
 
     async function logIn(email, password) {
@@ -91,8 +92,8 @@ export function AuthProvider({children}) {
     },[])
 
     return (
-        <AuthContext.Provider value={value}>
+        <GlobalContext.Provider value={value}>
             {loading ? <Loader/> : children}
-        </AuthContext.Provider>
+        </GlobalContext.Provider>
     )
 }

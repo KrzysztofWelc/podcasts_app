@@ -1,5 +1,5 @@
 import React from "react";
-import {useAuth} from "../contexts/AuthContext";
+import {useAuth} from "../contexts/GlobalContext";
 
 export default function PodcastTile({audio_file, author, title, cover_img}){
     const {setGlobalPodcastURL} = useAuth()
