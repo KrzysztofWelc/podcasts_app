@@ -17,15 +17,17 @@ export function AuthProvider({children}) {
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
     const [currentPodcast, setCurrentPodcast] = useState(null)
+    const [previewedPodcast, setPreviewedPodcast] = useState(null)
 
     const value = {
         currentUser,
         signUp, logIn, logOut,
-        setGlobalPodcast, podcastURL, currentPodcast
+        setGlobalPodcast, podcastURL, currentPodcast,
+        previewedPodcast, setPreviewedPodcast
     }
 
-    function setGlobalPodcast(podcast){
-
+    function setGlobalPodcast(podcast, event){
+        event.stopPropagation()
         setPodcastURL(`/podcasts/stream/${podcast.audio_file}`)
         setCurrentPodcast(podcast)
     }
