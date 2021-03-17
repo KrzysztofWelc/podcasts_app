@@ -1,7 +1,9 @@
 import React, {useState, useEffect, useRef} from "react";
+import {useAuth} from "../contexts/GlobalContext";
 
-export default function Player({podcastURL}) {
-    const [isPlaying, setIsPlaying] = useState(false)
+
+export default function Player() {
+    const {podcastURL, isPlaying, setIsPlaying} = useAuth()
     const [currentPromile, setCurrentPromile] = useState(0)
     const audio = useRef()
 

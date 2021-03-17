@@ -18,15 +18,19 @@ export function AuthProvider({children}) {
     const [podcastURL, setPodcastURL] = useState("")
     const [currentPodcast, setCurrentPodcast] = useState(null)
     const [previewedPodcast, setPreviewedPodcast] = useState(null)
+    const [isPlaying, setIsPlaying] = useState(false)
+
 
     const value = {
         currentUser,
         signUp, logIn, logOut,
         setGlobalPodcast, podcastURL, currentPodcast,
-        previewedPodcast, setPreviewedPodcast
+        previewedPodcast, setPreviewedPodcast,
+        isPlaying, setIsPlaying
     }
 
-    function setGlobalPodcast(podcast, event){
+    //use this to start playing a podcast
+    function setGlobalPodcast(podcast, event) {
         event.stopPropagation()
         setPodcastURL(`/podcasts/stream/${podcast.audio_file}`)
         setCurrentPodcast(podcast)
@@ -72,27 +76,27 @@ export function AuthProvider({children}) {
         setLoading(false)
     }
 
-    async function logOut(){
+    async function logOut() {
         setLoading(true)
         try {
             await axios.post('/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
             removeCookie('authToken')
             localStorage.removeItem('user')
             setCurrentUser(null)
-        }catch (e){
+        } catch (e) {
             console.log(e.response)
         }
         setLoading(false)
     }
 
-    useEffect(()=>{
-        if(cookies.authToken){
+    useEffect(() => {
+        if (cookies.authToken) {
             const user = localStorage.getItem('user')
-            if(user){
+            if (user) {
                 setCurrentUser(JSON.parse(user))
             }
         }
-    },[])
+    }, [])
 
     return (
         <GlobalContext.Provider value={value}>

@@ -5,12 +5,16 @@ import PodcastInfo from "../UI/PodcastInfo";
 
 
 export default function PlayerWrapper() {
-    const {podcastURL, previewedPodcast} = useAuth()
+    const {
+        podcastURL,
+        previewedPodcast
+    } = useAuth()
 
     return (
         <>
-            {previewedPodcast ? <PodcastInfo podcast={previewedPodcast}/> : null }
-            {podcastURL ? <Player podcastURL={podcastURL}/> : null}
+            {previewedPodcast ? <PodcastInfo/> : null}
+
+            {podcastURL ? <Player/> : null}
         </>
     )
 }
