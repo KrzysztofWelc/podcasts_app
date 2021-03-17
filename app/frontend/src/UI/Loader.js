@@ -1,18 +1,10 @@
 import React from "react";
+import Backdrop from "./Backdrop";
 
-export default function Loader(){
-    return(
-        <div style={{
-            position:'fixed',
-            width: '100vw',
-            height: '100vh',
-            top: 0,
-            left: 0,
-            backgroundColor: 'white'
-        }}
-        className='d-flex align-items-center justify-content-center'
-        >
+export default function Loader() {
+    return (
+        <Backdrop>
             <div className="spinner-border text-success"/>
-        </div>
+        </Backdrop>
     )
 }
