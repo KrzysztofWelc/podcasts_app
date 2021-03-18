@@ -18,7 +18,7 @@ export default function PodcastInfo() {
     useEffect(()=>{
         const x = currentPodcast && (previewedPodcast.id == currentPodcast.id) && isPlaying
         setIsPlayingLocal(x)
-    }, [currentPodcast])
+    }, [currentPodcast, previewedPodcast, isPlaying])
 
     return (
         <Backdrop clickAction={() => setPreviewedPodcast(null)}>

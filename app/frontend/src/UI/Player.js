@@ -13,11 +13,16 @@ export default function Player() {
         }
         audio.current.src = podcastURL
         audio.current.load()
-        audio.current.play()
         setIsPlaying(true)
-        console.log(audio.current.duration)
-        // setDuration(audio.current.duration)
     }, [podcastURL])
+
+    useEffect(()=>{
+        if(isPlaying){
+            audio.current.play()
+        }else{
+            audio.current.pause()
+        }
+    }, [isPlaying])
 
     function playPauseHandler(e) {
         e.preventDefault()

@@ -32,8 +32,14 @@ export function AuthProvider({children}) {
     //use this to start playing a podcast
     function setGlobalPodcast(podcast, event) {
         event.stopPropagation()
-        setPodcastURL(`/podcasts/stream/${podcast.audio_file}`)
-        setCurrentPodcast(podcast)
+        if (podcastURL == `/podcasts/stream/${podcast.audio_file}`) {
+            setIsPlaying(!isPlaying)
+        } else {
+            setPodcastURL(`/podcasts/stream/${podcast.audio_file}`)
+            setCurrentPodcast(podcast)
+        }
+
+
     }
 
     async function logIn(email, password) {
