@@ -67,6 +67,18 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(data['comments'][0]['text'], 'test comment')
             self.assertTrue(data['is_more'])
 
+    def test_comment_get_end_of_list(self):
+        with self.client:
+            response = self.client.get(
+                '/comments/{}/3'.format(self.podcast.id)
+            )
+
+            self.assertEqual(response.status_code, 200)
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(len(data['comments']), 4)
+            self.assertFalse(data['is_more'])
+
     def test_comment_delete(self):
         with self.client:
             comment = Comment(text='test', author=self.user, podcast=self.podcast)

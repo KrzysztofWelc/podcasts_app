@@ -15,7 +15,7 @@ def get_comments(podcast_id, page):
     page = int(page)
     p = Podcast.query.filter_by(id=podcast_id).first()
     comments = p.comments.offset((page - 1) * 10).limit(10).all()
-    is_more = True if p.comments.offset((page - 1) * 10 + 1).first() else False
+    is_more = p.comments.count() > (page - 1) * 10 + 10
     return comments, is_more
 
 
