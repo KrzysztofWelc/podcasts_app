@@ -1,15 +1,16 @@
 import React from "react";
-import {useAuth} from "../contexts/AuthContext";
+import {useAuth} from "../contexts/GlobalContext";
 
-export default function PodcastTile({audio_file, author, title, cover_img}){
-    const {setGlobalPodcastURL} = useAuth()
+export default function PodcastTile({podcast}){
+    const {setGlobalPodcast, setPreviewedPodcast} = useAuth()
 
     return(
-        <div onClick={()=>setGlobalPodcastURL(audio_file)} className="card" style={{width: '18rem'}}>
-            <img className="card-img-top" src={`/podcasts/image/${cover_img}`} alt="Card image cap"/>
+        <div onClick={()=>setPreviewedPodcast(podcast)}  className="card" style={{width: '18rem'}}>
+            <img className="card-img-top" src={`/podcasts/image/${podcast.cover_img}`} alt="Card image cap"/>
                 <div className="card-body">
-                    <h5 className="card-title">{title}</h5>
-                    <p className="card-text">{author.username}</p>
+                    <h5 className="card-title">{podcast.title}</h5>
+                    <p className="card-text">{podcast.author.username}</p>
+                    <button onClick={(e)=>setGlobalPodcast(podcast, e)} className='btn btn-primary'>play</button>
                 </div>
         </div>
     )

@@ -3,12 +3,11 @@ import axios from "axios";
 import {useCookies} from 'react-cookie'
 import Loader from "../UI/Loader";
 
-//TODO: chnge file name to GlobalContext
 
-const AuthContext = React.createContext()
+const GlobalContext = React.createContext()
 
 export function useAuth() {
-    return useContext(AuthContext)
+    return useContext(GlobalContext)
 }
 
 
@@ -17,15 +16,30 @@ export function AuthProvider({children}) {
     const [loading, setLoading] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
+    const [currentPodcast, setCurrentPodcast] = useState(null)
+    const [previewedPodcast, setPreviewedPodcast] = useState(null)
+    const [isPlaying, setIsPlaying] = useState(false)
+
 
     const value = {
-        currentUser, podcastURL,
+        currentUser,
         signUp, logIn, logOut,
-        setGlobalPodcastURL
+        setGlobalPodcast, podcastURL, currentPodcast,
+        previewedPodcast, setPreviewedPodcast,
+        isPlaying, setIsPlaying
     }
 
-    function setGlobalPodcastURL(filename){
-        setPodcastURL(`/podcasts/stream/${filename}`)
+    //use this to start playing a podcast
+    function setGlobalPodcast(podcast, event) {
+        event.stopPropagation()
+        if (podcastURL == `/podcasts/stream/${podcast.audio_file}`) {
+            setIsPlaying(!isPlaying)
+        } else {
+            setPodcastURL(`/podcasts/stream/${podcast.audio_file}`)
+            setCurrentPodcast(podcast)
+        }
+
+
     }
 
     async function logIn(email, password) {
@@ -68,31 +82,31 @@ export function AuthProvider({children}) {
         setLoading(false)
     }
 
-    async function logOut(){
+    async function logOut() {
         setLoading(true)
         try {
             await axios.post('/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
             removeCookie('authToken')
             localStorage.removeItem('user')
             setCurrentUser(null)
-        }catch (e){
+        } catch (e) {
             console.log(e.response)
         }
         setLoading(false)
     }
 
-    useEffect(()=>{
-        if(cookies.authToken){
+    useEffect(() => {
+        if (cookies.authToken) {
             const user = localStorage.getItem('user')
-            if(user){
+            if (user) {
                 setCurrentUser(JSON.parse(user))
             }
         }
-    },[])
+    }, [])
 
     return (
-        <AuthContext.Provider value={value}>
+        <GlobalContext.Provider value={value}>
             {loading ? <Loader/> : children}
-        </AuthContext.Provider>
+        </GlobalContext.Provider>
     )
 }

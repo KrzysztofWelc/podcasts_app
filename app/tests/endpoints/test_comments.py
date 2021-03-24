@@ -21,7 +21,7 @@ class TestPodcastsPackage(BaseTestCase):
         podcast.audio_file = 'test.mp3'
         db.session.add(user)
         db.session.add(podcast)
-        for i in range(20):
+        for i in range(24):
             comment = Comment(text='test comment', author=user, podcast=podcast)
             db.session.add(comment)
         db.session.commit()
@@ -65,6 +65,19 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(len(data['comments']), 10)
             self.assertEqual(data['comments'][0]['text'], 'test comment')
+            self.assertTrue(data['is_more'])
+
+    def test_comment_get_end_of_list(self):
+        with self.client:
+            response = self.client.get(
+                '/comments/{}/3'.format(self.podcast.id)
+            )
+
+            self.assertEqual(response.status_code, 200)
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.content_type, 'application/json')
+            self.assertEqual(len(data['comments']), 4)
+            self.assertFalse(data['is_more'])
 
     def test_comment_delete(self):
         with self.client:
@@ -72,14 +85,44 @@ class TestPodcastsPackage(BaseTestCase):
             db.session.add(comment)
             db.session.commit()
             response = self.client.delete(
-                '/comments/{}'.format(comment.id)
+                '/comments',
+                data=json.dumps(dict(
+                    comment_id=comment.id
+                )),
+                content_type='application/json',
+                headers=dict(
+                    auth_token='Bearer ' + self.user.generate_auth_token()
+                )
             )
 
             self.assertEqual(response.status_code, 200)
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.content_type, 'application/json')
 
             check = Comment.query.filter_by(id=comment.id).first()
             self.assertFalse(check)
 
+    def test_comment_update(self):
+        with self.client:
+            updated_text = 'hello123'
+            comment = Comment(text='test', author=self.user, podcast=self.podcast)
+            db.session.add(comment)
+            db.session.commit()
+            response = self.client.put(
+                '/comments',
+                data=json.dumps(dict(
+                    text=updated_text,
+                    comment_id=comment.id
+                )),
+                content_type='application/json',
+                headers=dict(
+                    auth_token='Bearer ' + self.user.generate_auth_token()
+                )
+            )
 
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.content_type, 'application/json')
+            data = json.loads(response.data.decode())
+            self.assertEqual(data['text'], updated_text)
+
+            check = Comment.query.filter_by(id=comment.id).first()
+            self.assertEqual(check.text, updated_text)
+            self.assertEqual(data['text'], updated_text)
