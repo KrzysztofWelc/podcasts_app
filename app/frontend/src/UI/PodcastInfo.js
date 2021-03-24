@@ -6,10 +6,12 @@ import CommentsSection from "./comments/CommentsSection";
 const style = {
     boxSizing: "border-box",
     width: '100vw',
+    maxHeight: '70vh',
     zIndex: 100,
     bottom: '0px',
     padding: '1rem',
-    paddingBottom: '90px'
+    paddingBottom: '90px',
+    overflowY: 'auto'
 
 }
 export default function PodcastInfo() {
