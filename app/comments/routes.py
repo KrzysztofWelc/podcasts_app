@@ -26,8 +26,8 @@ def post_comment():
 @comments.route('/<podcast_id>/<page>')
 def get_comments_list(podcast_id, page):
     try:
-        comments = get_comments(podcast_id, page)
-        res = {'comments': CommentSchema(many=True).dump(comments)}
+        coms, is_more = get_comments(podcast_id, page)
+        res = {'comments': CommentSchema(many=True).dump(coms), 'is_more': is_more}
         return make_response(res)
     except ValidationError as err:
         return make_response(err.messages), 400

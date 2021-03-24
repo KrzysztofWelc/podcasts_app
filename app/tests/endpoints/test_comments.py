@@ -21,7 +21,7 @@ class TestPodcastsPackage(BaseTestCase):
         podcast.audio_file = 'test.mp3'
         db.session.add(user)
         db.session.add(podcast)
-        for i in range(20):
+        for i in range(24):
             comment = Comment(text='test comment', author=user, podcast=podcast)
             db.session.add(comment)
         db.session.commit()
@@ -65,6 +65,7 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(len(data['comments']), 10)
             self.assertEqual(data['comments'][0]['text'], 'test comment')
+            self.assertTrue(data['is_more'])
 
     def test_comment_delete(self):
         with self.client:
