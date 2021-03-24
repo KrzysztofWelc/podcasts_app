@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useAuth} from "../../contexts/GlobalContext";
 
-export default function Comment({comment, editCommentHandler}) {
+export default function Comment({comment, editCommentHandler, deleteCommentHandler}) {
     const {text, created_at, author} = comment
     const [isEditMode, setEditMode] = useState(false)
     const [editText, setEditText] = useState(text)
@@ -11,6 +11,11 @@ export default function Comment({comment, editCommentHandler}) {
         e.preventDefault()
         editCommentHandler(editText, comment.id)
         setEditMode(false)
+    }
+
+    function deleteHandler(e){
+        e.preventDefault()
+        deleteCommentHandler(comment.id)
     }
 
     return (
@@ -36,7 +41,7 @@ export default function Comment({comment, editCommentHandler}) {
                     <button onClick={() => setEditMode(!isEditMode)} className="btn btn-success mr-3">
                         <img style={{height: '1.5rem'}} src='/assets/edit.svg' alt="edit icon"/>
                     </button>
-                    <button className="btn btn-danger">
+                    <button onClick={deleteHandler} className="btn btn-danger">
                         <img style={{height: '1.5rem'}} src='/assets/delete.svg' alt="edit icon"/>
                     </button>
                 </div>)}

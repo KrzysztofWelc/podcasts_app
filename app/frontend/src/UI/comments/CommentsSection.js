@@ -42,16 +42,35 @@ export default function CommentsSection({podcast}) {
                         auth_token: `Bearer: ${cookies.authToken}`
                     }
                 })
-            const updatedComments = [...comments].map(c=>{
-                if(c.id == commentId){
+            const updatedComments = [...comments].map(c => {
+                if (c.id == commentId) {
                     return comment
-                }else{
+                } else {
                     return c
                 }
             })
             setComments(updatedComments)
         } catch (e) {
             console.log(e)
+        }
+    }
+
+    async function deleteCommentHandler(commentId) {
+        try {
+            await axios.delete(
+                '/comments',
+                {
+                    data: {
+                        comment_id: commentId
+                    },
+                    headers: {
+                        auth_token: `Bearer: ${cookies.authToken}`
+                    }
+                })
+            const updatedComments = [...comments].filter(c => c.id !== commentId)
+            setComments(updatedComments)
+        } catch (e) {
+            console.log(e.response)
         }
     }
 
@@ -79,7 +98,12 @@ export default function CommentsSection({podcast}) {
     return (
         <>
             <AddCommentSection addComment={addComment}/>
-            <CommentsList comments={comments} nextPageHandler={nextPageHandler} editCommentHandler={editCommentHandler}/>
+            <CommentsList
+                comments={comments}
+                nextPageHandler={nextPageHandler}
+                editCommentHandler={editCommentHandler}
+                deleteCommentHandler={deleteCommentHandler}
+            />
         </>
     )
 }

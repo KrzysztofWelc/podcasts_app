@@ -1,7 +1,7 @@
 from flask import Blueprint, request, make_response
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
-from app.exceptions import OperationNotPermitted
+from app.exceptions import OperationNotPermitted, ResourceNotFound
 from app.comments.schemas import AddCommentSchema, CommentSchema, PutCommentSchema
 from app.comments.services import create_comment, get_comments, get_single_comment, delete_comment, update_comment
 from app.users.decorators import login_required
@@ -41,16 +41,22 @@ def remove_comment():
     try:
         comment_id = request.json['comment_id']
         comment = get_single_comment(id=comment_id)
-        if comment and comment.user_id == request.user.id:
-            delete_comment(comment)
-        else:
+
+        if not comment:
+            raise ResourceNotFound('No comment found')
+        elif comment.user_id != request.user.id:
             raise OperationNotPermitted('You cannot delete this comment')
-        return make_response()
+        else:
+            delete_comment(comment)
+            return make_response()
+
     except ValidationError as err:
         return make_response(err.messages), 400
     except OperationNotPermitted as err:
         return make_response({'error': err.message}), 401
-    except SQLAlchemyError as err:
+    except ResourceNotFound as err:
+        return make_response({'error': err.message}), 404
+    except SQLAlchemyError as _err:
         return make_response({"_error": 'server error'}), 500
 
 
