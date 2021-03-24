@@ -26,7 +26,12 @@ export default function PodcastInfo() {
     return (
         <>
             <Backdrop clickAction={() => setPreviewedPodcast(null)}/>
-            <div className='position-fixed bg-dark text-light ' style={style}>
+            <div className='position-relative bg-dark text-light ' style={style}>
+                <button
+                    onClick={() => setPreviewedPodcast(null)}
+                    style={{border: 0, backgroundColor: "transparent", position: "absolute", top: '1rem', right: '1rem'}}>
+                    <img src="/static/assets/close.svg" alt="x"/>
+                </button>
                 <h2>{previewedPodcast.title}</h2>
                 <p>{previewedPodcast.description}</p>
                 <button
