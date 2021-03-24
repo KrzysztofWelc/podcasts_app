@@ -96,7 +96,7 @@ export default function CommentsSection({podcast}) {
     }
 
     return (
-        <>
+        <div>
             <AddCommentSection addComment={addComment}/>
             <CommentsList
                 isMore={isMore}
@@ -105,6 +105,6 @@ export default function CommentsSection({podcast}) {
                 editCommentHandler={editCommentHandler}
                 deleteCommentHandler={deleteCommentHandler}
             />
-        </>
+        </div>
     )
 }

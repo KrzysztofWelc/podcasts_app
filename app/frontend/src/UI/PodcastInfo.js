@@ -5,17 +5,15 @@ import CommentsSection from "./comments/CommentsSection";
 
 const style = {
     boxSizing: "border-box",
-    width: '100vw',
     maxHeight: '70vh',
     zIndex: 100,
     bottom: '0px',
     padding: '1rem',
-    paddingBottom: '90px',
     overflowY: 'auto'
 
 }
 export default function PodcastInfo() {
-    const {previewedPodcast, currentPodcast, setGlobalPodcast, setPreviewedPodcast, isPlaying} = useAuth()
+    const {previewedPodcast, currentPodcast, setGlobalPodcast, setPreviewedPodcast, isPlaying, podcastURL} = useAuth()
     const [isPlayingLocal, setIsPlayingLocal] = useState(false)
 
     useEffect(() => {
@@ -46,6 +44,7 @@ export default function PodcastInfo() {
                          alt="play"/>
                 </button>
                 <CommentsSection podcast={previewedPodcast}/>
+                {podcastURL && <div style={{height: '100px'}}/>}
             </div>
         </>
     )
