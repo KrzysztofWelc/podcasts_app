@@ -3,7 +3,7 @@ from flask import current_app as app
 from app import db
 from app.podcasts.models import Podcast
 from app.users.models import User
-from app.podcasts.exceptions import ResourceNotFound
+from app.exceptions import ResourceNotFound
 
 PAGE_SIZE = 10
 

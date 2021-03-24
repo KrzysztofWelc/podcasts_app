@@ -12,6 +12,7 @@ class User(db.Model):
     password = db.Column(db.String(60), nullable=False)
     join_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     podcasts = db.relationship('Podcast', backref='author', lazy=True)
+    comments = db.relationship('Comment', backref='author', lazy=True)
 
     def __init__(self, email, username, password):
         self.email = email

@@ -27,12 +27,13 @@ export default function Profile() {
         <h2>user {id}
         </h2>
         <div className="d-flex">
-            {podcasts.map(podcasts => <PodcastTile
-                key={podcasts.id}
-                audio_file={podcasts.audio_file}
-                title={podcasts.title}
-                cover_img={podcasts.cover_img}
-                author={podcasts.author}
+            {podcasts.map(podcast => <PodcastTile
+                key={podcast.id}
+                podcast={podcast}
+                // audio_file={podcasts.audio_file}
+                // title={podcasts.title}
+                // cover_img={podcasts.cover_img}
+                // author={podcasts.author}
             />)}
         </div>
 

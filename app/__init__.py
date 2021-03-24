@@ -29,8 +29,10 @@ def create_app(config=None):
     from app.users.routes import users
     from app.podcasts.routes import podcasts
     from app.frontend.routes import frontend
+    from app.comments.routes import comments
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(podcasts, url_prefix='/podcasts')
+    app.register_blueprint(comments, url_prefix='/comments')
     app.register_blueprint(frontend, url_prefix='/')
 
     return app

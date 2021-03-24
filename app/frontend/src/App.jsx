@@ -1,6 +1,6 @@
 import React from 'react';
 import {HashRouter as Router, Switch, Route} from "react-router-dom";
-import {AuthProvider} from "./contexts/AuthContext";
+import {AuthProvider} from "./contexts/GlobalContext";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import PublishPodcast from "./pages/PublishPodcast";
@@ -14,7 +14,7 @@ export default function App() {
         <AuthProvider>
             <Router>
                 <Navbar/>
-                <div className="container">
+                <div className="container pt-5">
                     <Switch>
                         <Route path='/login' component={Login}/>
                         <Route path='/register' component={Register}/>

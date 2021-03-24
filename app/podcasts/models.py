@@ -10,6 +10,7 @@ class Podcast(db.Model):
     audio_file = db.Column(db.String(20), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     cover_img = db.Column(db.String(20), nullable=False, default='default.jpg')
+    comments = db.relationship('Comment', backref='podcast', lazy='dynamic')
 
     def __init__(self, title, description, author):
         self.title = title

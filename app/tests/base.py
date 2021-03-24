@@ -4,6 +4,8 @@ from app import db, create_app
 from app.models import User
 
 
+# TODO: improve tests package's structure
+
 class BaseTestCase(TestCase):
     def create_app(self):
         app = create_app('app.config.TestingConfig')
