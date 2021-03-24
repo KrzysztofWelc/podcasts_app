@@ -1,14 +1,12 @@
 import React, {useState} from "react";
-import {useComments} from "../../contexts/CommentsContext";
 
-export default function AddCommentSection({podcastId}){
+export default function AddCommentSection({addComment}){
     const [comment, setComment] = useState('')
     const [errors, setErrors] = useState(null)
-    const {addComment} = useComments()
 
     async function submitHandler(e){
         e.preventDefault()
-        await addComment(comment, podcastId)
+        await addComment(comment)
         setComment('')
     }
 

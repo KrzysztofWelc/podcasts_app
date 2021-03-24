@@ -1,10 +1,7 @@
 import React from "react";
-import {useComments} from "../../contexts/CommentsContext";
 
-export default function CommentsList(){
-    const {comments} = useComments()
-
-    const commentList = comments.map(c=><p>{c.id}</p>)
+export default function CommentsList({comments}){
+    const commentList = comments.map(c=><p key={c.id}>{c.text}</p>)
 
     return (
         <ul>
