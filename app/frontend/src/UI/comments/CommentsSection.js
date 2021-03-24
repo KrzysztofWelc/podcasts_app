@@ -99,6 +99,7 @@ export default function CommentsSection({podcast}) {
         <>
             <AddCommentSection addComment={addComment}/>
             <CommentsList
+                isMore={isMore}
                 comments={comments}
                 nextPageHandler={nextPageHandler}
                 editCommentHandler={editCommentHandler}
