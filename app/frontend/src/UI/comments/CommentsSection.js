@@ -29,6 +29,32 @@ export default function CommentsSection({podcast}) {
         }
     }
 
+    async function editCommentHandler(text, commentId) {
+        try {
+            const {data: comment} = await axios.put(
+                '/comments',
+                {
+                    text,
+                    comment_id: commentId
+                },
+                {
+                    headers: {
+                        auth_token: `Bearer: ${cookies.authToken}`
+                    }
+                })
+            const updatedComments = [...comments].map(c=>{
+                if(c.id == commentId){
+                    return comment
+                }else{
+                    return c
+                }
+            })
+            setComments(updatedComments)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     useEffect(() => {
         const fetchComments = async () => {
             try {
@@ -53,7 +79,7 @@ export default function CommentsSection({podcast}) {
     return (
         <>
             <AddCommentSection addComment={addComment}/>
-            <CommentsList comments={comments} nextPageHandler={nextPageHandler}/>
+            <CommentsList comments={comments} nextPageHandler={nextPageHandler} editCommentHandler={editCommentHandler}/>
         </>
     )
 }
