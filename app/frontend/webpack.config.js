@@ -5,7 +5,7 @@ let env = {}
 Object.keys(process.env).forEach(key=>{
     env[key] = JSON.stringify(process.env[key])
 })
-
+console.log(env.BASE_URL)
 module.exports = {
     mode: 'none',
     entry: {

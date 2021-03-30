@@ -9,6 +9,7 @@ import PlayerWrapper from "./logic/PlayerWrapper";
 import Navbar from "./UI/Navbar";
 
 export default function App() {
+    console.log(process.env.BASE_URL)
     return (
         <AuthProvider>
             <Router>
