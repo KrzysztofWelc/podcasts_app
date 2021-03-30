@@ -1,12 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
-const dotenv = require('dotenv').config({
-    path: path.join(__dirname, '.env')
-});
 
 let env = {}
-Object.keys(dotenv.parsed).forEach(key=>{
-    env[key] = JSON.stringify(dotenv.parsed[key])
+Object.keys(process.env).forEach(key=>{
+    env[key] = JSON.stringify(process.env[key])
 })
 
 module.exports = {
