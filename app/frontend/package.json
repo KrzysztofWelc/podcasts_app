@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "env-cmd -f ./.env webpack --mode development --watch index.js -o ./../static/js/main.js",
-    "build": "env-cmd webpack --mode production index.js --output ./../static/js/main.js"
+    "build": "webpack --mode production index.js --output ./../static/js/main.js"
   },
   "dependencies": {
     "@types/jest": "^26.0.18",
