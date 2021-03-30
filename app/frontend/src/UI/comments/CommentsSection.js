@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
-import axios from "axios";
+import axios from "../../utils/axios";
 import AddCommentSection from "./AddCommentForm";
 import CommentsList from "./CommentsList";
 
