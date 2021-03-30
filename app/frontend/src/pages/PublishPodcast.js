@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import axios from "axios";
+import axios from "../utils/axios";
 import {useCookies} from "react-cookie";
 import {useHistory} from 'react-router-dom'
 
