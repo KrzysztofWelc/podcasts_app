@@ -1,4 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
+
+let env = {}
+Object.keys(process.env).forEach(key=>{
+    env[key] = JSON.stringify(process.env[key])
+})
 
 module.exports = {
     mode: 'none',
@@ -35,5 +41,10 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            "process.env": env
+        }),
+    ],
 }

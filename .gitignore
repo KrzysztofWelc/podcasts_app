@@ -8,3 +8,4 @@ app/.env
 **/node_modules
 app/static/js/main.js
 **/*.log
+app/frontend/.env

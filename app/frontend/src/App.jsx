@@ -9,7 +9,6 @@ import PlayerWrapper from "./logic/PlayerWrapper";
 import Navbar from "./UI/Navbar";
 
 export default function App() {
-
     return (
         <AuthProvider>
             <Router>
