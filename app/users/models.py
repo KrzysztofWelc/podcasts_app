@@ -6,9 +6,9 @@ from app import db, bcrypt, constants
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
+    username = db.Column(db.String(120), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    profile_img = db.Column(db.String(20), nullable=False, default='default.jpg')
+    profile_img = db.Column(db.String(120), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     join_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     podcasts = db.relationship('Podcast', backref='author', lazy=True)
