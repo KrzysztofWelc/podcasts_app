@@ -44,7 +44,7 @@ class TestPodcastsPackage(BaseTestCase):
             data = {key: str(value) for key, value in data.items()}
             data['audio_file'] = self.generate_dummy_podcast_file()
             response = self.client.post(
-                '/podcasts',
+                '/api/podcasts',
                 data=data,
                 content_type='multipart/form-data',
                 headers=dict(
@@ -66,7 +66,7 @@ class TestPodcastsPackage(BaseTestCase):
             data = {key: str(value) for key, value in data.items()}
             data['audio_file'] = self.generate_dummy_podcast_file()
             response = self.client.post(
-                '/podcasts',
+                '/api/podcasts',
                 data=data,
                 content_type='multipart/form-data',
                 headers=dict(
@@ -76,7 +76,7 @@ class TestPodcastsPackage(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 201)
 
-            get_res = self.client.get('/podcasts/' + str(data['id']))
+            get_res = self.client.get('/api/podcasts/' + str(data['id']))
             get_data = json.loads(get_res.data.decode())
             self.assertEqual(get_res.status_code, 200)
             self.assertEqual(get_res.content_type, 'application/json')
@@ -90,7 +90,7 @@ class TestPodcastsPackage(BaseTestCase):
         db.session.commit()
 
         with self.client:
-            res = self.client.get('/podcasts/image/'+p.cover_img)
+            res = self.client.get('/api/podcasts/image/'+p.cover_img)
             self.assertEqual(res.status_code, 200)
             self.assertTrue('image' in res.content_type)
 

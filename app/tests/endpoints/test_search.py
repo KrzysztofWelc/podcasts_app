@@ -29,7 +29,7 @@ class TestPodcastsPackage(BaseTestCase):
 
     def test_search_podcast_preview(self):
         with self.client:
-            response = self.client.get('/search/preview/preview')
+            response = self.client.get('/api/search/preview/preview')
 
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
@@ -42,7 +42,7 @@ class TestPodcastsPackage(BaseTestCase):
 
     def test_search_users(self):
         with self.client:
-            response = self.client.get('/search/users/preview/1')
+            response = self.client.get('/api/search/users/preview/1')
 
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
@@ -52,7 +52,7 @@ class TestPodcastsPackage(BaseTestCase):
 
     def test_search_podcasts(self):
         with self.client:
-            response = self.client.get('/search/podcasts/preview/1')
+            response = self.client.get('/api/search/podcasts/preview/1')
 
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)

@@ -32,10 +32,10 @@ def create_app(config=None):
     from app.comments.routes import comments
     from app.search.routes import search
 
-    app.register_blueprint(users, url_prefix='/users')
-    app.register_blueprint(podcasts, url_prefix='/podcasts')
-    app.register_blueprint(comments, url_prefix='/comments')
-    app.register_blueprint(search, url_prefix='/search')
+    app.register_blueprint(users, url_prefix='/api/users')
+    app.register_blueprint(podcasts, url_prefix='/api/podcasts')
+    app.register_blueprint(comments, url_prefix='/api/comments')
+    app.register_blueprint(search, url_prefix='/api/search')
     app.register_blueprint(frontend, url_prefix='/')
 
     return app

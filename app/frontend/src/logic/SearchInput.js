@@ -9,7 +9,7 @@ export default function SearchInput() {
     useEffect(() => {
         async function getResults(){
             if (query) {
-                const {data} = await axios.get(`/search/preview/${query}`)
+                const {data} = await axios.get(`/api/search/preview/${query}`)
                 setPreviewLists(data)
             } else {
                 setPreviewLists({users: [], podcasts: []})

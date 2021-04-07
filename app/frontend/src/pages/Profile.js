@@ -11,7 +11,7 @@ export default function Profile() {
     useEffect(() => {
         const fetchPodcasts = async () => {
             try {
-                const response = await axios.get(`/podcasts/all/${id}/${page}`)
+                const response = await axios.get(`/api/podcasts/all/${id}/${page}`)
                 const p = response.data.podcasts
                 setPodcasts(p)
             } catch (e) {
