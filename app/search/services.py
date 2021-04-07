@@ -12,14 +12,16 @@ def get_preview_search(phrase):
 def search_users(phrase, page):
     page = int(page)
     users = User.query.filter(User.username.like('{}%'.format(phrase))).offset((page - 1) * 10).limit(10).all()
+    is_more = User.query.filter(User.username.like('{}%'.format(phrase))).count() > (page - 1) * 10 + 10
 
-    return users
+    return users, is_more
 
 
 def search_podcasts(phrase, page):
     page = int(page)
     podcasts = Podcast.query.filter(Podcast.title.like('{}%'.format(phrase))).offset((page - 1) * 10).limit(10).all()
+    is_more = Podcast.query.filter(Podcast.title.like('{}%'.format(phrase))).count() > (page - 1) * 10 + 10
 
-    return podcasts
+    return podcasts, is_more
 
 

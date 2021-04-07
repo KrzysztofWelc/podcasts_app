@@ -18,17 +18,19 @@ def preview(phrase):
 
 @search.route('/users/<phrase>/<page>')
 def search_users_route(phrase, page):
-    users = search_users(phrase, page)
+    users, is_more = search_users(phrase, page)
     response = {
         'users': UserSchema(many=True).dump(users),
+        'is_more': is_more
     }
     return response
 
 
 @search.route('/podcasts/<phrase>/<page>')
 def search_podcasts_route(phrase, page):
-    podcasts = search_podcasts(phrase, page)
+    podcasts, is_more = search_podcasts(phrase, page)
     response = {
         'podcasts': PodcastSchema(many=True).dump(podcasts),
+        'is_more': is_more
     }
     return response

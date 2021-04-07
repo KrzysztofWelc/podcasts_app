@@ -47,6 +47,7 @@ class TestPodcastsPackage(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(data['users']), 6)
+            self.assertFalse(data['is_more'])
             for el in data['users']:
                 self.assertTrue('preview' in el.get('username'))
 
@@ -57,6 +58,7 @@ class TestPodcastsPackage(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(data['podcasts']), 6)
+            self.assertFalse(data['is_more'])
             for el in data['podcasts']:
                 self.assertTrue('preview' in el.get('title'))
 
