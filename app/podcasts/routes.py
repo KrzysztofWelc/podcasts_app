@@ -9,6 +9,7 @@ from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSch
 from app.podcasts.services import create_podcast, find_podcast, update_podcast, get_user_podcasts
 from app.podcasts.utils import get_chunk
 from app.exceptions import ResourceNotFound
+from app.celery import add_view
 
 podcasts = Blueprint('podcasts', __name__)
 
@@ -93,6 +94,9 @@ def stream_podcast(podcast_file):
             byte1 = int(groups[0])
         if groups[1]:
             byte2 = int(groups[1])
+
+        if byte1 == 0:
+            add_view(podcast_file)
 
     chunk, start, length, file_size = get_chunk(podcast_file, byte1, byte2)
     resp = Response(chunk, 206, mimetype='audio/mpeg',
