@@ -40,3 +40,13 @@ class TestPodcastsPackage(BaseTestCase):
             for el in data['podcasts']:
                 self.assertTrue('preview' in el.get('title'))
 
+    def test_search_users(self):
+        with self.client:
+            response = self.client.get('/search/users/preview/1')
+
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(len(data['users']), 6)
+            for el in data['users']:
+                self.assertTrue('preview' in el.get('username'))
+
