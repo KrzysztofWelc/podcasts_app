@@ -14,3 +14,12 @@ def search_users(phrase, page):
     users = User.query.filter(User.username.like('{}%'.format(phrase))).offset((page - 1) * 10).limit(10).all()
 
     return users
+
+
+def search_podcasts(phrase, page):
+    page = int(page)
+    podcasts = Podcast.query.filter(Podcast.title.like('{}%'.format(phrase))).offset((page - 1) * 10).limit(10).all()
+
+    return podcasts
+
+
