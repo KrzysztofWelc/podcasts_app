@@ -2,12 +2,14 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from py_yaml_fixtures.flask import PyYAMLFixtures
 from dotenv import load_dotenv
 
 load_dotenv()
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+fixtures = PyYAMLFixtures()
 
 
 def create_app(config=None):
@@ -23,8 +25,12 @@ def create_app(config=None):
 
     app.config.from_object(app_settings)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['FLASK_MODELS_MODULE'] = 'app.models'  # where all of your model classes are imported
+    app.config['PY_YAML_FIXTURES_DIR'] = 'app/fixtures'  # where your fixtures file(s) live
+    app.config['PY_YAML_FIXTURES_COMMAND_NAME'] = 'import-fixtures'  # the name of the CLI command
     db.init_app(app)
     bcrypt.init_app(app)
+    fixtures.init_app(app)
 
     from app.users.routes import users
     from app.podcasts.routes import podcasts
