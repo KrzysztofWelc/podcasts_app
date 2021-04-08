@@ -1,0 +1,5 @@
+{% for i in range(0, 250) %}
+user{{ i }}:
+  timestamp: {{ faker.date_between(start_date='-5d', end_date='today') }}
+  podcast: {{ random_model('Podcast') }}
+{% endfor %}

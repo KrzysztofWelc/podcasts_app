@@ -3,6 +3,8 @@ import {useParams} from 'react-router-dom'
 import axios from "../utils/axios";
 import PodcastTile from "../UI/PodcastTile";
 
+//todo finish this component
+//todo use useeffect to refetch data on param change
 export default function Search(){
     const {query} = useParams()
     const [users, setUsers] = useState([])
