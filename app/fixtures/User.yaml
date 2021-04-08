@@ -1,4 +1,4 @@
-{% for i in range(0, 30) %}
+{% for i in range(0, 10) %}
 user{{ i }}:
   username: test{{ i }}
   email: user{{ i }}@mail.com
