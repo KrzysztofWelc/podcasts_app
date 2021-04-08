@@ -1,6 +1,6 @@
 {% for i in range(0, 10) %}
 user{{ i }}:
-  username: user{{ i }}
+  username: test{{ i }}
   email: user{{ i }}@mail.com
   password: User1234
 {% endfor %}
