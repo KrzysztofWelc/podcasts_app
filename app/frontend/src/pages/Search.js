@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useParams} from 'react-router-dom'
 import axios from "../utils/axios";
+import PodcastTile from "../UI/PodcastTile";
 
 export default function Search(){
     const {query} = useParams()
@@ -31,6 +32,12 @@ export default function Search(){
 
     return(<div>
         {users.length ? <ul>{users.map(user=><li key={user.id}>{user.username}</li>)}</ul> : null}
-        {podcasts.length ? <ul>{podcasts.map(podcast=><li key={podcast.id}>{podcast.title}</li>)}</ul> : null}
+        {podcasts.length ? <div
+            className='d-flex' style={{
+                overflowX: 'auto'
+            }}>
+
+            {podcasts.map(podcast=><PodcastTile key={podcast.id} podcast={podcast}/>)}
+        </div> : null}
     </div>)
 }

@@ -5,7 +5,7 @@ export default function PodcastTile({podcast}){
     const {setGlobalPodcast, setPreviewedPodcast} = useAuth()
 
     return(
-        <div onClick={()=>setPreviewedPodcast(podcast)}  className="card" style={{width: '18rem'}}>
+        <div onClick={()=>setPreviewedPodcast(podcast)}  className="card" style={{minWidth: '18rem'}}>
             <img className="card-img-top" src={`/api/podcasts/image/${podcast.cover_img}`} alt="Card image cap"/>
                 <div className="card-body">
                     <h5 className="card-title">{podcast.title}</h5>
