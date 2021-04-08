@@ -33,7 +33,7 @@ def drop_db():
     podcasts_path = os.getcwd()+'/app/static/podcasts'
     podcasts = os.listdir(podcasts_path)
     for p in podcasts:
-        if p != '.gitkeep':
+        if p != '.gitkeep' and p != 'fixture.mp3':
             os.remove(podcasts_path+'/'+p)
     db.drop_all()
 

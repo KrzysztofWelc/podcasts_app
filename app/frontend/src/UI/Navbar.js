@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {useAuth} from "../contexts/GlobalContext";
 import {useHistory} from 'react-router-dom'
-
+import SearchInput from "../logic/SearchInput";
 
 export default function Navbar() {
     const {currentUser, logOut} = useAuth()
@@ -45,6 +45,7 @@ export default function Navbar() {
                         </li>
                     </>}
                 </ul>
+                <SearchInput/>
             </div>
         </nav>
     )

@@ -11,7 +11,7 @@ export default function Profile() {
     useEffect(() => {
         const fetchPodcasts = async () => {
             try {
-                const response = await axios.get(`/podcasts/all/${id}/${page}`)
+                const response = await axios.get(`/api/podcasts/all/${id}/${page}`)
                 const p = response.data.podcasts
                 setPodcasts(p)
             } catch (e) {
@@ -30,10 +30,6 @@ export default function Profile() {
             {podcasts.map(podcast => <PodcastTile
                 key={podcast.id}
                 podcast={podcast}
-                // audio_file={podcasts.audio_file}
-                // title={podcasts.title}
-                // cover_img={podcasts.cover_img}
-                // author={podcasts.author}
             />)}
         </div>
 

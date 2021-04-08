@@ -32,10 +32,10 @@ export function AuthProvider({children}) {
     //use this to start playing a podcast
     function setGlobalPodcast(podcast, event) {
         event.stopPropagation()
-        if (podcastURL == `/podcasts/stream/${podcast.audio_file}`) {
+        if (podcastURL == `/api/podcasts/stream/${podcast.audio_file}`) {
             setIsPlaying(!isPlaying)
         } else {
-            setPodcastURL(`/podcasts/stream/${podcast.audio_file}`)
+            setPodcastURL(`/api/podcasts/stream/${podcast.audio_file}`)
             setCurrentPodcast(podcast)
         }
 
@@ -45,7 +45,7 @@ export function AuthProvider({children}) {
     async function logIn(email, password) {
         setLoading(true)
         try {
-            const res = await axios.post('/users/login', {
+            const res = await axios.post('/api/users/login', {
                 email, password
             })
             setCurrentUser(res.data.user)
@@ -64,7 +64,7 @@ export function AuthProvider({children}) {
     async function signUp(username, email, password, password2) {
         setLoading(true)
         try {
-            const res = await axios.post('/users/register', {
+            const res = await axios.post('/api/users/register', {
                 email,
                 username, password, password2
             })
@@ -85,7 +85,7 @@ export function AuthProvider({children}) {
     async function logOut() {
         setLoading(true)
         try {
-            await axios.post('/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
+            await axios.post('/api/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
             removeCookie('authToken')
             localStorage.removeItem('user')
             setCurrentUser(null)

@@ -13,7 +13,7 @@ class TestUserModel(BaseTestCase):
         username = 'test1'
         with self.client:
             response = self.client.post(
-                '/users/register',
+                '/api/users/register',
                 data=json.dumps(dict(
                     email=email,
                     password=password,
@@ -42,7 +42,7 @@ class TestUserModel(BaseTestCase):
 
         with self.client:
             response = self.client.post(
-                '/users/login',
+                '/api/users/login',
                 data=json.dumps(dict(
                     email=email,
                     password=password)),
@@ -69,7 +69,7 @@ class TestUserModel(BaseTestCase):
 
         with self.client:
             response = self.client.post(
-                '/users/logout',
+                '/api/users/logout',
                 headers=dict(
                     auth_token='Bearer ' + token
                 ),

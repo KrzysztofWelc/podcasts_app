@@ -13,11 +13,12 @@ class Podcast(db.Model):
     comments = db.relationship('Comment', backref='podcast', lazy='dynamic')
     views = db.relationship('View',  backref='podcast', lazy='dynamic')
 
-    def __init__(self, title, description, author):
+    def __init__(self, title, description, author, audio_file=None):
         self.title = title
         self.description = description
         self.publish_date = datetime.now().strftime("%m/%d/%Y")
         self.author = author
+        self.audio_file = audio_file
 
 
 class View(db.Model):
