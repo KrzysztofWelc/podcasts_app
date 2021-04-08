@@ -96,7 +96,7 @@ def stream_podcast(podcast_file):
             byte2 = int(groups[1])
 
         if byte1 == 0:
-            add_view(podcast_file)
+            add_view.delay(podcast_file)
 
     chunk, start, length, file_size = get_chunk(podcast_file, byte1, byte2)
     resp = Response(chunk, 206, mimetype='audio/mpeg',
