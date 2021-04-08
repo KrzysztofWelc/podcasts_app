@@ -1,6 +1,6 @@
 {% for i in range(0, 25) %}
 podcast{{ i }}:
-  title: {{ faker.sentence(nb_words=10) }}
+  title: test{{ i }}
   description: {{ faker.sentence(nb_words=40) }}
   audio_file: fixture.mp3
   author: {{ random_model('User') }}

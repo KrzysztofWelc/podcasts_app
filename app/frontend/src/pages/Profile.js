@@ -30,10 +30,6 @@ export default function Profile() {
             {podcasts.map(podcast => <PodcastTile
                 key={podcast.id}
                 podcast={podcast}
-                // audio_file={podcasts.audio_file}
-                // title={podcasts.title}
-                // cover_img={podcasts.cover_img}
-                // author={podcasts.author}
             />)}
         </div>
 
