@@ -41,7 +41,7 @@ class TestPodcastsPackage(BaseTestCase):
         with self.client:
             data = data
             response = self.client.post(
-                '/comments',
+                '/api/comments',
                 data=data,
                 content_type='application/json',
                 headers=dict(
@@ -57,7 +57,7 @@ class TestPodcastsPackage(BaseTestCase):
     def test_comment_get(self):
         with self.client:
             response = self.client.get(
-                '/comments/{}/2'.format(self.podcast.id)
+                '/api/comments/{}/2'.format(self.podcast.id)
             )
 
             self.assertEqual(response.status_code, 200)
@@ -70,7 +70,7 @@ class TestPodcastsPackage(BaseTestCase):
     def test_comment_get_end_of_list(self):
         with self.client:
             response = self.client.get(
-                '/comments/{}/3'.format(self.podcast.id)
+                '/api/comments/{}/3'.format(self.podcast.id)
             )
 
             self.assertEqual(response.status_code, 200)
@@ -85,7 +85,7 @@ class TestPodcastsPackage(BaseTestCase):
             db.session.add(comment)
             db.session.commit()
             response = self.client.delete(
-                '/comments',
+                '/api/comments',
                 data=json.dumps(dict(
                     comment_id=comment.id
                 )),
@@ -107,7 +107,7 @@ class TestPodcastsPackage(BaseTestCase):
             db.session.add(comment)
             db.session.commit()
             response = self.client.put(
-                '/comments',
+                '/api/comments',
                 data=json.dumps(dict(
                     text=updated_text,
                     comment_id=comment.id

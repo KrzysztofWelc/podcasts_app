@@ -12,8 +12,9 @@ class Podcast(db.Model):
     cover_img = db.Column(db.String(20), nullable=False, default='default.jpg')
     comments = db.relationship('Comment', backref='podcast', lazy='dynamic')
 
-    def __init__(self, title, description, author):
+    def __init__(self, title, description, author, audio_file=None):
         self.title = title
         self.description = description
         self.publish_date = datetime.now().strftime("%m/%d/%Y")
         self.author = author
+        self.audio_file = audio_file

@@ -29,7 +29,7 @@ export default function PublishPodcast() {
         setUploading(true)
 
         try {
-            await axios.post('/podcasts', data, {
+            await axios.post('/api/podcasts', data, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     auth_token: `Bearer: ${cookies.authToken}`
