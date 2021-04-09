@@ -1,12 +1,16 @@
 import unittest
 import json
 
+from faker import Faker
+
 from app import db
 from app.models import User, BlackListedToken
 from app.tests.base import BaseTestCase
 
+faker = Faker()
 
 class TestUserModel(BaseTestCase):
+
     def test_user_registration(self):
         email = 'test1@mail.com'
         password = 'Test1234'
@@ -79,6 +83,18 @@ class TestUserModel(BaseTestCase):
 
             token_check = BlackListedToken.query.filter_by(token=token).first()
             self.assertTrue(token_check)
+
+    def test_get_user_data(self):
+        with self.client:
+            res = self.client.get('/api/users/{}/data'.format(self.user.id))
+
+            self.assertEqual(res.status_code, 200)
+            data = json.loads(res.data.decode())
+
+            self.assertEqual(data['email'], self.user.email)
+            self.assertEqual(data['username'], self.user.username)
+            self.assertEqual(data['profile_img'], self.user.profile_img)
+            self.assertEqual(int(data['id']), int(self.user.id))
 
 
 if __name__ == '__main__':

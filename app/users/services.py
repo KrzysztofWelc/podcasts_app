@@ -3,6 +3,11 @@ from app.users.models import User, BlackListedToken
 from app import db
 
 
+def get_user_by_id(user_id):
+    u = User.query.filter_by(id=user_id).first()
+    return u
+
+
 def register_user(data):
     data.pop('password2')
     user = User(**data)

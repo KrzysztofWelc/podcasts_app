@@ -2,7 +2,7 @@ from flask import Blueprint, request, make_response
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.users.schemas import RegisterSchema, UserSchema, LoginSchema
-from app.users.services import register_user, login_user, logout_user
+from app.users.services import register_user, login_user, logout_user, get_user_by_id
 from app.users.decorators import login_required
 
 users = Blueprint('users', __name__)
@@ -41,3 +41,17 @@ def login():
 def logout():
     logout_user(request.token)
     return make_response(), 200
+
+
+@users.route('/<user_id>/data', methods=['GET'])
+def get_user_data(user_id):
+    try:
+        user = get_user_by_id(user_id)
+        res = UserSchema().dump(user)
+        return res
+    except ValidationError as err:
+        return make_response(err.messages), 400
+    except SQLAlchemyError as err:
+        e = str(err)
+        print(e)
+        return make_response(e), 500
