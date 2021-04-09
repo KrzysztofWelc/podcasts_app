@@ -1,37 +1,26 @@
 import React, {useState, useEffect} from "react";
-import axios from "../utils/axios";
 import {useParams} from 'react-router-dom'
 import PodcastTile from "../UI/PodcastTile";
+import PaginatedList from "../logic/PaginatedList";
 
 export default function Profile() {
     const {id} = useParams()
-    const [podcasts, setPodcasts] = useState([])
-    const [page, setPage] = useState(1)
 
-    useEffect(() => {
-        const fetchPodcasts = async () => {
-            try {
-                const response = await axios.get(`/api/podcasts/all/${id}/${page}`)
-                const p = response.data.podcasts
-                setPodcasts(p)
-            } catch (e) {
-                console.log(e)
+    return(<PaginatedList
+        url={`/api/podcasts/all/${id}/`}
+        render={({items, isMore, loading, moreHandler}) => (
+                items.length ? <div
+                    className='d-flex' style={{
+                    overflowX: 'auto'
+                }}>
+
+                    {items.map(podcast => <PodcastTile key={podcast.id} podcast={podcast}/>)}
+                    {isMore && <button onClick={moreHandler}>more</button>}
+                    {loading && <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>}
+                </div> : null
+            )
             }
-        }
-
-        fetchPodcasts()
-    }, [])
-
-    return (<div>
-
-        <h2>user {id}
-        </h2>
-        <div className="d-flex">
-            {podcasts.map(podcast => <PodcastTile
-                key={podcast.id}
-                podcast={podcast}
-            />)}
-        </div>
-
-    </div>)
+    />)
 }

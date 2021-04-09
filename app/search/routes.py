@@ -20,7 +20,7 @@ def preview(phrase):
 def search_users_route(phrase, page):
     users, is_more = search_users(phrase, page)
     response = {
-        'users': UserSchema(many=True).dump(users),
+        'items': UserSchema(many=True).dump(users),
         'is_more': is_more
     }
     return response
@@ -30,7 +30,7 @@ def search_users_route(phrase, page):
 def search_podcasts_route(phrase, page):
     podcasts, is_more = search_podcasts(phrase, page)
     response = {
-        'podcasts': PodcastSchema(many=True).dump(podcasts),
+        'items': PodcastSchema(many=True).dump(podcasts),
         'is_more': is_more
     }
     return response

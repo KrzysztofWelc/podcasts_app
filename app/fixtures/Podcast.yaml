@@ -1,4 +1,4 @@
-{% for i in range(0, 25) %}
+{% for i in range(0, 80) %}
 podcast{{ i }}:
   title: test{{ i }}
   description: {{ faker.sentence(nb_words=40) }}
