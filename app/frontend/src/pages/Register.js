@@ -79,7 +79,7 @@ export default function Register() {
                     </div>
                     <div className="custom-file mb-3">
                         <input onChange={selectFileHandler} type="file" className="custom-file-input"
-                               id="customFileLangHTML"/>
+                               id="customFileLangHTML" accept='image/jpeg, image/png'/>
                         <label className="custom-file-label" htmlFor="customFileLangHTML"
                                data-browse="select">{file ? file.name : 'choose podcast file'}</label>
                     </div>
