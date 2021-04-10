@@ -61,7 +61,7 @@ class TestUserModel(BaseTestCase):
                 username=username
             )
             data = {key: str(value) for key, value in data.items()}
-            data['audio_file'] = self.generate_dummy_avater_file()
+            data['profile_img'] = self.generate_dummy_avater_file()
             response = self.client.post(
                 '/api/users/register',
                 data=data,

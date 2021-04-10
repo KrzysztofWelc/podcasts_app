@@ -12,7 +12,7 @@ users = Blueprint('users', __name__)
 def register():
     try:
         data = RegisterSchema().load(request.form)
-        avatar = request.files.get('audio_file')
+        avatar = request.files.get('profile_img')
         jwt, user = register_user(data, avatar)
         return make_response({'token': jwt, 'user': UserSchema().dump(user)}), 201
     except ValidationError as err:
