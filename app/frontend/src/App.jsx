@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import PlayerWrapper from "./logic/PlayerWrapper";
 import Navbar from "./UI/Navbar";
 import Search from "./pages/Search";
+import PrivateRoute from "./logic/PrivateRoute";
 
 export default function App() {
     return (
@@ -19,7 +20,7 @@ export default function App() {
                         <Route path='/login' component={Login}/>
                         <Route path='/register' component={Register}/>
                         <Route path='/publish_podcast' component={PublishPodcast}/>
-                        <Route path='/user/:id' component={Profile}/>
+                        <PrivateRoute path='/user/:id' component={Profile}/>
                         <Route path='/search/:query' component={Search}/>
                         <Route path='/'><h2>hello</h2></Route>
                     </Switch>

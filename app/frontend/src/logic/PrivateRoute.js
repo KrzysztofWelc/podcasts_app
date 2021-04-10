@@ -1,15 +1,14 @@
 import React from 'react'
 import {Redirect, Route} from 'react-router-dom';
-import {useAuth} from "../contexts/GlobalContext";
+import {useCookies} from "react-cookie";
 
-//TODO: fix redirect problem
 export default function PrivateRoute({component: Component, ...rest}) {
-    const {currentUser} = useAuth()
+    const cookies = useCookies()[0]
 
     return (
         <Route
             {...rest}
-            render={props => currentUser ? <Component {...props} /> : <Redirect to='/login'/>}
+            render={props => cookies.authToken ? <Component {...props} /> : <Redirect to='/login'/>}
         >
         </Route>
     )
