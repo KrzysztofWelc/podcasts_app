@@ -61,12 +61,22 @@ export function AuthProvider({children}) {
         setLoading(false)
     }
 
-    async function signUp(username, email, password, password2) {
+    async function signUp(username, email, password, password2, file) {
+        let data = new FormData()
+
+        if(file){
+           data.append('profile_img', file)
+        }
+        data.append('username', username)
+        data.append('email', email)
+        data.append('password', password)
+        data.append('password2', password2)
         setLoading(true)
         try {
-            const res = await axios.post('/api/users/register', {
-                email,
-                username, password, password2
+            const res = await axios.post('/api/users/register', data, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
             })
             console.log(res)
             setCurrentUser(res.data.user)
