@@ -30,6 +30,7 @@ export default function Profile() {
         <div>
             {user &&
             <div>
+                <img src={`/api/users/avatar/${user.profile_img}`} alt=""/>
                 <h2>{user.username}</h2>
             </div>}
             {error &&

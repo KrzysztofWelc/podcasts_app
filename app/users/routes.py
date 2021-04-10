@@ -1,4 +1,4 @@
-from flask import Blueprint, request, make_response
+from flask import Blueprint, request, make_response, send_from_directory
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.users.schemas import RegisterSchema, UserSchema, LoginSchema
@@ -56,3 +56,8 @@ def get_user_data(user_id):
         e = str(err)
         print(e)
         return make_response(e), 500
+
+
+@users.route('/avatar/<filename>')
+def get_podcast_image(filename):
+    return send_from_directory('static/avatars', filename)
