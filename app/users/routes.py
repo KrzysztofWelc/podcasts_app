@@ -11,8 +11,9 @@ users = Blueprint('users', __name__)
 @users.route('/register', methods=['POST'])
 def register():
     try:
-        data = RegisterSchema().load(request.json)
-        jwt, user = register_user(data)
+        data = RegisterSchema().load(request.form)
+        avatar = request.files.get('audio_file')
+        jwt, user = register_user(data, avatar)
         return make_response({'token': jwt, 'user': UserSchema().dump(user)}), 201
     except ValidationError as err:
         return make_response(err.messages), 400

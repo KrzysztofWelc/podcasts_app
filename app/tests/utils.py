@@ -15,3 +15,11 @@ def delete_dummy_podcasts(real_files):
     for file in current_podcasts:
         if file not in real_files:
             remove(join(podcasts_dir, file))
+
+
+def delete_dummy_avatars(real_files):
+    podcasts_dir = join(app.root_path, 'static', 'avatars')
+    current_podcasts = [f for f in listdir(podcasts_dir) if isfile(join(podcasts_dir, f))]
+    for file in current_podcasts:
+        if file not in real_files:
+            remove(join(podcasts_dir, file))
