@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
-import {useParams} from 'react-router-dom'
-import axios from "../utils/axios";
-import PodcastTile from "../UI/PodcastTile";
-import PaginatedList from "../logic/PaginatedList";
+import {useParams, useRouteMatch, Switch, Route, Link} from 'react-router-dom'
+import axios from "../../utils/axios";
+import Podcasts from "./Podcasts";
+import EditData from "./EditData";
 
 export default function Profile() {
     const {id} = useParams()
+    let { path, url } = useRouteMatch();
     const [user, setUser] = useState(null)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -37,23 +38,16 @@ export default function Profile() {
             <div className="alert alert-danger" role="alert">
                 something went wrong
             </div>}
-            <PaginatedList
-                url={`/api/podcasts/all/${id}/`}
-                render={({items, isMore, loading, moreHandler}) => (
-                    items.length ? <div
-                        className='d-flex' style={{
-                        overflowX: 'auto'
-                    }}>
-
-                        {items.map(podcast => <PodcastTile key={podcast.id} podcast={podcast}/>)}
-                        {isMore && <button onClick={moreHandler}>more</button>}
-                        {loading && <div className="spinner-border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>}
-                    </div> : null
-                )
-                }
-            />
+            <nav>
+                <ul>
+                    <li><Link to={url}>podcasty</Link></li>
+                    <li><Link to={`${url}/edit_data`}>dane</Link></li>
+                </ul>
+            </nav>
+            <Switch>
+                <Route exact path={path} component={Podcasts} />
+                <Route exact path={`${url}/edit_data`} component={EditData} />
+            </Switch>
         </div>
     )
 }
