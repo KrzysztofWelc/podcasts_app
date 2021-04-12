@@ -1,7 +1,10 @@
 import React from "react";
+import ChangePassword from "./editData/ChangePassword";
 
 export default function EditData(){
     return(
-        <h2>edit datda</h2>
+        <div>
+            <ChangePassword/>
+        </div>
     )
 }

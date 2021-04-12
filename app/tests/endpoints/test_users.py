@@ -165,6 +165,7 @@ class TestUserModel(BaseTestCase):
             new_password_hash = User.query.filter_by(id=self.user.id).first().password
             self.assertNotEqual(old_password_hash, new_password_hash)
             self.assertNotEqual(old_password_hash, new_pwd)
+            self.assertTrue(self.user.check_password(new_pwd))
 
     def test_change_user_password_no_auth(self):
         with self.client:
