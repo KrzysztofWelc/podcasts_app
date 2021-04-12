@@ -3,6 +3,7 @@ from flask import current_app as app
 from marshmallow import ValidationError
 from app.users.models import User, BlackListedToken
 from app import db
+from app.exceptions import OperationNotPermitted
 
 
 def get_user_by_id(user_id):
@@ -48,5 +49,8 @@ def logout_user(token):
     db.session.commit()
 
 
-def change_password(user, new_pwd):
-    user.password = new_pwd
+def change_password(user, new_pwd, old_pwd):
+    if user.check_password(old_pwd):
+        user.password = new_pwd
+    else:
+        raise OperationNotPermitted('wrong old password')

@@ -4,6 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.users.schemas import RegisterSchema, UserSchema, LoginSchema, ChangePwdSchema
 from app.users.services import register_user, login_user, logout_user, get_user_by_id, change_password
 from app.users.decorators import login_required
+from app.exceptions import OperationNotPermitted
 
 users = Blueprint('users', __name__)
 
@@ -67,11 +68,13 @@ def get_podcast_image(filename):
 @login_required
 def change_pwd():
     try:
-        new_pwd = ChangePwdSchema().dump(request.json)['new_pwd']
-        change_password(request.user, new_pwd)
+        data = ChangePwdSchema().dump(request.json)
+        change_password(request.user, data['new_pwd'], data['old_pwd'])
         return make_response()
     except ValidationError as err:
         return make_response(err.messages), 400
+    except OperationNotPermitted as err:
+        return make_response({'error': err.message}), 400
     except SQLAlchemyError as err:
         e = str(err)
         print(e)

@@ -151,7 +151,8 @@ class TestUserModel(BaseTestCase):
             response = self.client.patch(
                 '/api/users/change_pwd',
                 data=json.dumps({
-                    'new_pwd': new_pwd
+                    'new_pwd': new_pwd,
+                    'old_pwd': self.plain_pwd
                 }),
                 headers=dict(
                     auth_token='Bearer ' + token
@@ -170,12 +171,30 @@ class TestUserModel(BaseTestCase):
             response = self.client.patch(
                 '/api/users/change_pwd',
                 data=json.dumps({
-                    'new_pwd': 'Hehe123'
+                    'new_pwd': 'Hehe123',
+                    'old_pwd': self.plain_pwd
                 }),
                 content_type='application/json'
             )
 
             self.assertEqual(response.status_code, 401)
+
+    def test_change_user_password_wrong_old_pwd(self):
+        token = self.user.generate_auth_token()
+        with self.client:
+            response = self.client.patch(
+                '/api/users/change_pwd',
+                data=json.dumps({
+                    'new_pwd': 'Hehe123',
+                    'old_pwd': '2sdsa#'
+                }),
+                headers=dict(
+                    auth_token='Bearer ' + token
+                ),
+                content_type='application/json'
+            )
+
+            self.assertEqual(response.status_code, 400)
 
 
 if __name__ == '__main__':
