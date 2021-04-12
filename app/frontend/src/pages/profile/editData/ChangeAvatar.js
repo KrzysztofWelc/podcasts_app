@@ -1,21 +1,24 @@
 import React, {useState} from "react";
 import axios from "../../../utils/axios";
 import {useCookies} from "react-cookie";
+import {useHistory} from 'react-router-dom'
 
 export default function ChangeAvatar() {
     const [file, setFile] = useState(null)
-    const [fileSRC, setFileSRC] = useState(null)
     const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
     const cookies = useCookies()[0]
+    const history = useHistory()
 
     function selectFileHandler(e) {
-        const _file=e.target.files[0]
+        const _file = e.target.files[0]
         setFile(_file)
     }
 
 
     async function submitHandler(e) {
         e.preventDefault()
+        setLoading(true)
         const data = new FormData()
         data.append('new_profile_pic', file)
         try {
@@ -29,7 +32,9 @@ export default function ChangeAvatar() {
                     },
                 }
             )
+            history.push('/')
         } catch (e) {
+            setLoading(false)
             if (e.status === 500) {
                 setError('Coś poszło nie tak.')
             } else {
@@ -49,7 +54,12 @@ export default function ChangeAvatar() {
                 <label className="custom-file-label" htmlFor="customFileLangHTML"
                        data-browse="select">{file ? file.name : 'choose podcast file'}</label>
             </div>
-            <input disabled={!file} type="submit" className='btn btn-primary' value="Register"/>
+            <button className="btn btn-primary" disabled={!file || loading} type='submit'>
+                {loading ? (<>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+                        <span className="sr-only">Loading...</span></>
+                    ) : 'prześlij'}
+            </button>
         </form>
     )
 }

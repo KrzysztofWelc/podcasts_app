@@ -1,13 +1,16 @@
 import React, {useState} from "react";
 import axios from "../../../utils/axios";
 import {useCookies} from "react-cookie";
+import {useHistory} from 'react-router-dom'
 
 export default function ChangePassword() {
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword1, setNewPassword1] = useState('')
     const [newPassword2, setNewPassword2] = useState('')
+    const [loading, setLoading] = useState('')
     const [error, setError] = useState('')
     const cookies = useCookies()[0]
+    const history = useHistory()
 
 
     async function submitHandler(e){
@@ -19,6 +22,7 @@ export default function ChangePassword() {
 
         if(error) return
 
+        setLoading(true)
        try{
             await axios.patch(
                 '/api/users/change_pwd',
@@ -33,7 +37,9 @@ export default function ChangePassword() {
                     },
                 }
             )
+           history.push('/')
        } catch (e){
+            setLoading(false)
             if (e.status === 500) {
                 setError('Coś poszło nie tak.')
             } else {
@@ -65,7 +71,12 @@ export default function ChangePassword() {
                        type="password" className="form-control" id="newPassword2"
                        placeholder="repeat new password"/>
             </div>
-            <input disabled={!oldPassword || !newPassword2 || !newPassword1} className='btn btn-success' type="submit" value="zmień"/>
+            <button className="btn btn-primary" disabled={!oldPassword || !newPassword2 || !newPassword1} type='submit'>
+                {loading ? (<>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+                        <span className="sr-only">Loading...</span></>
+                    ) : 'prześlij'}
+            </button>
         </form>
     )
 }
