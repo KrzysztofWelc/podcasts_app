@@ -55,3 +55,12 @@ def change_password(user, new_pwd, old_pwd):
         db.session.commit()
     else:
         raise OperationNotPermitted('wrong old password')
+
+
+def change_profile_img(user, img):
+    old_avatar = user.profile_img
+    new_avatar_name = save_avatar(img)
+    user.profile_img = new_avatar_name
+    db.session.commit()
+    if old_avatar != 'default.jpg':
+        os.remove(os.path.join(app.root_path, 'static/avatars', old_avatar))

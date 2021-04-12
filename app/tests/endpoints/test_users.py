@@ -197,6 +197,23 @@ class TestUserModel(BaseTestCase):
 
             self.assertEqual(response.status_code, 400)
 
+    def test_change_user_pic(self):
+        old_img = self.user.profile_img
+        with self.client:
+            data = dict()
+            data['new_profile_pic'] = self.generate_dummy_avater_file()
+            res = self.client.patch(
+                '/api/users/change_profile_pic',
+                data=data,
+                content_type='multipart/form-data',
+                headers=dict(
+                    auth_token='Bearer ' + self.user.generate_auth_token()
+                ),
+            )
+
+            self.assertEqual(res.status_code, 200)
+            self.assertNotEqual(old_img, User.query.filter_by(id=self.user.id).first().profile_img)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -34,7 +34,6 @@ export default function ChangePassword() {
                 }
             )
        } catch (e){
-           console.log(e)
             if (e.status === 500) {
                 setError('Coś poszło nie tak.')
             } else {
