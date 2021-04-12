@@ -143,5 +143,40 @@ class TestUserModel(BaseTestCase):
 
             self.assertEqual(res.status_code, 200)
 
+    def test_change_user_password_auth(self):
+        token = self.user.generate_auth_token()
+        old_password_hash = self.user.password
+        new_pwd = 'Hehe123'
+        with self.client:
+            response = self.client.patch(
+                '/api/users/change_pwd',
+                data=json.dumps({
+                    'new_pwd': new_pwd
+                }),
+                headers=dict(
+                    auth_token='Bearer ' + token
+                ),
+                content_type='application/json'
+            )
+
+            self.assertEqual(response.status_code, 200)
+
+            new_password_hash = User.query.filter_by(id=self.user.id).first().password
+            self.assertNotEqual(old_password_hash, new_password_hash)
+            self.assertNotEqual(old_password_hash, new_pwd)
+
+    def test_change_user_password_no_auth(self):
+        with self.client:
+            response = self.client.patch(
+                '/api/users/change_pwd',
+                data=json.dumps({
+                    'new_pwd': 'Hehe123'
+                }),
+                content_type='application/json'
+            )
+
+            self.assertEqual(response.status_code, 401)
+
+
 if __name__ == '__main__':
     unittest.main()

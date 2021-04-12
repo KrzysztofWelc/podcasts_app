@@ -1,8 +1,8 @@
 from flask import Blueprint, request, make_response, send_from_directory
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
-from app.users.schemas import RegisterSchema, UserSchema, LoginSchema
-from app.users.services import register_user, login_user, logout_user, get_user_by_id
+from app.users.schemas import RegisterSchema, UserSchema, LoginSchema, ChangePwdSchema
+from app.users.services import register_user, login_user, logout_user, get_user_by_id, change_password
 from app.users.decorators import login_required
 
 users = Blueprint('users', __name__)
@@ -61,3 +61,18 @@ def get_user_data(user_id):
 @users.route('/avatar/<filename>')
 def get_podcast_image(filename):
     return send_from_directory('static/avatars', filename)
+
+
+@users.route('/change_pwd', methods=['PATCH'])
+@login_required
+def change_pwd():
+    try:
+        new_pwd = ChangePwdSchema().dump(request.json)['new_pwd']
+        change_password(request.user, new_pwd)
+        return make_response()
+    except ValidationError as err:
+        return make_response(err.messages), 400
+    except SQLAlchemyError as err:
+        e = str(err)
+        print(e)
+        return make_response(e), 500

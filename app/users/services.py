@@ -46,3 +46,7 @@ def logout_user(token):
     blt = BlackListedToken(token)
     db.session.add(blt)
     db.session.commit()
+
+
+def change_password(user, new_pwd):
+    user.password = new_pwd
