@@ -12,7 +12,7 @@ export function useAuth() {
 
 
 export function AuthProvider({children}) {
-    const [currentUser, setCurrentUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null)
+    const [currentUser, setCurrentUser] = useState(()=>localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null)
     const [loading, setLoading] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
