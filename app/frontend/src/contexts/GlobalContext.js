@@ -12,7 +12,7 @@ export function useAuth() {
 
 
 export function AuthProvider({children}) {
-    const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null)
     const [loading, setLoading] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
@@ -105,14 +105,14 @@ export function AuthProvider({children}) {
         setLoading(false)
     }
 
-    useEffect(() => {
-        if (cookies.authToken) {
-            const user = localStorage.getItem('user')
-            if (user) {
-                setCurrentUser(JSON.parse(user))
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (cookies.authToken) {
+    //         const user = localStorage.getItem('user')
+    //         if (user) {
+    //             setCurrentUser(JSON.parse(user))
+    //         }
+    //     }
+    // }, [])
 
     return (
         <GlobalContext.Provider value={value}>
