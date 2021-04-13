@@ -45,8 +45,8 @@ def get_podcast(podcast_id):
 @podcasts.route('/all/<user_id>/<page>', methods=['GET'])
 def get_all_users_podcasts(user_id, page=1):
     try:
-        p = get_user_podcasts(user_id, page)
-        response = {'podcasts': PodcastSchema(many=True).dump(p)}
+        p, is_more = get_user_podcasts(user_id, page)
+        response = {'items': PodcastSchema(many=True).dump(p), 'is_more': is_more}
         return make_response(response)
     except ResourceNotFound as err:
         return make_response({'error': err.message}), 404

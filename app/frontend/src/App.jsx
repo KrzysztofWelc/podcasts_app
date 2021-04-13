@@ -4,7 +4,7 @@ import {AuthProvider} from "./contexts/GlobalContext";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import PublishPodcast from "./pages/PublishPodcast";
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile";
 import PlayerWrapper from "./logic/PlayerWrapper";
 import Navbar from "./UI/Navbar";
 import Search from "./pages/Search";

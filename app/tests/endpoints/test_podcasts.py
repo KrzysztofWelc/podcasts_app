@@ -2,24 +2,31 @@ import unittest
 import json
 import io
 
-
-
+from faker import Faker
 from app import db
 from app.models import User, Podcast
 from app.tests.base import BaseTestCase
 from app.tests.utils import get_real_podcasts, delete_dummy_podcasts
+
+faker = Faker()
 
 
 class TestPodcastsPackage(BaseTestCase):
     def setUp(self):
         super(TestPodcastsPackage, self).setUp()
 
-        email = 'test1@mail.com'
+        email = faker.email()
         password = 'Test1234'
-        username = 'test1'
+        username = faker.first_name()
 
         user = User(email=email, password=password, username=username)
         db.session.add(user)
+        db.session.commit()
+
+        for _ in range(30):
+            p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum')
+            p.audio_file = 'test.mp3'
+            db.session.add(p)
         db.session.commit()
         self.user = user
 
@@ -90,28 +97,24 @@ class TestPodcastsPackage(BaseTestCase):
         db.session.commit()
 
         with self.client:
-            res = self.client.get('/api/podcasts/image/'+p.cover_img)
+            res = self.client.get('/api/podcasts/image/' + p.cover_img)
             self.assertEqual(res.status_code, 200)
             self.assertTrue('image' in res.content_type)
 
-    # TODO: add missing tests
-    # def test_get_users_podcasts_list(self):
-    #     try:
-    #         for i in range(0, 50):
-    #             p = Podcast(author=self.user, title='pod{}'.format(1), description='lorem ipsum{}'.format(1))
-    #             p.audio_file = 'test{}.mp3'.format(i)
-    #             db.session.add(p)
-    #             db.session.commit()
-    #     except:
-    #         p = Podcast.query.filter_by().all()
-    #         print('dassssssssssssssssssssssssssssssssssssssssssssssssssss\n\n\ndsaaaaaaaaaaaaaaaaaaaaaaaaa\nn\dsaaaaaaaaaa')
-    #
-    #     with self.client:
-    #         res = self.client.get('/podcasts/all/{}/{}'.format(self.user.id, 1))
-    #         self.assertEqual(res.status_code, 200)
-    #         res_data = json.loads(res.data.decode())
-    #         print(res_data)
+    def test_get_users_podcasts_list(self):
+        for _ in range(20):
+            p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum', audio_file=faker.file_name(extension='mp3'))
+            db.session.add(p)
+        db.session.commit()
 
+        with self.client:
+            res = self.client.get('/api/podcasts/all/{}/{}'.format(self.user.id, 1))
+            self.assertEqual(res.status_code, 200)
+            data = json.loads(res.data.decode())
+            self.assertEqual(len(data['items']), 10)
+            self.assertTrue(data['is_more'])
+
+    # TODO: add missing tests
     # def test_podcast_update_when_owner(self):
     #     data = dict(
     #         title='title1',
@@ -179,10 +182,6 @@ class TestPodcastsPackage(BaseTestCase):
     #         content_type='application/json'
     #     )
     #     self.assertEqual(patch_res.status_code, 403)
-
-
-
-
 
 
 if __name__ == '__main__':

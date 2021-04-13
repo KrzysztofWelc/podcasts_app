@@ -26,6 +26,11 @@ class RegisterSchema(Schema):
             raise ValidationError({'username': ['username already taken']})
 
 
+class ChangePwdSchema(Schema):
+    new_pwd = fields.Email(required=True)
+    old_pwd = fields.Email(required=True)
+
+
 class UserSchema(Schema):
     email = fields.Email(required=True)
     username = fields.String(required=True)

@@ -12,7 +12,7 @@ export function useAuth() {
 
 
 export function AuthProvider({children}) {
-    const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState(()=>localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null)
     const [loading, setLoading] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
@@ -61,12 +61,22 @@ export function AuthProvider({children}) {
         setLoading(false)
     }
 
-    async function signUp(username, email, password, password2) {
+    async function signUp(username, email, password, password2, file) {
+        let data = new FormData()
+
+        if(file){
+           data.append('profile_img', file)
+        }
+        data.append('username', username)
+        data.append('email', email)
+        data.append('password', password)
+        data.append('password2', password2)
         setLoading(true)
         try {
-            const res = await axios.post('/api/users/register', {
-                email,
-                username, password, password2
+            const res = await axios.post('/api/users/register', data, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
             })
             console.log(res)
             setCurrentUser(res.data.user)
@@ -95,14 +105,14 @@ export function AuthProvider({children}) {
         setLoading(false)
     }
 
-    useEffect(() => {
-        if (cookies.authToken) {
-            const user = localStorage.getItem('user')
-            if (user) {
-                setCurrentUser(JSON.parse(user))
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (cookies.authToken) {
+    //         const user = localStorage.getItem('user')
+    //         if (user) {
+    //             setCurrentUser(JSON.parse(user))
+    //         }
+    //     }
+    // }, [])
 
     return (
         <GlobalContext.Provider value={value}>

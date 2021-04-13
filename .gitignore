@@ -3,6 +3,8 @@ app/site.db
 app/test.db
 app/static/podcasts/*.mp3
 !app/static/podcasts/fixture.mp3
+app/static/avatars/*
+!app/static/avatars/default.jpg
 app/.env
 **/*.pyc
 .idea/**

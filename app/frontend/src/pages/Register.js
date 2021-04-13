@@ -8,9 +8,14 @@ export default function Register() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
+    const [file, setFile] = useState(null)
     const [errors, setErrors] = useState([])
     const {signUp} = useAuth()
     const history = useHistory()
+
+    function selectFileHandler(e) {
+        setFile(e.target.files[0])
+    }
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -20,11 +25,14 @@ export default function Register() {
         if (password2 !== password) {
             return setErrors([...errors, 'Passwords must match.'])
         }
+
+
         const err = await signUp(
             username,
             email,
             password,
             password2,
+            file
         )
 
         if(err){
@@ -68,6 +76,12 @@ export default function Register() {
                         <input value={password2} onChange={(e) => setPassword2(e.target.value)}
                                type="password" className="form-control" id="password2"
                                placeholder="password2"/>
+                    </div>
+                    <div className="custom-file mb-3">
+                        <input onChange={selectFileHandler} type="file" className="custom-file-input"
+                               id="customFileLangHTML" accept='image/jpeg, image/png'/>
+                        <label className="custom-file-label" htmlFor="customFileLangHTML"
+                               data-browse="select">{file ? file.name : 'choose podcast file'}</label>
                     </div>
                     <input type="submit" className='btn btn-primary' value="Register"/>
                 </form>
