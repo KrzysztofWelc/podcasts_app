@@ -12,7 +12,7 @@ export function useAuth() {
 
 
 export function AuthProvider({children}) {
-    const [currentUser, setCurrentUser] = useState(()=>localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null)
+    const [currentUser, setCurrentUser] = useState(() => localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null)
     const [loading, setLoading] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
@@ -33,8 +33,13 @@ export function AuthProvider({children}) {
     function setGlobalPodcast(podcast, event) {
         event.stopPropagation()
         if (podcastURL == `/api/podcasts/stream/${podcast.audio_file}`) {
+            console.log('pause')
             setIsPlaying(!isPlaying)
         } else {
+            console.log('set new url;')
+            if (isPlaying) {
+                setIsPlaying(false)
+            }
             setPodcastURL(`/api/podcasts/stream/${podcast.audio_file}`)
             setCurrentPodcast(podcast)
         }
@@ -64,8 +69,8 @@ export function AuthProvider({children}) {
     async function signUp(username, email, password, password2, file) {
         let data = new FormData()
 
-        if(file){
-           data.append('profile_img', file)
+        if (file) {
+            data.append('profile_img', file)
         }
         data.append('username', username)
         data.append('email', email)
