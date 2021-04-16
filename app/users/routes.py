@@ -6,7 +6,6 @@ from app.users.schemas import RegisterSchema, UserSchema, LoginSchema, ChangePwd
 from app.users.services import register_user, login_user, logout_user, get_user_by_id, change_password, change_profile_img
 from app.users.decorators import login_required
 from app.exceptions import OperationNotPermitted
-from app.celery_tasks.tasks import test_task
 
 users = Blueprint('users', __name__)
 
@@ -106,9 +105,3 @@ def change_avatar():
         e = str(err)
         print(e)
         return make_response(e), 500
-
-
-@users.route('/test_redis')
-def test_redis():
-    test_task.delay()
-    return make_response()
