@@ -20,8 +20,6 @@ distro==1.4.0
 Faker==8.0.0
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
-flask-celery-context==0.0.1.20040717
-Flask-Celery-Helper==1.1.0
 Flask-Migrate==2.5.3
 Flask-Script==2.0.6
 Flask-SQLAlchemy==2.4.4
