@@ -14,7 +14,7 @@ export default function App() {
         <AuthProvider>
             <Router>
                 <Navbar/>
-                <div className="container" style={{paddingTop: '5rem'}}>
+                <div className="container" style={{paddingTop: '5rem', paddingBottom: '12rem'}}>
                     <Switch>
                         <Route path='/login' component={Login}/>
                         <Route path='/register' component={Register}/>
