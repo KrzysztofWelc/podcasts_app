@@ -20,6 +20,8 @@ distro==1.4.0
 Faker==8.0.0
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
+flask-celery-context==0.0.1.20040717
+Flask-Celery-Helper==1.1.0
 Flask-Migrate==2.5.3
 Flask-Script==2.0.6
 Flask-SQLAlchemy==2.4.4
@@ -39,6 +41,7 @@ msgpack==0.6.2
 networkx==2.5.1
 packaging==20.3
 pep517==0.8.2
+Pillow==8.2.0
 progress==1.5
 prompt-toolkit==3.0.18
 Py-YAML-Fixtures==0.6.1
