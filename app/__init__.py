@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from py_yaml_fixtures.flask import PyYAMLFixtures
 from dotenv import load_dotenv
-from app.celery_utils import init_celery
+from app.celery_tasks.celery_utils import init_celery
 
 load_dotenv()
 
@@ -33,8 +33,8 @@ def create_app(config=None, **kwargs):
     bcrypt.init_app(app)
     fixtures.init_app(app)
 
-    if kwargs.get("celery"):
-        init_celery(kwargs.get("celery"), app)
+    if kwargs.get("celery_tasks"):
+        init_celery(kwargs.get("celery_tasks"), app)
 
     from app.users.routes import users
     from app.podcasts.routes import podcasts

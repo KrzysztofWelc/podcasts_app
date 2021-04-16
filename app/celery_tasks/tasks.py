@@ -1,4 +1,4 @@
-from app.celery import celery
+from app.celery_tasks.celery import celery
 from app.podcasts.models import Podcast
 
 
