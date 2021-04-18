@@ -1,8 +1,14 @@
 import unittest
 import os
 from app import create_app, db, models
+from app.scripts import _set_most_popular
 
 app = create_app()
+
+
+@app.cli.command('set_most_popular')
+def set_most_popular():
+    _set_most_popular()
 
 
 @app.cli.command('test')
@@ -30,11 +36,11 @@ def create_db():
 
 @app.cli.command('drop_db')
 def drop_db():
-    podcasts_path = os.getcwd()+'/app/static/podcasts'
+    podcasts_path = os.getcwd() + '/app/static/podcasts'
     podcasts = os.listdir(podcasts_path)
     for p in podcasts:
         if p != '.gitkeep' and p != 'fixture.mp3':
-            os.remove(podcasts_path+'/'+p)
+            os.remove(podcasts_path + '/' + p)
     db.drop_all()
 
 

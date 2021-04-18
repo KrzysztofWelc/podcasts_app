@@ -44,6 +44,7 @@ progress==1.5
 prompt-toolkit==3.0.18
 Py-YAML-Fixtures==0.6.1
 pycparser==2.20
+PyMySQL==1.0.2
 pyparsing==2.4.6
 python-dateutil==2.8.1
 python-dotenv==0.15.0
