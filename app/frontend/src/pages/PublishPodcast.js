@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "../utils/axios";
 import {useCookies} from "react-cookie";
 import {useHistory} from 'react-router-dom'
+import {useAuth} from "../contexts/GlobalContext";
 
 //TODO: inspect the problem causing podcasts to be sometimes not uploaded
 
@@ -15,6 +16,7 @@ export default function PublishPodcast() {
     const [errors, setErrors] = useState([])
     const cookies = useCookies()[0]
     const history = useHistory()
+    const {currentUser} = useAuth()
 
     function selectFileHandler(e) {
         setFile(e.target.files[0])
@@ -44,9 +46,9 @@ export default function PublishPodcast() {
                     setProgress(Math.round((100 * event.loaded) / event.total).toString(10));
                 }
             })
-            history.push('/')
+            history.push('/user/' + currentUser.id)
         } catch (e) {
-            if (e.status === 500) {
+            if (!e.response) {
                 setErrors(['server error'])
             } else {
                 const err = e.response.data
@@ -80,7 +82,8 @@ export default function PublishPodcast() {
                 </div>
             </div>}
             <div className="card-body">
-                {errors.length !== 0 && errors.map(msg => <p key={Math.random()}>{msg}</p>)}
+                {errors.length !== 0 && errors.map(msg => <div className='alert alert-danger'
+                                                               key={Math.random()}>{msg}</div>)}
                 <h2>Publish podcast</h2>
                 <form onSubmit={submitHandler}>
                     <div className="form-group">
@@ -109,7 +112,8 @@ export default function PublishPodcast() {
                         <label className="custom-file-label" htmlFor="customCOVERLangHTML"
                                data-browse="select">{cover ? cover.name : 'choose cover file'}</label>
                     </div>
-                    <input disabled={!file || !title || !description || !cover} type="submit" className='btn btn-primary' value="Prześlij"/>
+                    <input disabled={!file || !title || !description || !cover} type="submit"
+                           className='btn btn-primary' value="Prześlij"/>
                 </form>
             </div>
         </div>
