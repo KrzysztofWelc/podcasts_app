@@ -20,11 +20,12 @@ def post_podcast():
     try:
         data = AddPodcastSchema().load(request.form)
         audio = request.files.get('audio_file')
+        cover_img = request.files.get('cover_file')
         if not audio:
             raise ValidationError({'audio_file': ['audio file is required']})
         if os.path.splitext(audio.filename)[1] != '.mp3':
             raise ValidationError({'audio_file': ['audio file must be in mp3 format']})
-        p = create_podcast(data, audio, request.user)
+        p = create_podcast(data, audio, request.user, cover_img)
         res = PodcastSchema().dump(p)
         return make_response(res), 201
     except ValidationError as err:

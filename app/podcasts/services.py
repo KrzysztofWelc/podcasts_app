@@ -28,14 +28,28 @@ def find_podcast(**kwargs):
     return p
 
 
-def create_podcast(data, audio_file, user):
+def create_podcast(data, audio_file, user, cover_img=None):
     p = Podcast(**data, author=user)
     a = save_audio(audio_file)
     p.audio_file = a
+    if cover_img:
+        c = save_cover(cover_img)
+        p.cover_img = c
     db.session.add(p)
     db.session.commit()
 
     return p
+
+
+def save_cover(file):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(file.filename)
+    new_filename = random_hex + f_ext
+    file_path = os.path.join(app.root_path, 'static/podcast_covers', new_filename)
+
+    file.save(file_path)
+
+    return new_filename
 
 
 def save_audio(file):

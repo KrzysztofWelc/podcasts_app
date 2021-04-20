@@ -43,6 +43,12 @@ class TestPodcastsPackage(BaseTestCase):
         file = (io.BytesIO(bytes_header + filler), 'test.mp3')
         return file
 
+    def generate_dummy_cover_file(self):
+        bytes_header = b"\xff\xfb\xd6\x04"
+        filler = b"\x01" * 800
+        file = (io.BytesIO(bytes_header + filler), 'test.jpg')
+        return file
+
     def test_podcast_add(self):
         with self.client:
             data = dict(
@@ -51,6 +57,7 @@ class TestPodcastsPackage(BaseTestCase):
             )
             data = {key: str(value) for key, value in data.items()}
             data['audio_file'] = self.generate_dummy_podcast_file()
+            data['cover_file'] = self.generate_dummy_cover_file()
             response = self.client.post(
                 '/api/podcasts',
                 data=data,
@@ -64,6 +71,7 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             self.assertIn('.mp3', data.get('audio_file'))
             self.assertEqual(data.get('author').get('id'), str(self.user.id))
+            self.assertNotEqual(data['cover_img'], 'default.jpg')
 
     def test_get_podcast(self):
         with self.client:
