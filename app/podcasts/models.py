@@ -30,3 +30,4 @@ class View(db.Model):
 class PopularPodcast(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     podcast_id = db.Column(db.Integer, nullable=False)
+    views = db.Column(db.Integer, nullable=False)
