@@ -54,9 +54,18 @@ def get_user_podcasts(user_id, page):
     user = User.query.filter_by(id=user_id).first()
     if not user:
         raise ResourceNotFound('no such a user.')
-    podcasts = Podcast.query.filter_by(user_id=user.id).offset((page-1)*PAGE_SIZE).limit(PAGE_SIZE).all()
+    podcasts = Podcast.query.filter_by(user_id=user.id).offset((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).all()
     is_more = Podcast.query.filter_by(user_id=user.id).count() > (page - 1) * 10 + 10
 
+    return podcasts, is_more
+
+
+def get_new_podcasts(page):
+    page = int(page)
+
+    podcasts = db.session.query(Podcast).order_by(Podcast.publish_date.desc()).offset((page - 1) * PAGE_SIZE).limit(
+        PAGE_SIZE).all()
+    is_more = db.session.query(Podcast).order_by(Podcast.publish_date.desc()).count() > (page - 1) * 10 + 10
 
     return podcasts, is_more
 

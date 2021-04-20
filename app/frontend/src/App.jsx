@@ -3,6 +3,7 @@ import {HashRouter as Router, Switch, Route} from "react-router-dom";
 import {AuthProvider} from "./contexts/GlobalContext";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import MainPage from "./pages/MainPage";
 import PublishPodcast from "./pages/PublishPodcast";
 import Profile from "./pages/profile/Profile";
 import PlayerWrapper from "./logic/PlayerWrapper";
@@ -21,7 +22,7 @@ export default function App() {
                         <Route path='/publish_podcast' component={PublishPodcast}/>
                         <Route path='/user/:id' component={Profile}/>
                         <Route path='/search/:query' component={Search}/>
-                        <Route path='/'><h2>hello</h2></Route>
+                        <Route path='/' component={MainPage}/>
                     </Switch>
                 </div>
                 <PlayerWrapper />
