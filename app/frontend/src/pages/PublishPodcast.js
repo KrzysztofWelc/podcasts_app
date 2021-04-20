@@ -11,6 +11,7 @@ export default function PublishPodcast() {
     const [uploading, setUploading] = useState(false)
     const [progress, setProgress] = useState('0')
     const [file, setFile] = useState()
+    const [cover, setCover] = useState()
     const [errors, setErrors] = useState([])
     const cookies = useCookies()[0]
     const history = useHistory()
@@ -19,12 +20,17 @@ export default function PublishPodcast() {
         setFile(e.target.files[0])
     }
 
+    function selectCoverHandler(e) {
+        setCover(e.target.files[0])
+    }
+
     async function submitHandler() {
         let data = new FormData()
 
         data.append('audio_file', file)
         data.append('title', title)
         data.append('description', description)
+        data.append('cover_file', cover)
 
         setUploading(true)
 
@@ -97,7 +103,13 @@ export default function PublishPodcast() {
                         <label className="custom-file-label" htmlFor="customFileLangHTML"
                                data-browse="select">{file ? file.name : 'choose podcast file'}</label>
                     </div>
-                    <input disabled={!file || !title || !description} type="submit" className='btn btn-primary' value="Login"/>
+                    <div className="custom-file mb-3">
+                        <input onChange={selectCoverHandler} type="file" className="custom-file-input"
+                               id="customCOVERLangHTML" accept='image/jpeg, image/png'/>
+                        <label className="custom-file-label" htmlFor="customCOVERLangHTML"
+                               data-browse="select">{cover ? cover.name : 'choose cover file'}</label>
+                    </div>
+                    <input disabled={!file || !title || !description || !cover} type="submit" className='btn btn-primary' value="Prześlij"/>
                 </form>
             </div>
         </div>

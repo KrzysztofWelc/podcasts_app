@@ -5,6 +5,8 @@ app/static/podcasts/*.mp3
 !app/static/podcasts/fixture.mp3
 app/static/avatars/*
 !app/static/avatars/default.jpg
+app/static/podcast_covers/*
+!app/static/podcast_covers/default.jpg
 app/.env
 **/*.pyc
 .idea/**
