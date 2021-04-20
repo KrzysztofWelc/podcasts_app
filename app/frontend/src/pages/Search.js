@@ -2,6 +2,7 @@ import React from "react";
 import {useParams} from 'react-router-dom'
 import PaginatedList from "../logic/PaginatedList";
 import PodcastTile from "../UI/PodcastTile";
+import UserTile from "../UI/UserTile";
 
 export default function Search() {
     const {query} = useParams()
@@ -31,10 +32,11 @@ export default function Search() {
             render={({items, isMore, loading, moreHandler}) => (
                 items.length ? <div
                     className='d-flex' style={{
-                    overflowX: 'auto'
+                    overflowX: 'auto',
+                    marginTop: '1.5rem'
                 }}>
 
-                    {items.map(user => <div key={user.id}>{user.username}</div>)}
+                    {items.map(user => <UserTile key={user.id} user={user}/>)}
                     {isMore && <button onClick={moreHandler}>more</button>}
                     {loading && <div className="spinner-border" role="status">
                         <span className="sr-only">Loading...</span>
