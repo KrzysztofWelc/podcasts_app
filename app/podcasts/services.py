@@ -1,7 +1,7 @@
 import secrets, os
 from flask import current_app as app
 from app import db
-from app.podcasts.models import Podcast
+from app.podcasts.models import Podcast, PopularPodcast
 from app.users.models import User
 from app.exceptions import ResourceNotFound
 
@@ -54,8 +54,25 @@ def get_user_podcasts(user_id, page):
     user = User.query.filter_by(id=user_id).first()
     if not user:
         raise ResourceNotFound('no such a user.')
-    podcasts = Podcast.query.filter_by(user_id=user.id).offset((page-1)*PAGE_SIZE).limit(PAGE_SIZE).all()
+    podcasts = Podcast.query.filter_by(user_id=user.id).offset((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).all()
     is_more = Podcast.query.filter_by(user_id=user.id).count() > (page - 1) * 10 + 10
 
+    return podcasts, is_more
+
+
+def get_new_podcasts(page):
+    page = int(page)
+
+    podcasts = db.session.query(Podcast).order_by(Podcast.publish_date.desc()).offset((page - 1) * PAGE_SIZE).limit(
+        PAGE_SIZE).all()
+    is_more = db.session.query(Podcast).order_by(Podcast.publish_date.desc()).count() > (page - 1) * 10 + 10
 
     return podcasts, is_more
+
+
+def get_most_popular():
+    pps = PopularPodcast.query.all()
+    ids = [p.podcast_id for p in pps]
+    ps = db.session.query(Podcast).filter(Podcast.id.in_(ids))
+
+    return ps

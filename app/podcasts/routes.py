@@ -6,11 +6,10 @@ from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.users.decorators import login_required, is_allowed
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
-from app.podcasts.services import create_podcast, find_podcast, update_podcast, get_user_podcasts
+from app.podcasts.services import get_new_podcasts, get_most_popular, create_podcast, find_podcast, update_podcast, get_user_podcasts
 from app.podcasts.utils import get_chunk
 from app.exceptions import ResourceNotFound
 from app.celery_tasks.tasks import add_view_record
-
 
 podcasts = Blueprint('podcasts', __name__)
 
@@ -48,6 +47,16 @@ def get_podcast(podcast_id):
 def get_all_users_podcasts(user_id, page=1):
     try:
         p, is_more = get_user_podcasts(user_id, page)
+        response = {'items': PodcastSchema(many=True).dump(p), 'is_more': is_more}
+        return make_response(response)
+    except ResourceNotFound as err:
+        return make_response({'error': err.message}), 404
+
+
+@podcasts.route('/newest/<page>', methods=['GET'])
+def get_newest_podcasts(page=1):
+    try:
+        p, is_more = get_new_podcasts(page)
         response = {'items': PodcastSchema(many=True).dump(p), 'is_more': is_more}
         return make_response(response)
     except ResourceNotFound as err:
@@ -109,3 +118,17 @@ def stream_podcast(podcast_file):
 @podcasts.route('/image/<filename>')
 def get_podcast_image(filename):
     return send_from_directory('static/podcast_covers', filename)
+
+
+@podcasts.route('/most_popular')
+def get_most_popular_podcasts():
+    try:
+        ps = get_most_popular()
+        items = PodcastSchema(many=True).dump(ps)
+        return make_response({'items': items, 'more': False}), 200
+    except ValidationError as err:
+        return make_response(err.messages), 400
+    except SQLAlchemyError as err:
+        e = str(err)
+        print(e)
+        return make_response(e), 500
