@@ -1,7 +1,7 @@
 import secrets, os
 from flask import current_app as app
 from app import db
-from app.podcasts.models import Podcast
+from app.podcasts.models import Podcast, PopularPodcast
 from app.users.models import User
 from app.exceptions import ResourceNotFound
 
@@ -59,3 +59,11 @@ def get_user_podcasts(user_id, page):
 
 
     return podcasts, is_more
+
+
+def get_most_popular():
+    pps = PopularPodcast.query.all()
+    ids = [p.podcast_id for p in pps]
+    ps = db.session.query(Podcast).filter(Podcast.id.in_(ids))
+
+    return ps

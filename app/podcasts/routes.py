@@ -6,11 +6,10 @@ from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.users.decorators import login_required, is_allowed
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
-from app.podcasts.services import create_podcast, find_podcast, update_podcast, get_user_podcasts
+from app.podcasts.services import get_most_popular, create_podcast, find_podcast, update_podcast, get_user_podcasts
 from app.podcasts.utils import get_chunk
 from app.exceptions import ResourceNotFound
 from app.celery_tasks.tasks import add_view_record
-
 
 podcasts = Blueprint('podcasts', __name__)
 
@@ -109,3 +108,17 @@ def stream_podcast(podcast_file):
 @podcasts.route('/image/<filename>')
 def get_podcast_image(filename):
     return send_from_directory('static/podcast_covers', filename)
+
+
+@podcasts.route('/most_popular')
+def get_most_popular_podcasts():
+    try:
+        ps = get_most_popular()
+        items = PodcastSchema(many=True).dump(ps)
+        return make_response({'items': items, 'more': False}), 200
+    except ValidationError as err:
+        return make_response(err.messages), 400
+    except SQLAlchemyError as err:
+        e = str(err)
+        print(e)
+        return make_response(e), 500
