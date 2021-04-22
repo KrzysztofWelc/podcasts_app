@@ -31840,6 +31840,10 @@ body{
   box-sizing: border-box;
 }
 
+.max-h-7-10{
+  max-height: 70vh;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
