@@ -41,6 +41,18 @@ def drop_db():
     for p in podcasts:
         if p != '.gitkeep' and p != 'fixture.mp3':
             os.remove(podcasts_path + '/' + p)
+
+    avatars_path = os.getcwd() + '/app/static/avatars'
+    podcasts = os.listdir(avatars_path)
+    for p in podcasts:
+        if p != '.gitkeep' and p != 'default.jpg':
+            os.remove(avatars_path + '/' + p)
+
+    covers_path = os.getcwd() + '/app/static/podcast_covers'
+    podcasts = os.listdir(covers_path)
+    for p in podcasts:
+        if p != '.gitkeep' and p != 'default.jpg':
+            os.remove(covers_path + '/' + p)
     db.drop_all()
 
 
