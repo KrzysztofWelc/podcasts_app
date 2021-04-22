@@ -11,12 +11,11 @@ import Navbar from "./UI/Navbar";
 import Search from "./pages/Search";
 
 export default function App() {
-    console.log(process.env.BASE_URL)
     return (
         <AuthProvider>
             <Router>
                 <Navbar/>
-                <div className="container" style={{paddingTop: '5rem', paddingBottom: '12rem'}}>
+                <div className="w-9/12 m-auto pb-32 pt-8">
                     <Switch>
                         <Route path='/login' component={Login}/>
                         <Route path='/register' component={Register}/>
