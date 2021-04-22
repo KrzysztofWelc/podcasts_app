@@ -30,7 +30,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
         <div className='p-4 border-b border-white'>
             <a
                 onClick={e => goToAuthorProfileHandler(e, author.id)}
-                className='font-lg mr-4'
+                className='font-lg mr-4 cursor-pointer'
             >
                 {author.username}
             </a>
@@ -50,7 +50,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
 
                     </form>
                 )}
-                {currentUser.id == author.id && (<div className='flex-1'>
+                {currentUser && currentUser.id == author.id && (<div className='flex-1'>
                     <button onClick={() => setEditMode(!isEditMode)} className="btn mr-3">
                         <img className='h-6' src='/assets/edit.svg' alt="edit icon"/>
                     </button>

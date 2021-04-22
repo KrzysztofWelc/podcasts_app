@@ -2,31 +2,50 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {useAuth} from "../contexts/GlobalContext";
 import {useHistory} from 'react-router-dom'
+import {motion} from "framer-motion";
 import SearchInput from "../logic/SearchInput";
+import Backdrop from "./Backdrop";
 
 export default function Navbar() {
     const {currentUser, logOut} = useAuth()
     const history = useHistory()
+    const [isMobile, setisMobile] = useState(window.matchMedia('(max-width: 640px)').matches)
+    const [isNavbarActive, setIsNavbarActive] = useState(false)
 
-    async function handleLogout(){
+    async function handleLogout() {
         await logOut()
         history.push('/')
     }
 
+    const updateWidthAndHeight = () => {
+        const mt = window.matchMedia('(max-width: 640px)').matches
+        if(mt != isMobile){
+            setisMobile(mt)
+        }
+    };
+
+    React.useEffect(() => {
+        window.addEventListener("resize", updateWidthAndHeight);
+        return () => window.removeEventListener("resize", updateWidthAndHeight);
+    });
 
     return (
-        <nav className="fixed-top navbar navbar-expand-sm navbar-light bg-light">
-            <a className="navbar-brand" href="#">Navbar</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav">
+        <nav className="fixed flex items-center inset-x-0 top-0 px-6 py-3 justify-between w-full bg-green-500">
+            <Link to='/'><h1 className='text-3xl text-white'>Podcasts</h1></Link>
+            {isMobile && <button onClick={() => setIsNavbarActive(true)}>menu</button>}
+            {isNavbarActive && <Backdrop clickAction={() => setIsNavbarActive(false)}/>}
+            <motion.div
+                className={`items-center flex 
+                ${isMobile && 'border-box py-4 px-2 bg-gray-500 fixed inset-y-0 right-0 w-10/12 h-screen z-30 flex flex-col -right-full'}
+                `}
+                animate={{x: isNavbarActive ? '-120%' : 0}}
+                transition={{
+                    ease: "easeOut"
+                }}
+            >
+                <SearchInput/>
+                <ul className="flex items-center">
                     {currentUser ? <>
-                        <li className="nav-item active">
-                            <Link className="nav-link" to="#">Home</Link>
-                        </li>
                         <li className="nav-item active">
                             <Link className="nav-link" to={`/user/${currentUser.id}`}>{currentUser.username}</Link>
                         </li>
@@ -34,7 +53,7 @@ export default function Navbar() {
                             <Link className="nav-link" to="/publish_podcast">Publish</Link>
                         </li>
                         <li className="nav-item active">
-                            <button onClick={handleLogout} className="nav-link btn" to="#">Log out</button>
+                            <button onClick={handleLogout} className="nav-link">Log out</button>
                         </li>
                     </> : <>
                         <li className="nav-item active">
@@ -45,8 +64,8 @@ export default function Navbar() {
                         </li>
                     </>}
                 </ul>
-                <SearchInput/>
-            </div>
+
+            </motion.div>
         </nav>
     )
 }

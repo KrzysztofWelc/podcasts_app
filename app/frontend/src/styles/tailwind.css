@@ -25,3 +25,7 @@ body{
 .alert-danger{
     @apply border-red-500 bg-red-200 text-red-500 p-4 rounded-md
 }
+
+.nav-link{
+    @apply text-white text-lg border-0 mx-2 font-semibold
+}
