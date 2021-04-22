@@ -11,6 +11,7 @@ import Navbar from "./UI/Navbar";
 import Search from "./pages/Search";
 
 export default function App() {
+    console.log(process.env.BASE_URL)
     return (
         <AuthProvider>
             <Router>

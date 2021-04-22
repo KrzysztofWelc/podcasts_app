@@ -20,6 +20,7 @@ export function AuthProvider({children}) {
     const [previewedPodcast, setPreviewedPodcast] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
 
+    console.log(process.env.BASE_URL, axios.baseURL)
 
     const value = {
         currentUser,
