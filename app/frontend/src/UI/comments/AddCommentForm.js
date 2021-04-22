@@ -17,16 +17,19 @@ export default function AddCommentSection({addComment}) {
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <form
+            className='mt-4'
+            onSubmit={submitHandler}>
             <div className="form-group">
                 <label htmlFor="comment-input">Comment</label>
-                <textarea value={comment} onChange={(e) => setComment(e.target.value)} className="form-control"
+                <textarea value={comment} onChange={(e) => setComment(e.target.value)}
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                           id="comment-input" rows="3"/>
             </div>
             {errors.length ? errors.map(err => <div key={Math.random()}
-                                                    className="alert alert-danger">{err}</div>) : null}
+                                                    className="alert-danger mb-3">{err}</div>) : null}
 
-            <button type="submit" className="btn btn-success">comment</button>
+            <button type="submit" className="btn">comment</button>
         </form>
     )
 }

@@ -17,7 +17,7 @@ export default function PodcastInfo() {
             <Backdrop clickAction={() => setPreviewedPodcast(null)}/>
             <div
                 // style={{position: "fixed", bottom: 0}}
-                className='border-box max-h-7-10 z-40 pb-32 pt-4 px-3 overflow-y-auto fixed  inset-x-0 bottom-0 bg-gray-800 text-white'
+                className='border-box max-h-7-10 z-40 pb-32 pt-4 px-6 overflow-y-auto fixed  inset-x-0 bottom-0 bg-gray-800 text-white'
             >
                 <button
                     onClick={() => setPreviewedPodcast(null)}
