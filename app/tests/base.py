@@ -14,7 +14,8 @@ class BaseTestCase(TestCase):
     def setUp(self):
         db.create_all()
         ip = token_hex(8)
-        u = User(email='martin{}@mail.com'.format(ip), username='testuser{}'.format(ip), password='Test123%')
+        self.plain_pwd = 'Test123'
+        u = User(email='martin{}@mail.com'.format(ip), username='testuser{}'.format(ip), password=self.plain_pwd)
         db.session.add(u)
         db.session.commit()
         self.user = u

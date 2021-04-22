@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import {useAuth} from "../../contexts/GlobalContext";
+import {useHistory} from "react-router-dom";
 
 export default function Comment({comment, editCommentHandler, deleteCommentHandler}) {
     const {text, created_at, author} = comment
     const [isEditMode, setEditMode] = useState(false)
     const [editText, setEditText] = useState(text)
-    const {currentUser} = useAuth()
+    const {currentUser, setPreviewedPodcast} = useAuth()
+    const history = useHistory()
 
     function editSubmitHandler(e) {
         e.preventDefault()
@@ -13,9 +15,15 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
         setEditMode(false)
     }
 
-    function deleteHandler(e){
+    function deleteHandler(e) {
         e.preventDefault()
         deleteCommentHandler(comment.id)
+    }
+
+    function goToAuthorProfileHandler(e, author_id){
+        e.preventDefault()
+        setPreviewedPodcast(null)
+        history.push('/user/' + author_id)
     }
 
     return (
@@ -23,10 +31,10 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
             padding: '1rem',
             borderBottom: '1px solid white'
         }}>
-            <span style={{
+            <a onClick={e=>goToAuthorProfileHandler(e, author.id)} style={{
                 fontSize: '20px',
                 marginRight: '1rem'
-            }}>{author.username}</span><span><small>{created_at}</small></span>
+            }}>{author.username}</a><span><small>{created_at}</small></span>
             <div className='d-flex align-items-center'>
                 {!isEditMode ? (<p style={{width: '90%'}}>{text}</p>) : (
                     <form onSubmit={editSubmitHandler} style={{width: '90%'}}>

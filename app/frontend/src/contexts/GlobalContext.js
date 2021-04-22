@@ -12,7 +12,7 @@ export function useAuth() {
 
 
 export function AuthProvider({children}) {
-    const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState(() => localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null)
     const [loading, setLoading] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(/*['authToken']*/);
     const [podcastURL, setPodcastURL] = useState("")
@@ -33,10 +33,15 @@ export function AuthProvider({children}) {
     //use this to start playing a podcast
     function setGlobalPodcast(podcast, event) {
         event.stopPropagation()
-        if (podcastURL == `/podcasts/stream/${podcast.audio_file}`) {
+        if (podcastURL == `/api/podcasts/stream/${podcast.audio_file}`) {
+            console.log('pause')
             setIsPlaying(!isPlaying)
         } else {
-            setPodcastURL(`/podcasts/stream/${podcast.audio_file}`)
+            console.log('set new url;')
+            if (isPlaying) {
+                setIsPlaying(false)
+            }
+            setPodcastURL(`/api/podcasts/stream/${podcast.audio_file}`)
             setCurrentPodcast(podcast)
         }
 
@@ -46,7 +51,7 @@ export function AuthProvider({children}) {
     async function logIn(email, password) {
         setLoading(true)
         try {
-            const res = await axios.post('/users/login', {
+            const res = await axios.post('/api/users/login', {
                 email, password
             })
             setCurrentUser(res.data.user)
@@ -62,12 +67,22 @@ export function AuthProvider({children}) {
         setLoading(false)
     }
 
-    async function signUp(username, email, password, password2) {
+    async function signUp(username, email, password, password2, file) {
+        let data = new FormData()
+
+        if (file) {
+            data.append('profile_img', file)
+        }
+        data.append('username', username)
+        data.append('email', email)
+        data.append('password', password)
+        data.append('password2', password2)
         setLoading(true)
         try {
-            const res = await axios.post('/users/register', {
-                email,
-                username, password, password2
+            const res = await axios.post('/api/users/register', data, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
             })
             console.log(res)
             setCurrentUser(res.data.user)
@@ -86,7 +101,7 @@ export function AuthProvider({children}) {
     async function logOut() {
         setLoading(true)
         try {
-            await axios.post('/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
+            await axios.post('/api/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
             removeCookie('authToken')
             localStorage.removeItem('user')
             setCurrentUser(null)
@@ -96,14 +111,14 @@ export function AuthProvider({children}) {
         setLoading(false)
     }
 
-    useEffect(() => {
-        if (cookies.authToken) {
-            const user = localStorage.getItem('user')
-            if (user) {
-                setCurrentUser(JSON.parse(user))
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (cookies.authToken) {
+    //         const user = localStorage.getItem('user')
+    //         if (user) {
+    //             setCurrentUser(JSON.parse(user))
+    //         }
+    //     }
+    // }, [])
 
     return (
         <GlobalContext.Provider value={value}>

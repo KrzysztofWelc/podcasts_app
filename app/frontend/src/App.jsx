@@ -3,10 +3,12 @@ import {HashRouter as Router, Switch, Route} from "react-router-dom";
 import {AuthProvider} from "./contexts/GlobalContext";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import MainPage from "./pages/MainPage";
 import PublishPodcast from "./pages/PublishPodcast";
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile";
 import PlayerWrapper from "./logic/PlayerWrapper";
 import Navbar from "./UI/Navbar";
+import Search from "./pages/Search";
 
 export default function App() {
     console.log(process.env.BASE_URL)
@@ -14,13 +16,14 @@ export default function App() {
         <AuthProvider>
             <Router>
                 <Navbar/>
-                <div className="container pt-5">
+                <div className="container" style={{paddingTop: '5rem', paddingBottom: '12rem'}}>
                     <Switch>
                         <Route path='/login' component={Login}/>
                         <Route path='/register' component={Register}/>
                         <Route path='/publish_podcast' component={PublishPodcast}/>
                         <Route path='/user/:id' component={Profile}/>
-                        <Route path='/'><h2>hello</h2></Route>
+                        <Route path='/search/:query' component={Search}/>
+                        <Route path='/' component={MainPage}/>
                     </Switch>
                 </div>
                 <PlayerWrapper />

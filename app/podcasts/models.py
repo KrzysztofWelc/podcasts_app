@@ -1,5 +1,5 @@
 from app import db
-from datetime import datetime
+from datetime import date
 
 
 class Podcast(db.Model):
@@ -11,9 +11,23 @@ class Podcast(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     cover_img = db.Column(db.String(20), nullable=False, default='default.jpg')
     comments = db.relationship('Comment', backref='podcast', lazy='dynamic')
+    views = db.relationship('View',  backref='podcast', lazy='dynamic')
 
-    def __init__(self, title, description, author):
+    def __init__(self, title, description, author, audio_file=None):
         self.title = title
         self.description = description
-        self.publish_date = datetime.now().strftime("%m/%d/%Y")
+        self.publish_date = date.today()
         self.author = author
+        self.audio_file = audio_file
+
+
+class View(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.String(20), default=date.today)
+    podcast_id = db.Column(db.Integer, db.ForeignKey('podcast.id'), nullable=False)
+
+
+class PopularPodcast(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    podcast_id = db.Column(db.Integer, nullable=False)
+    views = db.Column(db.Integer, nullable=False)

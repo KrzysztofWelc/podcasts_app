@@ -8,18 +8,17 @@ export default function Player() {
     const audio = useRef()
 
     useEffect(() => {
-        if (!audio.current.paused) {
-            audio.current.pause()
-        }
         audio.current.src = podcastURL
         audio.current.load()
+        audio.current.currentTime = 0
+        setCurrentPromile(0)
         setIsPlaying(true)
     }, [podcastURL])
 
-    useEffect(()=>{
-        if(isPlaying){
+    useEffect(() => {
+        if (isPlaying) {
             audio.current.play()
-        }else{
+        } else {
             audio.current.pause()
         }
     }, [isPlaying])
@@ -69,7 +68,6 @@ export default function Player() {
                 zIndex: 102,
                 textAlign: 'center',
             }}>
-            {/*TODO: debounce timeUpdate event*/}
             <audio
                 onTimeUpdate={progressHandler}
                 onEnded={() => setIsPlaying(false)}

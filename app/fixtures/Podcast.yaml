@@ -1,0 +1,7 @@
+{% for i in range(0, 120) %}
+podcast{{ i }}:
+  title: test{{ i }}
+  description: {{ faker.sentence(nb_words=40) }}
+  audio_file: fixture.mp3
+  author: {{ random_model('User') }}
+{% endfor %}

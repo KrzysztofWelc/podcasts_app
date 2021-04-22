@@ -13,7 +13,7 @@ export default function CommentsSection({podcast}) {
     async function addComment(text) {
         try {
             const {data: comment} = await axios.post(
-                '/comments',
+                '/api/comments',
                 {
                     text,
                     podcast_id: podcast.id
@@ -32,7 +32,7 @@ export default function CommentsSection({podcast}) {
     async function editCommentHandler(text, commentId) {
         try {
             const {data: comment} = await axios.put(
-                '/comments',
+                '/api/comments',
                 {
                     text,
                     comment_id: commentId
@@ -58,7 +58,7 @@ export default function CommentsSection({podcast}) {
     async function deleteCommentHandler(commentId) {
         try {
             await axios.delete(
-                '/comments',
+                '/api/comments',
                 {
                     data: {
                         comment_id: commentId
@@ -78,7 +78,7 @@ export default function CommentsSection({podcast}) {
         const fetchComments = async () => {
             try {
                 if (isMore) {
-                    const response = await axios.get(`/comments/${podcast.id}/${page}`)
+                    const response = await axios.get(`/api/comments/${podcast.id}/${page}`)
                     const {comments: rComs, is_more: rIsMore} = response.data;
                     setComments(comments.concat(rComs))
                     setIsMore(rIsMore)
