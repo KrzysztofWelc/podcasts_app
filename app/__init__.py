@@ -26,9 +26,9 @@ def create_app(config=None, **kwargs):
 
     app.config.from_object(app_settings)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    app.config['FLASK_MODELS_MODULE'] = 'app.models'  # where all of your model classes are imported
-    app.config['PY_YAML_FIXTURES_DIR'] = 'app/fixtures'  # where your fixtures file(s) live
-    app.config['PY_YAML_FIXTURES_COMMAND_NAME'] = 'import-fixtures'  # the name of the CLI command
+    # app.config['FLASK_MODELS_MODULE'] = 'app.models'  # where all of your model classes are imported
+    # app.config['PY_YAML_FIXTURES_DIR'] = 'app/fixtures'  # where your fixtures file(s) live
+    # app.config['PY_YAML_FIXTURES_COMMAND_NAME'] = 'import-fixtures'  # the name of the CLI command
     db.init_app(app)
     bcrypt.init_app(app)
     fixtures.init_app(app)
