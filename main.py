@@ -1,7 +1,8 @@
 import unittest
 import os
-from app import create_app, db, models
-from app.scripts import _set_most_popular
+from app import create_app, db
+from application.models import *
+from application.scripts import _set_most_popular
 
 app = create_app()
 
@@ -13,7 +14,7 @@ def set_most_popular():
 
 @app.cli.command('test')
 def test():
-    tests = unittest.TestLoader().discover('app/tests/endpoints')
+    tests = unittest.TestLoader().discover('application/tests/endpoints')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
@@ -22,7 +23,7 @@ def test():
 
 @app.cli.command('test_e2e')
 def test():
-    tests = unittest.TestLoader().discover('app/tests/e2e')
+    tests = unittest.TestLoader().discover('application/tests/e2e')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
@@ -36,24 +37,25 @@ def create_db():
 
 @app.cli.command('drop_db')
 def drop_db():
-    podcasts_path = os.getcwd() + '/app/static/podcasts'
+    podcasts_path = os.getcwd() + '/application/static/podcasts'
     podcasts = os.listdir(podcasts_path)
     for p in podcasts:
         if p != '.gitkeep' and p != 'fixture.mp3':
             os.remove(podcasts_path + '/' + p)
 
-    avatars_path = os.getcwd() + '/app/static/avatars'
+    avatars_path = os.getcwd() + '/application/static/avatars'
     podcasts = os.listdir(avatars_path)
     for p in podcasts:
         if p != '.gitkeep' and p != 'default.jpg':
             os.remove(avatars_path + '/' + p)
 
-    covers_path = os.getcwd() + '/app/static/podcast_covers'
+    covers_path = os.getcwd() + '/application/static/podcast_covers'
     podcasts = os.listdir(covers_path)
     for p in podcasts:
         if p != '.gitkeep' and p != 'default.jpg':
             os.remove(covers_path + '/' + p)
     db.drop_all()
+
 
 
 if __name__ == '__main__':
