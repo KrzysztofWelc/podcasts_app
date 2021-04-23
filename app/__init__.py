@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from py_yaml_fixtures.flask import PyYAMLFixtures
+# from py_yaml_fixtures.flask import PyYAMLFixtures
 from dotenv import load_dotenv
 from app.celery_tasks.celery_utils import init_celery
 import app.env as conf
@@ -10,7 +10,7 @@ load_dotenv()
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
-fixtures = PyYAMLFixtures()
+# fixtures = PyYAMLFixtures()
 
 
 def create_app(config=None, **kwargs):
@@ -28,7 +28,7 @@ def create_app(config=None, **kwargs):
     # app.config['PY_YAML_FIXTURES_COMMAND_NAME'] = 'import-fixtures'  # the name of the CLI command
     db.init_app(app)
     bcrypt.init_app(app)
-    fixtures.init_app(app)
+    # fixtures.init_app(app)
 
     if kwargs.get("celery_tasks"):
         init_celery(kwargs.get("celery_tasks"), app)
