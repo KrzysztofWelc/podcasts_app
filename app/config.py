@@ -1,14 +1,12 @@
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
+import app.env as conf
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class BaseConfig:
-    SECRET_KEY = os.getenv('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SECRET_KEY = conf.SECRET_KEY
+    SQLALCHEMY_DATABASE_URI = conf.SQLALCHEMY_DATABASE_URI
 
 
 class TestingConfig(BaseConfig):
