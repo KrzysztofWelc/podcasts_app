@@ -1,5 +1,7 @@
 import os
 import re
+import logging
+import sys
 
 from flask import Blueprint, request, make_response, Response, send_from_directory, current_app as app
 from marshmallow import ValidationError
@@ -11,6 +13,8 @@ from app.podcasts.services import get_new_podcasts, get_most_popular, create_pod
 from app.podcasts.utils import get_chunk
 from app.exceptions import ResourceNotFound
 from app.celery_tasks.tasks import add_view_record
+
+logging.basicConfig(stream=sys.stderr)
 
 podcasts = Blueprint('podcasts', __name__)
 
@@ -119,6 +123,8 @@ def stream_podcast(podcast_file):
 @podcasts.route('/image/<filename>')
 def get_podcast_image(filename):
     covers_dir = os.path.join(app.root_path, 'static/podcast_covers')
+    logging.info(covers_dir)
+    logging.info(os.listdir(covers_dir))
     return send_from_directory(covers_dir, filename)
 
 
