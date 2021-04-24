@@ -64,7 +64,7 @@ def get_user_data(user_id):
 
 @users.route('/avatar/<filename>')
 def get_podcast_image(filename):
-    avatars_dir = os.path.join(app.root_path, 'static/avatars')
+    avatars_dir = os.path.abspath(os.path.join(app.root_path, 'static/avatars'))
     return send_from_directory(avatars_dir, filename)
 
 

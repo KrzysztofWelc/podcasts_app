@@ -122,9 +122,7 @@ def stream_podcast(podcast_file):
 
 @podcasts.route('/image/<filename>')
 def get_podcast_image(filename):
-    covers_dir = os.path.join(app.root_path, 'static/podcast_covers')
-    logging.info(covers_dir)
-    logging.info(os.listdir(covers_dir))
+    covers_dir = os.path.abspath(os.path.join(app.root_path, 'static/podcast_covers'))
     return send_from_directory(covers_dir, filename)
 
 
