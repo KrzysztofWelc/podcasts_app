@@ -40,7 +40,7 @@ export default function PublishPodcast() {
             await axios.post('/api/podcasts', data, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    auth_token: `Bearer: ${cookies.authToken}`
+                    authToken: `Bearer: ${cookies.authToken}`
                 },
                 onUploadProgress: (event) => {
                     setProgress(Math.round((100 * event.loaded) / event.total).toString(10));

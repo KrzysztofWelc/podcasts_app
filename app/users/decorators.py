@@ -7,7 +7,7 @@ def login_required(f):
     @wraps(f)
     def dec(*args, **kwargs):
 
-        auth_header = request.headers.get('auth_token', '')
+        auth_header = request.headers.get('authToken', '')
         if auth_header:
             try:
                 token = auth_header.split(' ')[1]
@@ -27,25 +27,3 @@ def login_required(f):
     return dec
 
 
-# has to be used after @login_required
-# TODO: fix is_allowed decorator
-def is_allowed(x=None):
-    print(x)
-    def decorator(f):
-
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            if not request.token:
-                return make_response({'message': 'you are not authenticated'}), 401
-
-            return f(*args, **kwargs)
-
-        return wrapper
-
-    return decorator
-# def is_allowed(func):
-#     @wraps(func)
-#     def wrapper(podcast_id, *args, **kwargs):
-#         print(podcast_id)
-#         return func(*args, **kwargs)
-#     return wrapper

@@ -44,7 +44,7 @@ export default function Profile() {
             <nav>
                 <ul>
 
-                    {currentUser.id == id && <>
+                    {currentUser && currentUser.id == id && <>
                         <li><Link to={url}>podcasty</Link>
                         </li><li><Link to={`${url}/edit_data`}>dane</Link></li>
                     </>

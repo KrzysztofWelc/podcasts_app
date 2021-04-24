@@ -116,7 +116,7 @@ class TestUserModel(BaseTestCase):
             response = self.client.post(
                 '/api/users/logout',
                 headers=dict(
-                    auth_token='Bearer ' + token
+                    authToken='Bearer ' + token
                 ),
                 content_type='application/json'
             )
@@ -155,7 +155,7 @@ class TestUserModel(BaseTestCase):
                     'old_pwd': self.plain_pwd
                 }),
                 headers=dict(
-                    auth_token='Bearer ' + token
+                    authToken='Bearer ' + token
                 ),
                 content_type='application/json'
             )
@@ -190,7 +190,7 @@ class TestUserModel(BaseTestCase):
                     'old_pwd': '2sdsa#'
                 }),
                 headers=dict(
-                    auth_token='Bearer ' + token
+                    authToken='Bearer ' + token
                 ),
                 content_type='application/json'
             )
@@ -207,7 +207,7 @@ class TestUserModel(BaseTestCase):
                 data=data,
                 content_type='multipart/form-data',
                 headers=dict(
-                    auth_token='Bearer ' + self.user.generate_auth_token()
+                    authToken='Bearer ' + self.user.generate_auth_token()
                 ),
             )
 

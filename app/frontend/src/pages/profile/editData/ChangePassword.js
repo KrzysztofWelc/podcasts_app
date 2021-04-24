@@ -33,7 +33,7 @@ export default function ChangePassword() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        auth_token: `Bearer: ${cookies.authToken}`
+                        authToken: `Bearer: ${cookies.authToken}`
                     },
                 }
             )

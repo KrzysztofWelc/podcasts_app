@@ -63,7 +63,7 @@ class TestPodcastsPackage(BaseTestCase):
                 data=data,
                 content_type='multipart/form-data',
                 headers=dict(
-                    auth_token='Bearer ' + self.user.generate_auth_token()
+                    authToken='Bearer ' + self.user.generate_auth_token()
                 ),
             )
             self.assertEqual(response.status_code, 201)
@@ -86,7 +86,7 @@ class TestPodcastsPackage(BaseTestCase):
                 data=data,
                 content_type='multipart/form-data',
                 headers=dict(
-                    auth_token='Bearer ' + self.user.generate_auth_token()
+                    authToken='Bearer ' + self.user.generate_auth_token()
                 ),
             )
             data = json.loads(response.data.decode())
@@ -158,7 +158,7 @@ class TestPodcastsPackage(BaseTestCase):
     #         data=data,
     #         content_type='multipart/form-data',
     #         headers=dict(
-    #             auth_token='Bearer ' + self.user.generate_auth_token()
+    #             authToken='Bearer ' + self.user.generate_auth_token()
     #         ),
     #     )
     #     data = json.loads(response.data.decode())
@@ -167,7 +167,7 @@ class TestPodcastsPackage(BaseTestCase):
     #     patch_res = self.client.patch(
     #         '/podcasts/' + str(data['id']),
     #         headers=dict(
-    #             auth_token='Bearer ' + self.user.generate_auth_token()
+    #             authToken='Bearer ' + self.user.generate_auth_token()
     #         ),
     #         data=json.dumps(
     #             {'title': 'updated'}
@@ -192,7 +192,7 @@ class TestPodcastsPackage(BaseTestCase):
     #         data=data,
     #         content_type='multipart/form-data',
     #         headers=dict(
-    #             auth_token='Bearer ' + self.user.generate_auth_token()
+    #             authToken='Bearer ' + self.user.generate_auth_token()
     #         ),
     #     )
     #     data = json.loads(response.data.decode())
@@ -205,7 +205,7 @@ class TestPodcastsPackage(BaseTestCase):
     #     patch_res = self.client.patch(
     #         '/podcasts/' + str(data['id']),
     #         headers=dict(
-    #             auth_token='Bearer ' + user.generate_auth_token()
+    #             authToken='Bearer ' + user.generate_auth_token()
     #         ),
     #         data=json.dumps(
     #             {'title': 'updated'}

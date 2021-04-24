@@ -20,7 +20,7 @@ export default function CommentsSection({podcast}) {
                 },
                 {
                     headers: {
-                        auth_token: `Bearer: ${cookies.authToken}`
+                        authToken: `Bearer: ${cookies.authToken}`
                     }
                 })
             setComments([comment].concat(comments))
@@ -39,7 +39,7 @@ export default function CommentsSection({podcast}) {
                 },
                 {
                     headers: {
-                        auth_token: `Bearer: ${cookies.authToken}`
+                        authToken: `Bearer: ${cookies.authToken}`
                     }
                 })
             const updatedComments = [...comments].map(c => {
@@ -64,7 +64,7 @@ export default function CommentsSection({podcast}) {
                         comment_id: commentId
                     },
                     headers: {
-                        auth_token: `Bearer: ${cookies.authToken}`
+                        authToken: `Bearer: ${cookies.authToken}`
                     }
                 })
             const updatedComments = [...comments].filter(c => c.id !== commentId)
