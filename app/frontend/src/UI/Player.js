@@ -80,7 +80,7 @@ export default function Player() {
                         backgroundColor: 'transparent'
                     }}
                 className='mb-3'>
-                <img style={{height: '1.5rem'}} src={`/assets/${isPlaying ? 'pause' : 'play'}.svg`} alt="play"/>
+                <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/${isPlaying ? 'pause' : 'play'}.svg`} alt="play"/>
             </button>
             <div style={
                 {

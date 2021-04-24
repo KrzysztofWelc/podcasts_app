@@ -15,7 +15,7 @@ export default function PodcastTile({podcast}) {
 
     return (
         <div onClick={() => setPreviewedPodcast(podcast)} className="card" style={{minWidth: '18rem'}}>
-            <img className="card-img-top" src={`/api/podcasts/image/${podcast.cover_img}`} alt="Card image cap"/>
+            <img className="card-img-top" src={`${process.env.BASE_URL}api/podcasts/image/${podcast.cover_img}`} alt="Card image cap"/>
             <div className="card-body">
                 <h5 className="card-title">{podcast.title}</h5>
                 <p onClick={e=>goToAuthorProfileHandler(e, podcast.author.id)} className="card-text">{podcast.author.username}</p>

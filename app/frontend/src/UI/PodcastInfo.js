@@ -28,7 +28,7 @@ export default function PodcastInfo() {
                 <button
                     onClick={() => setPreviewedPodcast(null)}
                     style={{border: 0, backgroundColor: "transparent", position: "absolute", top: '1rem', right: '1rem'}}>
-                    <img src="/static/assets/close.svg" alt="x"/>
+                    <img src={`${process.env.BASE_URL}static/assets/close.svg`} alt="x"/>
                 </button>
                 <h2>{previewedPodcast.title}</h2>
                 <p>{previewedPodcast.description}</p>

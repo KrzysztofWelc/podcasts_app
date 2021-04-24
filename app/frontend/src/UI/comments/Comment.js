@@ -47,10 +47,10 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
                 )}
                 {currentUser.id == author.id && (<div className='d-flex'>
                     <button onClick={() => setEditMode(!isEditMode)} className="btn btn-success mr-3">
-                        <img style={{height: '1.5rem'}} src='/assets/edit.svg' alt="edit icon"/>
+                        <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/edit.svg`} alt="edit icon"/>
                     </button>
                     <button onClick={deleteHandler} className="btn btn-danger">
-                        <img style={{height: '1.5rem'}} src='/assets/delete.svg' alt="edit icon"/>
+                        <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/delete.svg`} alt="edit icon"/>
                     </button>
                 </div>)}
             </div>
