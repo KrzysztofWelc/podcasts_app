@@ -20,37 +20,42 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
         deleteCommentHandler(comment.id)
     }
 
-    function goToAuthorProfileHandler(e, author_id){
+    function goToAuthorProfileHandler(e, author_id) {
         e.preventDefault()
         setPreviewedPodcast(null)
         history.push('/user/' + author_id)
     }
 
     return (
-        <div style={{
-            padding: '1rem',
-            borderBottom: '1px solid white'
-        }}>
-            <a onClick={e=>goToAuthorProfileHandler(e, author.id)} style={{
-                fontSize: '20px',
-                marginRight: '1rem'
-            }}>{author.username}</a><span><small>{created_at}</small></span>
-            <div className='d-flex align-items-center'>
-                {!isEditMode ? (<p style={{width: '90%'}}>{text}</p>) : (
-                    <form onSubmit={editSubmitHandler} style={{width: '90%'}}>
-                        <textarea value={editText} onChange={(e) => setEditText(e.target.value)}/>
+        <div className='p-4 border-b border-white'>
+            <a
+                onClick={e => goToAuthorProfileHandler(e, author.id)}
+                className='font-lg mr-4 cursor-pointer'
+            >
+                {author.username}
+            </a>
+            <span><small>{created_at}</small></span>
+            <div className='flex align-center'>
+                {!isEditMode ?
+                    (<p className='w-10/12 p-1'>{text}</p>)
+                    :
+                    (
+                    <form onSubmit={editSubmitHandler} className='w-11/12'>
+                        <textarea
+                            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'
+                            value={editText} onChange={(e) => setEditText(e.target.value)}/>
                         <div>
-                            <button type="submit" className="btn btn-success">save</button>
+                            <button type="submit" className="btn">save</button>
                         </div>
 
                     </form>
                 )}
-                {currentUser.id == author.id && (<div className='d-flex'>
-                    <button onClick={() => setEditMode(!isEditMode)} className="btn btn-success mr-3">
-                        <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/edit.svg`} alt="edit icon"/>
+                {currentUser.id == author.id && (<div className='flex'>
+                    <button onClick={() => setEditMode(!isEditMode)} className="btn mr-3">
+                        <img className='h-6' src={`${process.env.BASE_URL}assets/edit.svg`} alt="edit icon"/>
                     </button>
                     <button onClick={deleteHandler} className="btn btn-danger">
-                        <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/delete.svg`} alt="edit icon"/>
+                        <img className='h-6' src={`${process.env.BASE_URL}assets/delete.svg`} alt="edit icon"/>
                     </button>
                 </div>)}
             </div>

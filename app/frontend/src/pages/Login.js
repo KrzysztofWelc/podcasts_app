@@ -34,25 +34,23 @@ export default function Login() {
 
     return (
         <div className="card">
-            <div className="card-body">
-                {errors.length > 0 && errors.map(err => <p key={err.slice(2,7)+Math.random()}>{err}</p>)}
-                <h2>Login</h2>
+                {errors.length > 0 && errors.map(err => <div className='alert-danger' key={err.slice(2,7)+Math.random()}>{err}</div>)}
+                <h2 className='text-2xl'>Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="email">Email address</label>
                         <input value={email} onChange={(e) => setEmail(e.target.value)}
-                               type="email" className="form-control" id="email"
+                               type="email" className="text-input" id="email"
                                placeholder="email"/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <input value={password} onChange={(e) => setPassword(e.target.value)}
-                               type="password" className="form-control" id="password"
+                               type="password" className="text-input" id="password"
                                placeholder="password"/>
                     </div>
-                    <input type="submit" className='btn btn-primary' value="Login"/>
+                    <input type="submit" className='btn' value="Login"/>
                 </form>
-            </div>
         </div>
 
     )

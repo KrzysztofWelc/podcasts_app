@@ -55,42 +55,20 @@ export default function Player() {
     }
 
     return (
-        <div id='player' className='bg-success' style={
-            {
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                color: 'white',
-                width: '100vw',
-                height: '90px',
-                padding: '1rem',
-                boxSizing: 'border-box',
-                zIndex: 102,
-                textAlign: 'center',
-            }}>
+        <div id='player' className='fixed inset-x-0 bottom-0 z-50 border-box p-4 bg-green-500 text-center h-24'>
             <audio
                 onTimeUpdate={progressHandler}
                 onEnded={() => setIsPlaying(false)}
                 src={podcastURL} ref={audio}/>
             <button
                 onClick={playPauseHandler}
-                style={
-                    {
-                        border: 0,
-                        backgroundColor: 'transparent'
-                    }}
-                className='mb-3'>
+                className='mb-3 border-0 bg-transparent'>
                 <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/${isPlaying ? 'pause' : 'play'}.svg`} alt="play"/>
             </button>
-            <div style={
-                {
-                    margin: 'auto',
-                    width: '70%',
-                    display: 'flex'
-                }}>
+            <div className='mx-auto w-8/12 flex-1'>
                 {/*<span>{currentTime}</span>*/}
                 <input onChange={setTimeHandler} value={currentPromile} min='0' max='1000' type="range"
-                       className="form-control-range mx-3"/>
+                       className="w-full mx-3"/>
                 {/*<span>{duration}</span>*/}
             </div>
 

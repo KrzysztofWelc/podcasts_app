@@ -4,7 +4,7 @@ import Backdrop from "./Backdrop";
 export default function Loader(){
     return(
         <Backdrop>
-            <div className="spinner-border text-success"/>
+            <div className="spinner"/>
         </Backdrop>
     )
 }

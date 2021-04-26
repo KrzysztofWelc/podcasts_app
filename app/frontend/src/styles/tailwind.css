@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-size: 17px;
+}
+
+.border-box{
+    box-sizing: border-box;
+}
+
+.max-h-7-10{
+    max-height: 70vh;
+}
+
+.btn{
+    @apply rounded-md bg-blue-600 text-blue-50 px-3 py-1
+}
+
+.btn-danger{
+    @apply rounded-md bg-red-600 text-white px-3 py-1
+}
+
+.alert-danger{
+    @apply border-red-500 bg-red-200 text-red-500 p-4 rounded-md
+}
+
+.nav-link{
+    @apply text-white text-lg border-0 mx-2 font-semibold
+}
+
+.card {
+    @apply border border-gray-300 rounded-md overflow-hidden p-3
+}
+
+.text-input{
+    @apply block card p-2 w-full
+}
+
+.file-input{
+    @apply block card p-2 rounded-l-md w-full
+}
+
+.form-group{
+    @apply my-1
+}
+
+.spinner {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+
+.progress {
+  display: -ms-flexbox;
+  display: flex;
+  height: 1rem;
+  overflow: hidden;
+  line-height: 0;
+  font-size: 0.75rem;
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+}
+
+.progress-bar {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #007bff;
+  transition: width 0.6s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-bar {
+    transition: none;
+  }
+}
+
+.-translate-y-120{
+    transform: translate(-120%);
+}

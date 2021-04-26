@@ -2,7 +2,7 @@ import React from "react";
 import {useAuth} from "../contexts/GlobalContext";
 import {useHistory} from 'react-router-dom'
 
-export default function PodcastTile({podcast}) {
+export default function PodcastTile({data}) {
     const {setGlobalPodcast, setPreviewedPodcast} = useAuth()
     const history = useHistory()
 
@@ -14,12 +14,16 @@ export default function PodcastTile({podcast}) {
     }
 
     return (
-        <div onClick={() => setPreviewedPodcast(podcast)} className="card" style={{minWidth: '18rem'}}>
-            <img className="card-img-top" src={`${process.env.BASE_URL}api/podcasts/image/${podcast.cover_img}`} alt="Card image cap"/>
-            <div className="card-body">
-                <h5 className="card-title">{podcast.title}</h5>
-                <p onClick={e=>goToAuthorProfileHandler(e, podcast.author.id)} className="card-text">{podcast.author.username}</p>
-                <button onClick={(e) => setGlobalPodcast(podcast, e)} className='btn btn-primary'>play</button>
+        <div onClick={() => setPreviewedPodcast(data)}
+             className='card w-64 mr-2'>
+            <img src={`${process.env.BASE_URL}api/podcasts/image/${data.cover_img}`} alt="Card image cap"/>
+            <div className="p-3">
+                <h5 className="text-2xl md:text-4xl mb-2">{data.title}</h5>
+                <p onClick={e=>goToAuthorProfileHandler(e, data.author.id)} className="mb-2 text-lg">{data.author.username}</p>
+                <button onClick={(e) => setGlobalPodcast(data, e)}
+                        className='rounded-md bg-blue-600 text-blue-50 px-3 py-1 '>
+                    play
+                </button>
             </div>
         </div>
     )

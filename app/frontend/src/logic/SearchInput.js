@@ -1,16 +1,17 @@
 import React, {useState, useEffect} from "react";
-import {useHistory} from 'react-router-dom'
+import {useHistory, Link} from 'react-router-dom'
 import axios from "../utils/axios";
+import {useAuth} from "../contexts/GlobalContext";
 
 export default function SearchInput() {
     const [query, setQuery] = useState('')
     const [isPreviewVisible, setIsPreviewVisible] = useState(false)
     const [previewLists, setPreviewLists] = useState({users: [], podcasts: []})
     const history = useHistory()
+    const {setPreviewedPodcast} = useAuth()
 
-    //todo: debounce api call
     useEffect(() => {
-        async function getResults(){
+        async function getResults() {
             if (query) {
                 const {data} = await axios.get(`/api/search/preview/${query}`)
                 setPreviewLists(data)
@@ -18,47 +19,50 @@ export default function SearchInput() {
                 setPreviewLists({users: [], podcasts: []})
             }
         }
+
         getResults()
     }, [query])
 
-    function submitHandler(e){
+    function submitHandler(e) {
         e.preventDefault()
-        history.push('/search/'+query)
+        history.push('/search/' + query)
     }
 
     return (
-        <form onSubmit={submitHandler} style={{position: "relative"}} className="form-inline my-2 my-lg-0">
+        <form onSubmit={submitHandler}>
             <input value={query}
                    onChange={(e) => setQuery(e.target.value)}
-                   onFocus={()=>setIsPreviewVisible(true)}
-                   onBlur={()=>setIsPreviewVisible(false)}
-                   className="form-control mr-sm-2"
+                   onFocus={() => setIsPreviewVisible(true)}
+                   onBlur={() => setTimeout(()=>setIsPreviewVisible(false), 300)}
+                   className="p-2 rounded-l-md text-grey-400 w-40"
                    type="search"
                    placeholder="Search"
                    aria-label="Search"/>
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button className="p-2 rounded-r-md text-white bg-blue-600 " type="submit">Search</button>
             {((previewLists.users.length || previewLists.podcasts.length) && isPreviewVisible) ? (
-                <div className='bg-primary p-1' style={{position: 'absolute', top: '2.5rem', width: '100%'}}>
+                <div
+                    className='bg-white border-l border-r border-b rounded-b-lg border-blue-500 p-3 absolute w-full top-8 '>
                     {previewLists.podcasts.length ? (
                         <div>
-                            <h4>podcasts</h4>
-                            <ul className="list-group">
+                            <h4 className='text-xl my-3'>podcasts</h4>
+                            <ul className="list-none">
                                 {previewLists.podcasts.length ? previewLists.podcasts.map(podcast => (
-                                    <a key={podcast.id + 'podcast'} href='#'>
-                                        <li className="list-group-item">{podcast.title}</li>
-                                    </a>)) : null}
+                                    <li key={podcast.id + 'podcast'}
+                                        onClick={()=>setPreviewedPodcast(podcast)}
+                                        className="text-blue-500 text-lg ">{podcast.title}</li>
+                                )) : null}
                             </ul>
                         </div>) : null}
 
 
                     {previewLists.users.length ? (
                         <div>
-                            <h4>users</h4>
-                            <ul className="list-group">
+                            <h4 className='text-xl my-3'>users</h4>
+                            <ul className="list-none">
                                 {previewLists.users.length ? previewLists.users.map(user => (
-                                    <a key={user.id + 'user'} href='#'>
-                                        <li className="list-group-item">{user.username}</li>
-                                    </a>)) : null}
+                                    <Link key={user.id + 'user'} to={`/user/${user.id}`}>
+                                        <li className="text-blue-500 text-lg ">{user.username}</li>
+                                    </Link>)) : null}
                             </ul>
                         </div>) : null}
                 </div>

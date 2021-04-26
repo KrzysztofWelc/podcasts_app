@@ -20,7 +20,6 @@ export function AuthProvider({children}) {
     const [previewedPodcast, setPreviewedPodcast] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
 
-    console.log(process.env.BASE_URL, axios.baseURL)
 
     const value = {
         currentUser,
@@ -34,10 +33,8 @@ export function AuthProvider({children}) {
     function setGlobalPodcast(podcast, event) {
         event.stopPropagation()
         if (podcastURL == `${process.env.BASE_URL}api/podcasts/stream/${podcast.audio_file}`) {
-            console.log('pause')
             setIsPlaying(!isPlaying)
         } else {
-            console.log('set new url;')
             if (isPlaying) {
                 setIsPlaying(false)
             }

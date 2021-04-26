@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "../../../utils/axios";
 import {useCookies} from "react-cookie";
 import {useHistory} from 'react-router-dom'
+import Loader from "../../../UI/Loader";
 
 export default function ChangeAvatar() {
     const [file, setFile] = useState(null)
@@ -46,20 +47,22 @@ export default function ChangeAvatar() {
     }
 
     return (
-        <form onSubmit={submitHandler}>
-            {error && <div className='alert alert-danger'>{error}</div>}
-            <div className="custom-file mb-3">
-                <input onChange={selectFileHandler} type="file" className="custom-file-input"
-                       id="customFileLangHTML" accept='image/jpeg, image/png'/>
-                <label className="custom-file-label" htmlFor="customFileLangHTML"
-                       data-browse="select">{file ? file.name : 'choose podcast file'}</label>
-            </div>
-            <button className="btn btn-primary" disabled={!file || loading} type='submit'>
-                {loading ? (<>
-                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
-                        <span className="sr-only">Loading...</span></>
-                    ) : 'prześlij'}
-            </button>
-        </form>
+        <div className='card mt-4'>
+            <h3 className='text-2xl'>Zmień zdjęcie profilowe</h3>
+            <form onSubmit={submitHandler}>
+                {error && <div className='alert-danger'>{error}</div>}
+                <div className="custom-file mb-3">
+                    <label className="custom-file-label" htmlFor="customFileLangHTML"
+                           data-browse="select">{file ? file.name : 'choose podcast file'}</label>
+                    <input onChange={selectFileHandler} type="file" className="file-input"
+                           id="customFileLangHTML" accept='image/jpeg, image/png'/>
+
+                </div>
+                <button className="btn " disabled={!file || loading} type='submit'>
+                    {loading ? <div className="spinner"/> : 'prześlij'}
+                </button>
+            </form>
+        </div>
+
     )
 }
