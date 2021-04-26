@@ -63,7 +63,7 @@ export default function Player() {
             <button
                 onClick={playPauseHandler}
                 className='mb-3 border-0 bg-transparent'>
-                <img style={{height: '1.5rem'}} src={`/assets/${isPlaying ? 'pause' : 'play'}.svg`} alt="play"/>
+                <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/${isPlaying ? 'pause' : 'play'}.svg`} alt="play"/>
             </button>
             <div className='mx-auto w-8/12 flex-1'>
                 {/*<span>{currentTime}</span>*/}

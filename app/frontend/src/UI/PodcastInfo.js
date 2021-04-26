@@ -19,7 +19,7 @@ export default function PodcastInfo() {
                 // style={{position: "fixed", bottom: 0}}
                 className='border-box max-h-7-10 z-40 pb-32 pt-4 px-6 overflow-y-auto fixed  inset-x-0 bottom-0 bg-gray-800 text-white'
             >
-                <button
+                <button>
                     onClick={() => setPreviewedPodcast(null)}
                     className='border-0 bg-transparent absolute top-4 right-4'
                 </button>
@@ -28,7 +28,7 @@ export default function PodcastInfo() {
                     <button
                         onClick={(e) => setGlobalPodcast(previewedPodcast, e)}
                         className='mb-3 border-0 bg-transparent'>
-                        <img style={{height: '1.5rem'}} src={`/assets/${isPlayingLocal ? 'pause' : 'play'}.svg`}
+                        <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/${isPlayingLocal ? 'pause' : 'play'}.svg`}
                              alt="play"/>
                     </button>
                 </div>
