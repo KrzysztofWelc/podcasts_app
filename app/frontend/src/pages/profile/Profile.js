@@ -39,8 +39,9 @@ export default function Profile() {
                     src={`${process.env.BASE_URL}api/users/avatar/${user.profile_img}`} alt="użytkownik"/>
                 <h2 className='text-4xl text-center mb-3'>{user.username}</h2>
             </div>}
+
             {error &&
-            <div className="alert-danger" role="alert">
+            <div className="alert-danger fixed bottom-6 left-1/2 transform -translate-x-2/4" role="alert">
                 something went wrong
             </div>}
 
