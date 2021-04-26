@@ -21,10 +21,7 @@ export default function PodcastInfo() {
             >
                 <button
                     onClick={() => setPreviewedPodcast(null)}
-
                     className='border-0 bg-transparent absolute top-4 right-4'
-                >
-                    <img src="/static/assets/close.svg" alt="x"/>
                 </button>
                 <div className="flex-1">
                     <h2 className='font-bold text-4xl mb-4'>{previewedPodcast.title}</h2>

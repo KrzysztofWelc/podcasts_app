@@ -33,7 +33,7 @@ export function AuthProvider({children}) {
     //use this to start playing a podcast
     function setGlobalPodcast(podcast, event) {
         event.stopPropagation()
-        if (podcastURL == `/api/podcasts/stream/${podcast.audio_file}`) {
+        if (podcastURL == `${process.env.BASE_URL}api/podcasts/stream/${podcast.audio_file}`) {
             console.log('pause')
             setIsPlaying(!isPlaying)
         } else {
@@ -41,7 +41,7 @@ export function AuthProvider({children}) {
             if (isPlaying) {
                 setIsPlaying(false)
             }
-            setPodcastURL(`/api/podcasts/stream/${podcast.audio_file}`)
+            setPodcastURL(`${process.env.BASE_URL}api/podcasts/stream/${podcast.audio_file}`)
             setCurrentPodcast(podcast)
         }
 
@@ -101,7 +101,7 @@ export function AuthProvider({children}) {
     async function logOut() {
         setLoading(true)
         try {
-            await axios.post('/api/users/logout', {}, {headers: {auth_token: `Bearer ${cookies.authToken}`}})
+            await axios.post('/api/users/logout', {}, {headers: {authToken: `Bearer ${cookies.authToken}`}})
             removeCookie('authToken')
             localStorage.removeItem('user')
             setCurrentUser(null)

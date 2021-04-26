@@ -1,9 +1,10 @@
 import os
-from flask import Blueprint, request, make_response, send_from_directory
+from flask import Blueprint, request, make_response, send_from_directory, current_app as app
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.users.schemas import RegisterSchema, UserSchema, LoginSchema, ChangePwdSchema
-from app.users.services import register_user, login_user, logout_user, get_user_by_id, change_password, change_profile_img
+from app.users.services import register_user, login_user, logout_user, get_user_by_id, change_password, \
+    change_profile_img
 from app.users.decorators import login_required
 from app.exceptions import OperationNotPermitted
 
@@ -63,7 +64,8 @@ def get_user_data(user_id):
 
 @users.route('/avatar/<filename>')
 def get_podcast_image(filename):
-    return send_from_directory('static/avatars', filename)
+    avatars_dir = os.path.abspath(os.path.join(app.root_path, 'static/avatars'))
+    return send_from_directory(avatars_dir, filename)
 
 
 @users.route('/change_pwd', methods=['PATCH'])

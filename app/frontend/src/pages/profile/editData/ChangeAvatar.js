@@ -28,7 +28,7 @@ export default function ChangeAvatar() {
                 {
                     headers: {
                         "Content-Type": 'multipart/form-data',
-                        auth_token: `Bearer: ${cookies.authToken}`
+                        authToken: `Bearer: ${cookies.authToken}`
                     },
                 }
             )

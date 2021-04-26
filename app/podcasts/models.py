@@ -6,10 +6,10 @@ class Podcast(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(45), nullable=False, unique=True)
     description = db.Column(db.String(500))
-    publish_date = db.Column(db.String(25))
-    audio_file = db.Column(db.String(20), nullable=False)
+    publish_date = db.Column(db.String(60))
+    audio_file = db.Column(db.String(60), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    cover_img = db.Column(db.String(20), nullable=False, default='default.jpg')
+    cover_img = db.Column(db.String(60), nullable=False, default='default.jpg')
     comments = db.relationship('Comment', backref='podcast', lazy='dynamic')
     views = db.relationship('View',  backref='podcast', lazy='dynamic')
 

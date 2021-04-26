@@ -45,7 +45,7 @@ class TestPodcastsPackage(BaseTestCase):
                 data=data,
                 content_type='application/json',
                 headers=dict(
-                    auth_token='Bearer ' + self.user.generate_auth_token()
+                    authToken='Bearer ' + self.user.generate_auth_token()
                 ),
             )
             data = json.loads(response.data.decode())
@@ -91,7 +91,7 @@ class TestPodcastsPackage(BaseTestCase):
                 )),
                 content_type='application/json',
                 headers=dict(
-                    auth_token='Bearer ' + self.user.generate_auth_token()
+                    authToken='Bearer ' + self.user.generate_auth_token()
                 )
             )
 
@@ -114,7 +114,7 @@ class TestPodcastsPackage(BaseTestCase):
                 )),
                 content_type='application/json',
                 headers=dict(
-                    auth_token='Bearer ' + self.user.generate_auth_token()
+                    authToken='Bearer ' + self.user.generate_auth_token()
                 )
             )
 

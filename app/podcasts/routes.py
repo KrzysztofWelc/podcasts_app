@@ -1,15 +1,20 @@
 import os
 import re
+import logging
+import sys
 
-from flask import Blueprint, request, make_response, Response, send_from_directory
+from flask import Blueprint, request, make_response, Response, send_from_directory, current_app as app
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
-from app.users.decorators import login_required, is_allowed
+from app.users.decorators import login_required
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
-from app.podcasts.services import get_new_podcasts, get_most_popular, create_podcast, find_podcast, update_podcast, get_user_podcasts
+from app.podcasts.services import get_new_podcasts, get_most_popular, create_podcast, find_podcast, update_podcast, \
+    get_user_podcasts
 from app.podcasts.utils import get_chunk
 from app.exceptions import ResourceNotFound
 from app.celery_tasks.tasks import add_view_record
+
+logging.basicConfig(stream=sys.stderr)
 
 podcasts = Blueprint('podcasts', __name__)
 
@@ -66,7 +71,6 @@ def get_newest_podcasts(page=1):
 
 @podcasts.route('/<podcast_id>', methods=['PATCH'])
 @login_required
-@is_allowed()
 def patch_podcast(podcast_id):
     try:
         data = EditPodcastSchema().load(request.json)
@@ -118,7 +122,8 @@ def stream_podcast(podcast_file):
 
 @podcasts.route('/image/<filename>')
 def get_podcast_image(filename):
-    return send_from_directory('static/podcast_covers', filename)
+    covers_dir = os.path.abspath(os.path.join(app.root_path, 'static/podcast_covers'))
+    return send_from_directory(covers_dir, filename)
 
 
 @podcasts.route('/most_popular')

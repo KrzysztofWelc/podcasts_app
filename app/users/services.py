@@ -51,7 +51,7 @@ def logout_user(token):
 
 def change_password(user, new_pwd, old_pwd):
     if user.check_password(old_pwd):
-        user.password = new_pwd
+        user.set_new_pwd(new_pwd)
         db.session.commit()
     else:
         raise OperationNotPermitted('wrong old password')
