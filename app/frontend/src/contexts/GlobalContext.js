@@ -52,7 +52,7 @@ export function AuthProvider({children}) {
                 email, password
             })
             setCurrentUser(res.data.user)
-            setCookie('authToken', res.data.token)
+            setCookie('authToken', res.data.token, {sameSite: true})
             localStorage.setItem('user', JSON.stringify(res.data.user))
         } catch (e) {
             if (e.response) {
@@ -83,7 +83,7 @@ export function AuthProvider({children}) {
             })
             console.log(res)
             setCurrentUser(res.data.user)
-            setCookie('authToken', res.data.token)
+            setCookie('authToken', res.data.token, {sameSite: true})
             localStorage.setItem('user', JSON.stringify(res.data.user))
         } catch (e) {
             if (e.response) {
@@ -107,15 +107,6 @@ export function AuthProvider({children}) {
         }
         setLoading(false)
     }
-
-    // useEffect(() => {
-    //     if (cookies.authToken) {
-    //         const user = localStorage.getItem('user')
-    //         if (user) {
-    //             setCurrentUser(JSON.parse(user))
-    //         }
-    //     }
-    // }, [])
 
     return (
         <GlobalContext.Provider value={value}>
