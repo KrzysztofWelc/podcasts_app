@@ -11,7 +11,7 @@ export default function Navbar() {
     const history = useHistory()
     const [isMobile, setisMobile] = useState(window.matchMedia('(max-width: 640px)').matches)
     const [isNavbarActive, setIsNavbarActive] = useState(false)
-    
+
     async function handleLogout() {
         await logOut()
         history.push('/')
