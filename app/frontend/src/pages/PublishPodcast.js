@@ -59,21 +59,12 @@ export default function PublishPodcast() {
                 setErrors(errArray)
             }
         }
-        setUploading(false)
     }
 
     return (
         <div className="card">
             {uploading && <div
-                style={{
-                    width: '100vw',
-                    height: '100vh',
-                    backgroundColor: 'rgba(153, 204, 255, 0.5)',
-                    zIndex: 1000,
-                    top: 0,
-                    left: 0
-                }}
-                className='position-fixed d-flex align-items-center justify-content-center'
+                className='fixed flex items-center justify-center w-screen h-screen z-50 top-0 left-0 bg-green-500 bg-opacity-50'
             >
                 <div className="progress" style={{width: '80%', height: '30px'}}>
                     <div className="progress-bar" role="progressbar" style={{width: progress + '%'}}
@@ -81,41 +72,41 @@ export default function PublishPodcast() {
                          aria-valuemin="0" aria-valuemax="100"/>
                 </div>
             </div>}
-            <div className="card-body">
-                {errors.length !== 0 && errors.map(msg => <div className='alert alert-danger'
-                                                               key={Math.random()}>{msg}</div>)}
-                <h2>Publish podcast</h2>
-                <form onSubmit={submitHandler}>
-                    <div className="form-group">
-                        <label htmlFor="title">Title</label>
-                        <input value={title} onChange={(e) => setTitle(e.target.value)}
-                               type="text" className="form-control" id="title"
-                               placeholder="title"/>
-                    </div>
+            {errors.length !== 0 && errors.map(msg => <div className='alert-danger'
+                                                           key={Math.random()}>{msg}</div>)}
+            <h2 className='text-2xl'>Publish podcast</h2>
+            <form onSubmit={submitHandler}>
+                <div className="form-group">
+                    <label htmlFor="title">Title</label>
+                    <input value={title} onChange={(e) => setTitle(e.target.value)}
+                           type="text" className="text-input" id="title"
+                           placeholder="title"/>
+                </div>
 
-                    <div className="form-group">
-                        <label htmlFor="description">Title</label>
-                        <input value={description} onChange={(e) => setDescription(e.target.value)}
-                               type="text" className="form-control" id="description"
-                               placeholder="description"/>
-                    </div>
+                <div className="form-group">
+                    <label htmlFor="description">Title</label>
+                    <input value={description} onChange={(e) => setDescription(e.target.value)}
+                           type="text" className="text-input" id="description"
+                           placeholder="description"/>
+                </div>
 
-                    <div className="custom-file mb-3">
-                        <input onChange={selectFileHandler} type="file" className="custom-file-input"
-                               id="customFileLangHTML" accept='audio/mpeg'/>
-                        <label className="custom-file-label" htmlFor="customFileLangHTML"
-                               data-browse="select">{file ? file.name : 'choose podcast file'}</label>
-                    </div>
-                    <div className="custom-file mb-3">
-                        <input onChange={selectCoverHandler} type="file" className="custom-file-input"
-                               id="customCOVERLangHTML" accept='image/jpeg, image/png'/>
-                        <label className="custom-file-label" htmlFor="customCOVERLangHTML"
-                               data-browse="select">{cover ? cover.name : 'choose cover file'}</label>
-                    </div>
-                    <input disabled={!file || !title || !description || !cover} type="submit"
-                           className='btn btn-primary' value="Prześlij"/>
-                </form>
-            </div>
+                <div className="custom-file mb-3">
+                    <label className="custom-file-label" htmlFor="customFileLangHTML"
+                           data-browse="select">{file ? file.name : 'choose podcast file'}</label>
+                    <input onChange={selectFileHandler} type="file" className="file-input"
+                           id="customFileLangHTML" accept='audio/mpeg'/>
+
+                </div>
+                <div className="custom-file mb-3">
+                    <label className="custom-file-label" htmlFor="customCOVERLangHTML"
+                    >{cover ? cover.name : 'choose cover file'}</label>
+                    <input onChange={selectCoverHandler} type="file" className="file-input"
+                           id="customCOVERLangHTML" accept='image/jpeg, image/png'/>
+
+                </div>
+                <input disabled={!file || !title || !description || !cover} type="submit"
+                       className='btn' value="Prześlij"/>
+            </form>
         </div>
 
     )
