@@ -23,7 +23,9 @@ podcasts = Blueprint('podcasts', __name__)
 @login_required
 def post_podcast():
     try:
+        print(request.form)
         data = AddPodcastSchema().load(request.form)
+        print('----------------------------')
         audio = request.files.get('audio_file')
         cover_img = request.files.get('cover_file')
         if not audio:

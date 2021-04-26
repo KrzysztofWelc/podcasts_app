@@ -12,7 +12,7 @@ export default function PublishPodcast() {
     const [uploading, setUploading] = useState(false)
     const [progress, setProgress] = useState('0')
     const [file, setFile] = useState()
-    const [cover, setCover] = useState()
+    const [cover, setCover] = useState(null)
     const [errors, setErrors] = useState([])
     const cookies = useCookies()[0]
     const history = useHistory()
@@ -26,13 +26,17 @@ export default function PublishPodcast() {
         setCover(e.target.files[0])
     }
 
-    async function submitHandler() {
+    async function submitHandler(e) {
+        e.preventDefault()
         let data = new FormData()
 
         data.append('audio_file', file)
         data.append('title', title)
         data.append('description', description)
-        data.append('cover_file', cover)
+        if(cover){
+            data.append('cover_file', cover)
+        }
+
 
         setUploading(true)
 
@@ -48,13 +52,14 @@ export default function PublishPodcast() {
             })
             history.push('/user/' + currentUser.id)
         } catch (e) {
+            setUploading(false)
             if (!e.response) {
                 setErrors(['server error'])
             } else {
                 const err = e.response.data
                 const errArray = []
                 for (const key in err) {
-                    err[key].forEach(msg => errArray.push(`${key}: ${msg}`))
+                    err[key].forEach(msg => errArray.push(msg))
                 }
                 setErrors(errArray)
             }
@@ -84,7 +89,7 @@ export default function PublishPodcast() {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="description">Title</label>
+                    <label htmlFor="description">Description</label>
                     <input value={description} onChange={(e) => setDescription(e.target.value)}
                            type="text" className="text-input" id="description"
                            placeholder="description"/>
@@ -104,7 +109,7 @@ export default function PublishPodcast() {
                            id="customCOVERLangHTML" accept='image/jpeg, image/png'/>
 
                 </div>
-                <input disabled={!file || !title || !description || !cover} type="submit"
+                <input disabled={!file || !title || !description } type="submit"
                        className='btn' value="Prześlij"/>
             </form>
         </div>
