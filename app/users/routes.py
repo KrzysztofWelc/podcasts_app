@@ -16,7 +16,8 @@ def register():
     try:
         data = RegisterSchema().load(request.form)
         avatar = request.files.get('profile_img')
-        # todo: add image format validation
+        if avatar and not os.path.splitext(avatar.filename)[1] in ['.jpg', '.jpeg', '.png']:
+            raise ValidationError({'profile_img': ['zdjęcie profilowe musi być w formacie jpg/jpeg/png.']})
         jwt, user = register_user(data, avatar)
         return make_response({'token': jwt, 'user': UserSchema().dump(user)}), 201
     except ValidationError as err:

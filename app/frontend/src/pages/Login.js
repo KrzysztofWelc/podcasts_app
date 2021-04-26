@@ -24,7 +24,7 @@ export default function Login() {
             console.log(err)
             const errArray = []
             for(const key in err){
-                err[key].forEach(msg=> errArray.push(`${key}: ${msg}`))
+                err[key].forEach(msg=> errArray.push(msg))
             }
             setErrors(errArray)
         }else{
@@ -34,7 +34,7 @@ export default function Login() {
 
     return (
         <div className="card">
-                {errors.length > 0 && errors.map(err => <div className='alert-danger' key={err.slice(2,7)+Math.random()}>{err}</div>)}
+                {errors.length > 0 && errors.map(err => <div className='alert-danger mb-3' key={err.slice(2,7)+Math.random()}>{err}</div>)}
                 <h2 className='text-2xl'>Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">

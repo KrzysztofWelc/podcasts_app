@@ -55,6 +55,7 @@ export function AuthProvider({children}) {
             setCookie('authToken', res.data.token, {sameSite: true})
             localStorage.setItem('user', JSON.stringify(res.data.user))
         } catch (e) {
+            setLoading(false)
             if (e.response) {
                 return e.response.data
             } else {
@@ -86,10 +87,11 @@ export function AuthProvider({children}) {
             setCookie('authToken', res.data.token, {sameSite: true})
             localStorage.setItem('user', JSON.stringify(res.data.user))
         } catch (e) {
+            setLoading(false)
             if (e.response) {
                 return e.response.data
             } else {
-                return {server: ['error']}
+                return {server: ['coś poszło nie tak']}
             }
         }
         setLoading(false)
@@ -110,7 +112,8 @@ export function AuthProvider({children}) {
 
     return (
         <GlobalContext.Provider value={value}>
-            {loading ? <Loader/> : children}
+            {loading && <Loader/>}
+            {children}
         </GlobalContext.Provider>
     )
 }

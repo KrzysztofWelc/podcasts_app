@@ -39,9 +39,10 @@ export default function Register() {
             console.log(err)
             const errArray = []
             for (const key in err) {
-                err[key].forEach(msg => errArray.push(`${key}: ${msg}`))
+                err[key].forEach(msg => errArray.push(msg))
             }
             setErrors(errArray)
+
         } else {
             history.push('/')
         }
@@ -49,7 +50,7 @@ export default function Register() {
 
     return (
         <div className="card">
-            {errors.length > 0 && errors.map(err => <div className='alert-danger' key={err.slice(2, 7) + Math.random()}>{err}</div>)}
+            {errors.length > 0 && errors.map(err => <div className='alert-danger mb-4' key={err.slice(2, 7) + Math.random()}>{err}</div>)}
             <h2 className='text-2xl'>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
