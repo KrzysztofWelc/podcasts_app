@@ -34,28 +34,37 @@ export default function Profile() {
         <div>
             {user &&
             <div>
-                <img src={`${process.env.BASE_URL}api/users/avatar/${user.profile_img}`} alt=""/>
-                <h2>{user.username}</h2>
+                <img
+                    className='w-52 h-52 rounded-full block mx-auto'
+                    src={`${process.env.BASE_URL}api/users/avatar/${user.profile_img}`} alt="użytkownik"/>
+                <h2 className='text-4xl text-center mb-3'>{user.username}</h2>
             </div>}
             {error &&
-            <div className="alert alert-danger" role="alert">
+            <div className="alert-danger" role="alert">
                 something went wrong
             </div>}
-            <nav>
-                <ul>
 
-                    {currentUser && currentUser.id == id && <>
-                        <li><Link to={url}>podcasty</Link>
-                        </li><li><Link to={`${url}/edit_data`}>dane</Link></li>
-                    </>
-                    }
+
+            {currentUser && currentUser.id == id && <nav>
+                <ul className='border-b list-none w-2/6 mx-auto flex justify-around items-center'>
+                    <li><Link className='text-2xl text-blue-400 hover:text-blue-500 cursor-pointer'
+                              to={url}>podcasty</Link>
+                    </li>
+                    <li><Link className='text-2xl text-blue-400 hover:text-blue-500 cursor-pointer'
+                              to={`${url}/edit_data`}>dane</Link></li>
                 </ul>
             </nav>
-            <Switch>
-                <Route exact path={path} component={Podcasts}/>
-                <PrivateRoute condition={(user) => user && user.id == id} redirectURL={url} exact path={`${url}/edit_data`}
-                              component={EditData}/>
-            </Switch>
+            }
+
+            <div className="my-8">
+                <Switch>
+                    <Route exact path={path} component={Podcasts}/>
+                    <PrivateRoute condition={(user) => user && user.id == id} redirectURL={url} exact
+                                  path={`${url}/edit_data`}
+                                  component={EditData}/>
+                </Switch>
+            </div>
+
         </div>
     )
 }
