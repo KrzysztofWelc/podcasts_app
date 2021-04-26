@@ -57,7 +57,6 @@ class TestPodcastsPackage(BaseTestCase):
             )
             data = {key: str(value) for key, value in data.items()}
             data['audio_file'] = self.generate_dummy_podcast_file()
-            data['cover_file'] = self.generate_dummy_cover_file()
             response = self.client.post(
                 '/api/podcasts',
                 data=data,
@@ -71,7 +70,6 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             self.assertIn('.mp3', data.get('audio_file'))
             self.assertEqual(data.get('author').get('id'), str(self.user.id))
-            self.assertNotEqual(data['cover_img'], 'default.jpg')
 
     def test_get_podcast(self):
         with self.client:
