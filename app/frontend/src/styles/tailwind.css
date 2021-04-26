@@ -95,3 +95,7 @@ body{
     transition: none;
   }
 }
+
+.-translate-y-120{
+    transform: translate(-120%);
+}

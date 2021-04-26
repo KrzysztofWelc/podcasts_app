@@ -31973,6 +31973,10 @@ body{
   }
 }
 
+.-translate-y-120{
+  transform: translate(-120%);
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
