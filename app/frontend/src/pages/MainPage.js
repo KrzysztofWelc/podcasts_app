@@ -2,6 +2,7 @@ import React from "react";
 import PodcastTile from "../UI/PodcastTile";
 import NonPaginatedList from "../logic/NonPaginatedList";
 import PaginatedList from "../logic/PaginatedList";
+import List from "../UI/List";
 
 
 export default function MainPage() {
@@ -11,38 +12,16 @@ export default function MainPage() {
                 <h2>Popularne</h2>
                 <NonPaginatedList
                     url={'api/podcasts/most_popular'}
-                    render={({items, loading}) => (
-                        items.length ? <div
-                            className='d-flex' style={{
-                            overflowX: 'auto'
-                        }}>
-
-                            {items.map(podcast => <PodcastTile key={podcast.id} podcast={podcast}/>)}
-                            {loading && <div className="spinner-border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>}
-                        </div> : null
-                    )
-                    }
+                    render={({items, loading}) => <List items={items} loading={loading} isMore={false} Component={PodcastTile}/>}
                 />
             </div>
             <div>
                 <h2>Najnowsze</h2>
                 <PaginatedList
                     url={'api/podcasts/newest/'}
-                    render={({items, isMore, loading, moreHandler}) => (
-                        items.length ? <div
-                            className='d-flex' style={{
-                            overflowX: 'auto'
-                        }}>
-
-                            {items.map(podcast => <PodcastTile key={podcast.id} podcast={podcast}/>)}
-                            {isMore && <button onClick={moreHandler}>more</button>}
-                            {loading && <div className="spinner-border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>}
-                        </div> : null
-                    )
+                    render={({items, isMore, loading, moreHandler}) => <List items={items} isMore={isMore}
+                                                                             loading={loading}
+                                                                             moreHandler={moreHandler} Component={PodcastTile}/>
                     }
                 />
             </div>
