@@ -35,57 +35,63 @@ export default function Register() {
             file
         )
 
-        if(err){
+        if (err) {
             console.log(err)
             const errArray = []
-            for(const key in err){
-                err[key].forEach(msg=> errArray.push(`${key}: ${msg}`))
+            for (const key in err) {
+                err[key].forEach(msg => errArray.push(`${key}: ${msg}`))
             }
             setErrors(errArray)
-        }else{
+        } else {
             history.push('/')
         }
     }
 
     return (
         <div className="card">
-            <div className="card-body">
-                {errors.length > 0 && errors.map(err => <p key={err.slice(2,7)+Math.random()}>{err}</p>)}
-                <h2>Register</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="email">Email address</label>
-                        <input value={email} onChange={(e) => setEmail(e.target.value)}
-                               type="email" className="form-control" id="email"
-                               placeholder="email"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input value={username} onChange={(e) => setUsername(e.target.value)}
-                               type="text" className="form-control" id="username"
-                               placeholder="username"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input value={password} onChange={(e) => setPassword(e.target.value)}
-                               type="password" className="form-control" id="password"
-                               placeholder="password"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password2">Repeat Password</label>
-                        <input value={password2} onChange={(e) => setPassword2(e.target.value)}
-                               type="password" className="form-control" id="password2"
-                               placeholder="password2"/>
-                    </div>
-                    <div className="custom-file mb-3">
-                        <input onChange={selectFileHandler} type="file" className="custom-file-input"
-                               id="customFileLangHTML" accept='image/jpeg, image/png'/>
-                        <label className="custom-file-label" htmlFor="customFileLangHTML"
-                               data-browse="select">{file ? file.name : 'choose podcast file'}</label>
-                    </div>
-                    <input type="submit" className='btn btn-primary' value="Register"/>
-                </form>
-            </div>
+            {errors.length > 0 && errors.map(err => <div className='alert-danger' key={err.slice(2, 7) + Math.random()}>{err}</div>)}
+            <h2 className='text-2xl'>Register</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="email">Email address</label>
+                    <input value={email} onChange={(e) => setEmail(e.target.value)}
+                           type="email"
+                           className="text-input"
+                           id="email"
+                           placeholder="email"/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input value={username} onChange={(e) => setUsername(e.target.value)}
+                           type="text"
+                            className="text-input"
+                           id="username"
+                           placeholder="username"/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input value={password} onChange={(e) => setPassword(e.target.value)}
+                           type="password"
+                           className="text-input"
+                           id="password"
+                           placeholder="password"/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password2">Repeat Password</label>
+                    <input value={password2} onChange={(e) => setPassword2(e.target.value)}
+                           type="password" className="text-input" id="password2"
+                           placeholder="password2"/>
+                </div>
+                <div className="mb-3">
+                    <label className="file-input-label"
+                                             htmlFor="customFileLangHTML">{file ? file.name : 'choose podcast file'}</label>
+                    <input onChange={selectFileHandler} type="file"
+                           className="file-input"
+                           id="customFileLangHTML" accept='image/jpeg, image/png'/>
+
+                </div>
+                <input type="submit" className='btn' value="Register"/>
+            </form>
         </div>
 
     )

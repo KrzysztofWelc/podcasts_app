@@ -53,7 +53,7 @@ export default function Profile() {
             </nav>
             <Switch>
                 <Route exact path={path} component={Podcasts}/>
-                <PrivateRoute condition={(user) => user.id == id} redirectURL={url} exact path={`${url}/edit_data`}
+                <PrivateRoute condition={(user) => user && user.id == id} redirectURL={url} exact path={`${url}/edit_data`}
                               component={EditData}/>
             </Switch>
         </div>
