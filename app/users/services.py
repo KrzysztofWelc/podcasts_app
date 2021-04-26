@@ -1,6 +1,7 @@
 import os, secrets
 from flask import current_app as app
 from marshmallow import ValidationError
+from PIL import Image
 from app.users.models import User, BlackListedToken
 from app import db
 from app.exceptions import OperationNotPermitted
@@ -29,8 +30,9 @@ def save_avatar(file):
     _, f_ext = os.path.splitext(file.filename)
     new_filename = random_hex + f_ext
     file_path = os.path.join(app.root_path, 'static/avatars', new_filename)
-
-    file.save(file_path)
+    i = Image.open(file)
+    i.thumbnail((200, 200))
+    i.save(file_path)
 
     return new_filename
 
