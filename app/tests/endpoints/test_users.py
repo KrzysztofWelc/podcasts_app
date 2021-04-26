@@ -49,32 +49,32 @@ class TestUserModel(BaseTestCase):
             self.assertEqual(data.get('user').get('username'), username)
             self.assertEqual(data.get('user').get('profile_img'), 'default.jpg')
 
-    def test_user_registration_with_avatar(self):
-        email = 'test1@mail.com'
-        password = 'Test1234'
-        username = 'test1'
-        with self.client:
-            data = dict(
-                email=email,
-                password=password,
-                password2=password,
-                username=username
-            )
-            data = {key: str(value) for key, value in data.items()}
-            data['profile_img'] = self.generate_dummy_avater_file()
-            response = self.client.post(
-                '/api/users/register',
-                data=data,
-                content_type='multipart/form-data'
-            )
-            self.assertEqual(response.status_code, 201)
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertTrue(data.get('token'))
-            self.assertEqual(data.get('user').get('email'), email)
-            self.assertEqual(data.get('user').get('username'), username)
-            self.assertEqual(data.get('user').get('username'), username)
-            self.assertNotEqual(data.get('user').get('profile_img'), 'default.jpg')
+    # def test_user_registration_with_avatar(self):
+    #     email = 'test1@mail.com'
+    #     password = 'Test1234'
+    #     username = 'test1'
+    #     with self.client:
+    #         data = dict(
+    #             email=email,
+    #             password=password,
+    #             password2=password,
+    #             username=username
+    #         )
+    #         data = {key: str(value) for key, value in data.items()}
+    #         data['profile_img'] = self.generate_dummy_avater_file()
+    #         response = self.client.post(
+    #             '/api/users/register',
+    #             data=data,
+    #             content_type='multipart/form-data'
+    #         )
+    #         self.assertEqual(response.status_code, 201)
+    #         data = json.loads(response.data.decode())
+    #         self.assertEqual(response.content_type, 'application/json')
+    #         self.assertTrue(data.get('token'))
+    #         self.assertEqual(data.get('user').get('email'), email)
+    #         self.assertEqual(data.get('user').get('username'), username)
+    #         self.assertEqual(data.get('user').get('username'), username)
+    #         self.assertNotEqual(data.get('user').get('profile_img'), 'default.jpg')
 
     def test_user_login(self):
         email = 'test2@mail.com'
@@ -197,23 +197,23 @@ class TestUserModel(BaseTestCase):
 
             self.assertEqual(response.status_code, 400)
 
-    def test_change_user_pic(self):
-        old_img = self.user.profile_img
-        with self.client:
-            data = dict()
-            data['new_profile_pic'] = self.generate_dummy_avater_file()
-            res = self.client.patch(
-                '/api/users/change_profile_pic',
-                data=data,
-                content_type='multipart/form-data',
-                headers=dict(
-                    authToken='Bearer ' + self.user.generate_auth_token()
-                ),
-            )
-
-            self.assertEqual(res.status_code, 200)
-            self.assertNotEqual(old_img, User.query.filter_by(id=self.user.id).first().profile_img)
-
+    # def test_change_user_pic(self):
+    #     old_img = self.user.profile_img
+    #     with self.client:
+    #         data = dict()
+    #         data['new_profile_pic'] = self.generate_dummy_avater_file()
+    #         res = self.client.patch(
+    #             '/api/users/change_profile_pic',
+    #             data=data,
+    #             content_type='multipart/form-data',
+    #             headers=dict(
+    #                 authToken='Bearer ' + self.user.generate_auth_token()
+    #             ),
+    #         )
+    #
+    #         self.assertEqual(res.status_code, 200)
+    #         self.assertNotEqual(old_img, User.query.filter_by(id=self.user.id).first().profile_img)
+    #
 
 if __name__ == '__main__':
     unittest.main()

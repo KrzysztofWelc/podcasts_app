@@ -1,5 +1,6 @@
 import secrets, os
 from flask import current_app as app
+from PIL import Image
 from app import db
 from app.podcasts.models import Podcast, PopularPodcast
 from app.users.models import User
@@ -47,7 +48,9 @@ def save_cover(file):
     new_filename = random_hex + f_ext
     file_path = os.path.join(app.root_path, 'static/podcast_covers', new_filename)
 
-    file.save(file_path)
+    i = Image.open(file)
+    i.thumbnail((200, 200))
+    i.save(file_path)
 
     return new_filename
 
