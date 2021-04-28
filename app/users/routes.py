@@ -2,9 +2,9 @@ import os
 from flask import Blueprint, request, make_response, send_from_directory, current_app as app
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
-from app.users.schemas import RegisterSchema, UserSchema, LoginSchema, ChangePwdSchema
+from app.users.schemas import RegisterSchema, UserSchema, LoginSchema, ChangePwdSchema, ChangeBioSchema
 from app.users.services import register_user, login_user, logout_user, get_user_by_id, change_password, \
-    change_profile_img
+    change_profile_img, change_users_bio
 from app.users.decorators import login_required
 from app.exceptions import OperationNotPermitted
 
@@ -100,6 +100,23 @@ def change_avatar():
         change_profile_img(request.user, new_img)
 
         return make_response()
+    except ValidationError as err:
+        return make_response(err.messages), 400
+    except OperationNotPermitted as err:
+        return make_response({'error': err.message}), 400
+    except SQLAlchemyError as err:
+        e = str(err)
+        print(e)
+        return make_response(e), 500
+
+
+@users.route('/edit_bio', methods=['PATCH'])
+@login_required
+def change_bio():
+    try:
+        bio = ChangeBioSchema().dump(request.json)['bio']
+        change_users_bio(request.user, bio)
+        return make_response({'bio': bio}), 200
     except ValidationError as err:
         return make_response(err.messages), 400
     except OperationNotPermitted as err:

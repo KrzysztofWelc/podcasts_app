@@ -41,3 +41,12 @@ class UserSchema(Schema):
 class LoginSchema(Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True)
+
+
+class ChangeBioSchema(Schema):
+    bio = fields.String(required=True)
+
+    @validates_schema
+    def validate_bio(self, data, **kwargs):
+        if len(data['bio']) > 500:
+            raise ValidationError({'bio': ['bio może mieć maksymalnei 500 znaków.']})

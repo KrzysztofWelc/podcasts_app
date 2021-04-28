@@ -66,3 +66,8 @@ def change_profile_img(user, img):
     db.session.commit()
     if old_avatar != 'default.jpg':
         os.remove(os.path.join(app.root_path, 'static/avatars', old_avatar))
+
+
+def change_users_bio(user, bio):
+    user.bio = bio
+    db.session.commit()

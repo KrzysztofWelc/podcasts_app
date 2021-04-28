@@ -197,6 +197,22 @@ class TestUserModel(BaseTestCase):
 
             self.assertEqual(response.status_code, 400)
 
+    def test_set_bio(self):
+        bio_text = 'View without powerdrain, and we won’t translate a planet.'
+        with self.client:
+            res = self.client.patch(
+                '/api/users/edit_bio',
+                data=json.dumps({
+                    'bio': bio_text
+                }),
+                headers=dict(
+                    authToken='Bearer ' + self.user.generate_auth_token()
+                ),
+                content_type='application/json'
+            )
+            self.assertEqual(res.status_code, 200)
+            new_bio = User.query.filter_by(id=self.user.id).first().bio
+            self.assertEqual(bio_text, new_bio)
     # def test_change_user_pic(self):
     #     old_img = self.user.profile_img
     #     with self.client:
