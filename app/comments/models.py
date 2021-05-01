@@ -16,6 +16,7 @@ class AnswerComment(db.Model):
     text = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
 

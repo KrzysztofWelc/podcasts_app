@@ -14,6 +14,7 @@ class User(db.Model):
     join_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     podcasts = db.relationship('Podcast', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='author', lazy=True)
+    answers = db.relationship('AnswerComment', backref='author', lazy=True)
 
     def __init__(self, email, username, password):
         self.email = email

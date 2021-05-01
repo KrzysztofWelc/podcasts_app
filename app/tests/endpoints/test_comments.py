@@ -7,6 +7,7 @@ from app.tests.base import BaseTestCase
 
 faker = Faker()
 
+
 class TestPodcastsPackage(BaseTestCase):
     def setUp(self):
         super(TestPodcastsPackage, self).setUp()
@@ -155,6 +156,10 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             data = json.loads(response.data.decode())
             self.assertEqual(data['text'], answer_text)
+            self.assertEqual(data['user_id'], self.user.id)
+            self.assertEqual(data['comment_id'], comment.id)
+            self.assertTrue(data['created_at'])
+            self.assertTrue(data['id'])
 
             comment_check = comment.answers.first()
             self.assertEqual(comment_check.text, answer_text)
@@ -167,14 +172,18 @@ class TestPodcastsPackage(BaseTestCase):
         )
         db.session.add(comment)
         for i in range(50):
-            a = AnswerComment(text=faker.sentence(nb_words=20), comment=comment)
+            a = AnswerComment(
+                text=faker.sentence(nb_words=20),
+                comment=comment,
+                user_id=self.user.id
+            )
             db.session.add(a)
 
         db.session.commit()
 
         with self.client:
             response = self.client.get(
-                '/api/comments/{}/answers/2'.format(comment.id ),
+                '/api/comments/{}/answers/2'.format(comment.id),
                 content_type='application/json'
             )
 
@@ -183,3 +192,33 @@ class TestPodcastsPackage(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertTrue(data['is_more'])
             self.assertEqual(len(data['items']), 10)
+
+    def test_delete_answer(self):
+        comment = Comment(
+            text=faker.sentence(nb_words=10),
+            podcast_id=self.podcast.id,
+            user_id=self.user.id
+        )
+        db.session.add(comment)
+
+        a = AnswerComment(
+            text=faker.sentence(nb_words=20),
+            comment=comment,
+            user_id=self.user.id
+        )
+        db.session.add(a)
+        db.session.commit()
+
+        with self.client:
+            response = self.client.delete(
+                '/api/comments/answer/{}'.format(a.id),
+                content_type='application/json',
+                headers=dict(
+                    authToken='Bearer ' + self.user.generate_auth_token()
+                )
+            )
+
+            self.assertEqual(response.status_code, 200)
+
+            check = AnswerComment.query.filter_by(id=a.id).first()
+            self.assertFalse(check)

@@ -45,8 +45,17 @@ def update_comment(comment, text):
     return comment
 
 
-def answer_comment(comment_id, answer_text):
-    a = AnswerComment(text=answer_text, comment_id=comment_id)
+def answer_comment(comment_id, answer_text, user):
+    a = AnswerComment(
+        text=answer_text,
+        comment_id=comment_id,
+        user_id=user.id
+    )
     db.session.add(a)
     db.session.commit()
     return a
+
+
+def delete_answer(answer_id):
+    a = AnswerComment.query.filter_by(id=answer_id).first()
+    db.session.delete(a)
