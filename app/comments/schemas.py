@@ -23,3 +23,10 @@ class PutCommentSchema(Schema):
 
 class AddAnswerSchema(Schema):
     text = fields.String(required=True)
+
+
+class AnswerSchema(Schema):
+    id = fields.Integer(required=True)
+    text = fields.String(required=True)
+    created_at = fields.DateTime(required=True)
+    comment_id = fields.Integer(required=True)

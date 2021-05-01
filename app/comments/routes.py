@@ -2,9 +2,9 @@ from flask import Blueprint, request, make_response
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.exceptions import OperationNotPermitted, ResourceNotFound
-from app.comments.schemas import AddCommentSchema, CommentSchema, PutCommentSchema
+from app.comments.schemas import AddCommentSchema, CommentSchema, PutCommentSchema, AnswerSchema
 from app.comments.services import create_comment, get_comments, get_single_comment, delete_comment, update_comment, \
-    answer_comment
+    answer_comment, get_answers
 from app.users.decorators import login_required
 
 comments = Blueprint('comments', __name__)
@@ -89,6 +89,24 @@ def comment_answer(comment_id):
         a = answer_comment(comment_id, text)
         res = AddCommentSchema().dump(a)
         return make_response(res), 201
+    except ValidationError as err:
+        return make_response(err.messages), 400
+    except OperationNotPermitted as err:
+        return make_response({'error': err.message}), 401
+    except SQLAlchemyError as err:
+        return make_response({"_error": 'server error'}), 500
+
+
+@comments.route('/<comment_id>/answers/<page>', methods=['GET'])
+def get_answers_list(comment_id, page):
+    try:
+        pass
+        answers, is_more = get_answers(comment_id, page)
+        res = {
+            'items': AnswerSchema(many=True).dump(answers),
+            'is_more': is_more
+        }
+        return make_response(res), 200
     except ValidationError as err:
         return make_response(err.messages), 400
     except OperationNotPermitted as err:

@@ -20,6 +20,14 @@ def get_comments(podcast_id, page):
     return comments, is_more
 
 
+def get_answers(comment_id, page):
+    page = int(page)
+    c = Comment.query.filter_by(id=comment_id).first()
+    answers = c.answers.offset((page - 1) * 10).limit(10).all()
+    is_more = c.answers.count() > (page - 1) * 10 + 10
+    return answers, is_more
+
+
 def get_single_comment(**kwargs):
     c = Comment.query.filter_by(**kwargs).first()
     return c

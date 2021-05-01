@@ -1,9 +1,11 @@
 import unittest
 import json
+from faker import Faker
 from app import db
 from app.models import User, Podcast, Comment, AnswerComment
 from app.tests.base import BaseTestCase
 
+faker = Faker()
 
 class TestPodcastsPackage(BaseTestCase):
     def setUp(self):
@@ -128,9 +130,9 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(data['text'], updated_text)
 
     def test_comment_answer(self):
-        answer_text = 'Sonic showers reproduce with assimilation at the strange habitat tightlymake it so!'
+        answer_text = faker.sentence(nb_words=10)
         comment = Comment(
-            text='Try warming ricotta jumbled with kefir, tossed with ztar.',
+            text=faker.sentence(nb_words=10),
             podcast_id=self.podcast.id,
             user_id=self.user.id
         )
@@ -156,3 +158,28 @@ class TestPodcastsPackage(BaseTestCase):
 
             comment_check = comment.answers.first()
             self.assertEqual(comment_check.text, answer_text)
+
+    def test_get_paginated_answers(self):
+        comment = Comment(
+            text=faker.sentence(nb_words=10),
+            podcast_id=self.podcast.id,
+            user_id=self.user.id
+        )
+        db.session.add(comment)
+        for i in range(50):
+            a = AnswerComment(text=faker.sentence(nb_words=20), comment=comment)
+            db.session.add(a)
+
+        db.session.commit()
+
+        with self.client:
+            response = self.client.get(
+                '/api/comments/{}/answers/2'.format(comment.id ),
+                content_type='application/json'
+            )
+
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.content_type, 'application/json')
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['is_more'])
+            self.assertEqual(len(data['items']), 10)
