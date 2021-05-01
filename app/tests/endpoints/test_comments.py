@@ -1,7 +1,7 @@
 import unittest
 import json
 from app import db
-from app.models import User, Podcast, Comment
+from app.models import User, Podcast, Comment, AnswerComment
 from app.tests.base import BaseTestCase
 
 
@@ -129,9 +129,17 @@ class TestPodcastsPackage(BaseTestCase):
 
     def test_comment_answer(self):
         answer_text = 'Sonic showers reproduce with assimilation at the strange habitat tightlymake it so!'
+        comment = Comment(
+            text='Try warming ricotta jumbled with kefir, tossed with ztar.',
+            podcast_id=self.podcast.id,
+            user_id=self.user.id
+        )
+        db.session.add(comment)
+        db.session.commit()
+
         with self.client:
             response = self.client.post(
-                '/api/comments/{}/answer'.format(self.podcast.id),
+                '/api/comments/{}/answer'.format(comment.id),
                 data=json.dumps({
                     'text': answer_text
                 }),
@@ -145,3 +153,6 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             data = json.loads(response.data.decode())
             self.assertEqual(data['text'], answer_text)
+
+            comment_check = comment.answers.first()
+            self.assertEqual(comment_check.text, answer_text)
