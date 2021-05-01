@@ -1,6 +1,6 @@
 from datetime import datetime
 from app import db
-from app.comments.models import Comment
+from app.comments.models import Comment, AnswerComment
 from app.podcasts.models import Podcast
 
 
@@ -35,3 +35,10 @@ def update_comment(comment, text):
     comment.created_at = datetime.now()
     db.session.commit()
     return comment
+
+
+def answer_comment(comment_id, answer_text):
+    a = AnswerComment(text=answer_text, comment_id=comment_id)
+    db.session.add(a)
+    db.session.commit()
+    return a

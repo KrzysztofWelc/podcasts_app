@@ -126,3 +126,22 @@ class TestPodcastsPackage(BaseTestCase):
             check = Comment.query.filter_by(id=comment.id).first()
             self.assertEqual(check.text, updated_text)
             self.assertEqual(data['text'], updated_text)
+
+    def test_comment_answer(self):
+        answer_text = 'Sonic showers reproduce with assimilation at the strange habitat tightlymake it so!'
+        with self.client:
+            response = self.client.post(
+                '/api/comments/{}/answer'.format(self.podcast.id),
+                data=json.dumps({
+                    'text': answer_text
+                }),
+                content_type='application/json',
+                headers=dict(
+                    authToken='Bearer ' + self.user.generate_auth_token()
+                )
+            )
+
+            self.assertEqual(response.status_code, 201)
+            self.assertEqual(response.content_type, 'application/json')
+            data = json.loads(response.data.decode())
+            self.assertEqual(data['text'], answer_text)

@@ -3,7 +3,8 @@ from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.exceptions import OperationNotPermitted, ResourceNotFound
 from app.comments.schemas import AddCommentSchema, CommentSchema, PutCommentSchema
-from app.comments.services import create_comment, get_comments, get_single_comment, delete_comment, update_comment
+from app.comments.services import create_comment, get_comments, get_single_comment, delete_comment, update_comment, \
+    answer_comment
 from app.users.decorators import login_required
 
 comments = Blueprint('comments', __name__)
@@ -72,6 +73,22 @@ def put_comment():
             raise OperationNotPermitted('You cannot delete this comment')
         res = CommentSchema().dump(updated_comment)
         return make_response(res)
+    except ValidationError as err:
+        return make_response(err.messages), 400
+    except OperationNotPermitted as err:
+        return make_response({'error': err.message}), 401
+    except SQLAlchemyError as err:
+        return make_response({"_error": 'server error'}), 500
+
+
+@comments.route('/<comment_id>/answer', methods=['POST'])
+@login_required
+def comment_answer(comment_id):
+    try:
+        text = request.json.get('text')
+        a = answer_comment(comment_id, text)
+        res = AddCommentSchema().dump(a)
+        return make_response(res), 201
     except ValidationError as err:
         return make_response(err.messages), 400
     except OperationNotPermitted as err:

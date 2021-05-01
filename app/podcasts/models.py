@@ -1,5 +1,5 @@
 from app import db
-from datetime import date
+from datetime import date, datetime
 
 
 class Podcast(db.Model):

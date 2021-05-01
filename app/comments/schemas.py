@@ -19,3 +19,7 @@ class CommentSchema(Schema):
 class PutCommentSchema(Schema):
     text = fields.String(required=True)
     comment_id = fields.Number(required=True)
+
+
+class AddAnswerSchema(Schema):
+    text = fields.String(required=True)

@@ -58,7 +58,7 @@ export default function ChangeAvatar() {
                            id="customFileLangHTML" accept='image/jpeg, image/png'/>
 
                 </div>
-                <button className="btn " disabled={!file || loading} type='submit'>
+                <button className="btn" disabled={!file || loading} type='submit'>
                     {loading ? <div className="spinner"/> : 'prześlij'}
                 </button>
             </form>

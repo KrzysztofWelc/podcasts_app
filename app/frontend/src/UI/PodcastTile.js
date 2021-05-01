@@ -15,7 +15,9 @@ export default function PodcastTile({data}) {
 
     return (
         <div onClick={() => setPreviewedPodcast(data)}
-             className='card w-64 mr-2'>
+             className='card w-64 mr-2'
+            style={{minWidth: '16rem'}}
+            >
             <img
                 className='w-full object-cover'
                 src={`${process.env.BASE_URL}api/podcasts/image/${data.cover_img}`} alt="Card image cap"/>
