@@ -222,3 +222,38 @@ class TestPodcastsPackage(BaseTestCase):
 
             check = AnswerComment.query.filter_by(id=a.id).first()
             self.assertFalse(check)
+
+    def test_patch_answer(self):
+        new_text = faker.sentence(nb_words=12)
+        comment = Comment(
+            text=faker.sentence(nb_words=10),
+            podcast_id=self.podcast.id,
+            user_id=self.user.id
+        )
+        db.session.add(comment)
+
+        a = AnswerComment(
+            text=faker.sentence(nb_words=20),
+            comment=comment,
+            user_id=self.user.id
+        )
+        db.session.add(a)
+        db.session.commit()
+
+        with self.client:
+            response = self.client.patch(
+                '/api/comments/answer/{}'.format(a.id),
+                content_type='application/json',
+                data=json.dumps({
+                   'text': new_text
+                }),
+                headers=dict(
+                    authToken='Bearer ' + self.user.generate_auth_token()
+                )
+            )
+
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.content_type, 'application/json')
+            data = json.loads(response.data.decode())
+            self.assertEqual(data['text'], new_text)
+

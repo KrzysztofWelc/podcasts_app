@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.exceptions import OperationNotPermitted, ResourceNotFound
 from app.comments.schemas import AddCommentSchema, CommentSchema, PutCommentSchema, AnswerSchema
 from app.comments.services import create_comment, get_comments, get_single_comment, delete_comment, update_comment, \
-    answer_comment, get_answers, delete_answer
+    answer_comment, get_answers, delete_answer, patch_answer
 from app.users.decorators import login_required
 
 comments = Blueprint('comments', __name__)
@@ -103,8 +103,27 @@ def comment_answer(comment_id):
 @login_required
 def delete_answer_route(answer_id):
     try:
+
         delete_answer(answer_id)
         return make_response(), 200
+    except ValidationError as err:
+        return make_response(err.messages), 400
+    except OperationNotPermitted as err:
+        return make_response({'error': err.message}), 401
+    except SQLAlchemyError as err:
+        return make_response({"_error": 'server error'}), 500
+
+
+@comments.route('/answer/<answer_id>', methods=['PATCH'])
+@login_required
+def patch_answer_route(answer_id):
+    try:
+        text = request.json.get('text')
+        if not text:
+            raise ValidationError('text is required')
+        a = patch_answer(answer_id, text)
+        res = AnswerSchema().dump(a)
+        return make_response(res), 200
     except ValidationError as err:
         return make_response(err.messages), 400
     except OperationNotPermitted as err:

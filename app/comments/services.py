@@ -1,4 +1,6 @@
 from datetime import datetime
+from flask import request
+from marshmallow import ValidationError
 from app import db
 from app.comments.models import Comment, AnswerComment
 from app.podcasts.models import Podcast
@@ -58,4 +60,15 @@ def answer_comment(comment_id, answer_text, user):
 
 def delete_answer(answer_id):
     a = AnswerComment.query.filter_by(id=answer_id).first()
+    if a.user_id != request.user.id:
+        raise ValidationError('you are not allowed to do this.')
     db.session.delete(a)
+
+
+def patch_answer(answer_id, text):
+    a = AnswerComment.query.filter_by(id=answer_id).first()
+    if a.user_id != request.user.id:
+        raise ValidationError('you are not allowed to do this.')
+    a.text = text
+    db.session.commit()
+    return a
