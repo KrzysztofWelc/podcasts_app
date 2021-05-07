@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import request
 from marshmallow import ValidationError
 from app import db
+from app.exceptions import OperationNotPermitted
 from app.comments.models import Comment, AnswerComment
 from app.podcasts.models import Podcast
 
@@ -48,6 +49,12 @@ def update_comment(comment, text):
 
 
 def answer_comment(comment_id, answer_text, user):
+    comment = Comment.query.filter_by(id=comment_id).first()
+    comment_author = comment.author
+    podcast_author = comment.podcast.author
+    if user.id not in [comment_author.id, podcast_author.id]:
+        raise OperationNotPermitted('you can not do this')
+
     a = AnswerComment(
         text=answer_text,
         comment_id=comment_id,

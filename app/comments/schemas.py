@@ -30,4 +30,4 @@ class AnswerSchema(Schema):
     text = fields.String(required=True)
     created_at = fields.DateTime(required=True)
     comment_id = fields.Integer(required=True)
-    user_id = fields.Integer(required=True)
+    author = fields.Nested(UserSchema)

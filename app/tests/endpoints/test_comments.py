@@ -156,13 +156,41 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             data = json.loads(response.data.decode())
             self.assertEqual(data['text'], answer_text)
-            self.assertEqual(data['user_id'], self.user.id)
+            self.assertEqual(data.get('author').get('id'), str(self.user.id))
             self.assertEqual(data['comment_id'], comment.id)
             self.assertTrue(data['created_at'])
             self.assertTrue(data['id'])
 
             comment_check = comment.answers.first()
             self.assertEqual(comment_check.text, answer_text)
+
+    def test_comment_answer_not_permitted(self):
+        answer_text = faker.sentence(nb_words=10)
+        comment = Comment(
+            text=faker.sentence(nb_words=10),
+            podcast_id=self.podcast.id,
+            user_id=self.user.id
+        )
+        db.session.add(comment)
+        db.session.commit()
+
+        wrong_user = User(email=faker.email, username='imwrong', password='dasdsadsa')
+        wrong_token = wrong_user.generate_auth_token()
+
+        with self.client:
+            response = self.client.post(
+                '/api/comments/{}/answer'.format(comment.id),
+                data=json.dumps({
+                    'text': answer_text
+                }),
+                content_type='application/json',
+                headers=dict(
+                    authToken='Bearer ' + wrong_token
+                )
+            )
+
+            self.assertEqual(response.status_code, 401)
+
 
     def test_get_paginated_answers(self):
         comment = Comment(
