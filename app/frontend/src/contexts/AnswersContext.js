@@ -9,14 +9,14 @@ export function useAnswers() {
     return useContext(AnswersContext)
 }
 
-export function AnswersProvider({children, commentId}) {
+export function AnswersProvider({children, commentId, areAnswersVisible}) {
     const cookies = useCookies()[0]
     const [answers, setAnswers] = useState([])
     const [answersPage, setAnswersPage] = useState(0)
     const [isMore, setIsMore] = useState(true)
 
-    useState(() => {
-        async function fetchAnswers() {
+    useEffect(() => {
+        const fetchAnswers = async () => {
             if (answersPage) {
                 const {data} = await axios.get(
                     `/api/comments/${commentId}/answers/${answersPage}`
@@ -32,13 +32,13 @@ export function AnswersProvider({children, commentId}) {
         fetchAnswers()
     }, [answersPage])
 
-    async function fetchMoreAnswers() {
+    function fetchMoreAnswers() {
         if (isMore) {
             setAnswersPage(answersPage + 1)
         }
     }
 
-    function fetchFirstAnswers(){
+    function fetchFirstAnswers() {
         setAnswersPage(1)
     }
 
@@ -61,6 +61,13 @@ export function AnswersProvider({children, commentId}) {
             return 'coś poszło nie tak'
         }
     }
+
+    useEffect(() => {
+        if (areAnswersVisible && answersPage === 0) {
+            fetchFirstAnswers()
+        }
+    }, [areAnswersVisible])
+
 
     const value = {answers, setAnswers, addAnswer, isMore, fetchMoreAnswers, fetchFirstAnswers}
 

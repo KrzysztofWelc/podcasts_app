@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {useAnswers} from "../../../contexts/AnswersContext";
 
-export default function AnswerCommentForm({addAnswer}) {
+export default function AnswerCommentForm() {
     const [answer, setAnswer] = useState('')
     const [errors, setErrors] = useState([])
+    const {addAnswer} = useAnswers()
 
     async function submitHandler(e) {
         e.preventDefault()
