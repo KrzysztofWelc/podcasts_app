@@ -2,11 +2,14 @@ import React, {useState} from "react";
 import {useAuth} from "../../contexts/GlobalContext";
 import {useHistory} from "react-router-dom";
 import AnswerCommentForm from "./answers/AnswerCommentForm";
+import AnswerSection from "./answers/AnswersSection";
+import {AnswersProvider} from "../../contexts/AnswersContext";
 
 export default function Comment({comment, editCommentHandler, deleteCommentHandler}) {
     const {text, created_at, author} = comment
     const [isEditMode, setEditMode] = useState(false)
     const [isAnswerMode, setAnswerMode] = useState(false)
+    const [areAnswersVisible, setAnswersVisible] = useState(false)
     const [editText, setEditText] = useState(text)
     const {currentUser, setPreviewedPodcast} = useAuth()
     const history = useHistory()
@@ -53,10 +56,17 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
                         </form>
                     )}
                 <div className='flex'>
-                    {currentUser && <button
+                    <button
                         className='btn mr-3'
-                        onClick={()=>setAnswerMode(!isAnswerMode)}
-                    >Odpowiedz</button>}
+                        onClick={() => setAnswersVisible(!isAnswerMode)}
+                    >Zaobacz odpowiedzi
+                    </button>
+                    {currentUser &&
+                    <button
+                        className='btn mr-3'
+                        onClick={() => setAnswerMode(!isAnswerMode)}
+                    >Odpowiedz
+                    </button>}
                     {currentUser && currentUser.id == author.id && <>
                         <button onClick={() => setEditMode(!isEditMode)} className="btn mr-3">
                             <img className='h-6' src={`${process.env.BASE_URL}assets/edit.svg`} alt="edit icon"/>
@@ -66,9 +76,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
                         </button>
                     </>}</div>
             </div>
-            {isAnswerMode && (
-                <AnswerCommentForm commentId={comment.id}/>
-            )}
+            <AnswerSection commentId={comment.id} isAnswerMode={isAnswerMode} areAnswersVisible={areAnswersVisible}/>
         </div>
     )
 }

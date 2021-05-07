@@ -1,33 +1,22 @@
 import React, {useState} from 'react';
-import axios from "../../../utils/axios";
-import {useCookies} from "react-cookie";
+import {useAnswers} from "../../../contexts/AnswersContext";
 
-export default function AnswerCommentForm({commentId}) {
+export default function AnswerCommentForm() {
     const [answer, setAnswer] = useState('')
     const [errors, setErrors] = useState([])
-    const cookies = useCookies()[0]
+    const {addAnswer} = useAnswers()
 
     async function submitHandler(e) {
         e.preventDefault()
         setErrors([])
         if (answer !== '') {
-            try {
-                const {data} = await axios.post(
-                    `/api/comments/${commentId}/answer`,
-                    {
-                        text: answer
-                    },
-                    {
-                        headers:{
-                            authToken: `Bearer: ${cookies.authToken}`
-                        }
-                    }
-                )
+            const err = await addAnswer(answer)
+            if (err) {
+                setErrors([err])
+            } else {
                 setAnswer('')
-            }catch(e){
-                console.log(e)
-                setErrors(errors.concat['coś poszło nie tak'])
             }
+            
         } else {
             setErrors(['comment can not be empty'].concat([...errors]))
         }

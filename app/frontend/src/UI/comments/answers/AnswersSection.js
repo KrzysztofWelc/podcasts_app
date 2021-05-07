@@ -1,15 +1,14 @@
-import React, {useState}from 'react'
-import {useCookies} from "react-cookie";
+import React from 'react'
 import AnswerCommentForm from "./AnswerCommentForm";
+import {AnswersProvider} from "../../../contexts/AnswersContext";
+import AnswersList from "./AnswersList";
 
-export default function AnswerSection(){
-    const [answers, serAnswers] = useState([])
-    const [isAnswerFormVisible, setAnswerFormVisible] = useState(false)
-    const cookies = useCookies()[0]
 
+export default function AnswerSection({commentId, isAnswerMode, areAnswersVisible}) {
     return (
-        <div className='pl-8'>
-            {isAnswerFormVisible && <AnswerCommentForm/>}
-        </div>
+        <AnswersProvider commentId={commentId}>
+            {isAnswerMode && <AnswerCommentForm/>}
+            {areAnswersVisible && <AnswersList/>}
+        </AnswersProvider>
     )
 }
