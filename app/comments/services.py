@@ -1,6 +1,9 @@
 from datetime import datetime
+from flask import request
+from marshmallow import ValidationError
 from app import db
-from app.comments.models import Comment
+from app.exceptions import OperationNotPermitted
+from app.comments.models import Comment, AnswerComment
 from app.podcasts.models import Podcast
 
 
@@ -20,6 +23,14 @@ def get_comments(podcast_id, page):
     return comments, is_more
 
 
+def get_answers(comment_id, page):
+    page = int(page)
+    c = Comment.query.filter_by(id=comment_id).first()
+    answers = c.answers.offset((page - 1) * 10).limit(10).all()
+    is_more = c.answers.count() > (page - 1) * 10 + 10
+    return answers, is_more
+
+
 def get_single_comment(**kwargs):
     c = Comment.query.filter_by(**kwargs).first()
     return c
@@ -35,3 +46,37 @@ def update_comment(comment, text):
     comment.created_at = datetime.now()
     db.session.commit()
     return comment
+
+
+def answer_comment(comment_id, answer_text, user):
+    comment = Comment.query.filter_by(id=comment_id).first()
+    comment_author = comment.author
+    podcast_author = comment.podcast.author
+    if user.id not in [comment_author.id, podcast_author.id]:
+        raise OperationNotPermitted('you can not do this')
+
+    a = AnswerComment(
+        text=answer_text,
+        comment_id=comment_id,
+        user_id=user.id
+    )
+    db.session.add(a)
+    db.session.commit()
+    return a
+
+
+def delete_answer(answer_id):
+    a = AnswerComment.query.filter_by(id=answer_id).first()
+    if a.user_id != request.user.id:
+        raise ValidationError('you are not allowed to do this.')
+    db.session.delete(a)
+    db.session.commit()
+
+
+def patch_answer(answer_id, text):
+    a = AnswerComment.query.filter_by(id=answer_id).first()
+    if a.user_id != request.user.id:
+        raise ValidationError('you are not allowed to do this.')
+    a.text = text
+    db.session.commit()
+    return a
