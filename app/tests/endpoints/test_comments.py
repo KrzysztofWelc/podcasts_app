@@ -191,7 +191,6 @@ class TestPodcastsPackage(BaseTestCase):
 
             self.assertEqual(response.status_code, 401)
 
-
     def test_get_paginated_answers(self):
         comment = Comment(
             text=faker.sentence(nb_words=10),
@@ -273,7 +272,7 @@ class TestPodcastsPackage(BaseTestCase):
                 '/api/comments/answer/{}'.format(a.id),
                 content_type='application/json',
                 data=json.dumps({
-                   'text': new_text
+                    'text': new_text
                 }),
                 headers=dict(
                     authToken='Bearer ' + self.user.generate_auth_token()
@@ -284,4 +283,3 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             data = json.loads(response.data.decode())
             self.assertEqual(data['text'], new_text)
-

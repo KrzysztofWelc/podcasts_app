@@ -35,7 +35,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
         <div className='p-4 border-b border-white'>
             <a
                 onClick={e => goToAuthorProfileHandler(e, author.id)}
-                className='font-lg mr-4 cursor-pointer'
+                className='font-lg mr-4 cursor-pointer hover:text-blue-400'
             >
                 {author.username}
             </a>
@@ -58,7 +58,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
                 <div className='flex'>
                     <button
                         className='btn mr-3'
-                        onClick={() => setAnswersVisible(!isAnswerMode)}
+                        onClick={() => setAnswersVisible(!areAnswersVisible)}
                     >Zaobacz odpowiedzi
                     </button>
                     {currentUser &&

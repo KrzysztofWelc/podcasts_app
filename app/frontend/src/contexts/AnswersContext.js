@@ -12,6 +12,35 @@ export function useAnswers() {
 export function AnswersProvider({children, commentId}) {
     const cookies = useCookies()[0]
     const [answers, setAnswers] = useState([])
+    const [answersPage, setAnswersPage] = useState(0)
+    const [isMore, setIsMore] = useState(true)
+
+    useState(() => {
+        async function fetchAnswers() {
+            if (answersPage) {
+                const {data} = await axios.get(
+                    `/api/comments/${commentId}/answers/${answersPage}`
+                )
+                setIsMore(data.is_more)
+                const check = new Set()
+                const a = [...answers, ...data.items].filter(answer => !check.has(answer.id) && check.add(answer.id))
+                console.log(a)
+                setAnswers(a)
+            }
+        }
+
+        fetchAnswers()
+    }, [answersPage])
+
+    async function fetchMoreAnswers() {
+        if (isMore) {
+            setAnswersPage(answersPage + 1)
+        }
+    }
+
+    function fetchFirstAnswers(){
+        setAnswersPage(1)
+    }
 
     async function addAnswer(text) {
         try {
@@ -33,7 +62,7 @@ export function AnswersProvider({children, commentId}) {
         }
     }
 
-    const value = {answers, setAnswers, addAnswer}
+    const value = {answers, setAnswers, addAnswer, isMore, fetchMoreAnswers, fetchFirstAnswers}
 
     return (
         <AnswersContext.Provider value={value}>
