@@ -30,7 +30,7 @@ export default function Navbar() {
     });
 
     return (
-        <nav className="fixed flex items-center inset-x-0 top-0 px-6 py-3 justify-between w-full bg-green-500">
+        <nav className="fixed flex items-center inset-x-0 top-0 px-6 py-3 justify-between w-full bg-purple-900">
             <Link to='/'><h1 className='text-3xl text-white'>Podcasts</h1></Link>
             {isMobile && <button onClick={() => setIsNavbarActive(true)}><img src={`${process.env.BASE_URL}assets/menu.svg`} alt="menu"/></button>}
             {isNavbarActive && <Backdrop clickAction={() => setIsNavbarActive(false)}/>}

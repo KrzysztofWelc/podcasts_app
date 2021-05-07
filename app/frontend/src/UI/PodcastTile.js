@@ -25,7 +25,7 @@ export default function PodcastTile({data}) {
                 <h5 className="text-2xl md:text-4xl mb-2">{data.title}</h5>
                 <p onClick={e=>goToAuthorProfileHandler(e, data.author.id)} className="mb-2 text-lg">{data.author.username}</p>
                 <button onClick={(e) => setGlobalPodcast(data, e)}
-                        className='rounded-md bg-blue-600 text-blue-50 px-3 py-1 '>
+                        className='btn'>
                     play
                 </button>
             </div>
