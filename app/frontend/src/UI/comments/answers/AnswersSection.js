@@ -70,7 +70,6 @@ export default function AnswerSection({commentId, isAnswerMode, areAnswersVisibl
             {areAnswersVisible && <AnswersList
                 answers={answers}
                 isMore={isMore}
-                fetchFirstAnswers={fetchFirstAnswers}
                 fetchMoreAnswers={fetchMoreAnswers}
             />}
         </div>
