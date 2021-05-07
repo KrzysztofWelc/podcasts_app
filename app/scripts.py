@@ -1,8 +1,9 @@
-import pdb
+from random import randint
 from itertools import groupby
 from datetime import date, timedelta
 from app import db
-from app.podcasts.models import PopularPodcast, View
+from app.podcasts.models import PopularPodcast, View, Podcast
+from faker import Faker
 
 
 def _set_most_popular():
@@ -42,5 +43,23 @@ def _set_most_popular():
     for pid in most_popular_podcast_ids:
         pp = PopularPodcast(podcast_id=pid, views=most_popular_podcast_ids[pid])
         db.session.add(pp)
+
+    db.session.commit()
+
+
+def _generate_fake_views():
+    faker = Faker()
+    podcasts = db.session.query(Podcast).all()
+    views = db.session.query(View).all()
+
+    for v in views:
+        db.session.delete(v)
+
+    db.session.commit()
+
+    for p in podcasts:
+        for _ in range(10, 40):
+            v = View(podcast_id=p.id, timestamp=faker.date_between(start_date='-3d', end_date='today'))
+            db.session.add(v)
 
     db.session.commit()
