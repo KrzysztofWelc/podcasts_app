@@ -70,6 +70,7 @@ def delete_answer(answer_id):
     if a.user_id != request.user.id:
         raise ValidationError('you are not allowed to do this.')
     db.session.delete(a)
+    db.session.commit()
 
 
 def patch_answer(answer_id, text):
