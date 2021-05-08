@@ -67,7 +67,7 @@ export default function PublishPodcast() {
     }
 
     return (
-        <div className="card">
+        <div className="card mt-4">
             {uploading && <div
                 className='fixed flex items-center justify-center w-screen h-screen z-50 top-0 left-0 bg-green-500 bg-opacity-50'
             >

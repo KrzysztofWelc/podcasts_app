@@ -33,7 +33,7 @@ export default function Login() {
     }
 
     return (
-        <div className="card">
+        <div className="card mt-4">
                 {errors.length > 0 && errors.map(err => <div className='alert-danger mb-3' key={err.slice(2,7)+Math.random()}>{err}</div>)}
                 <h2 className='text-2xl'>Login</h2>
                 <form onSubmit={handleSubmit}>

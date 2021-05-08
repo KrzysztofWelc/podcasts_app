@@ -9,14 +9,14 @@ export default function MainPage() {
     return (
         <div>
             <div className='mb-5'>
-                <h2>Popularne</h2>
+                <h2 className='font-semibold text-3xl mb-4'>Popularne</h2>
                 <NonPaginatedList
                     url={'api/podcasts/most_popular'}
                     render={({items, loading}) => <List items={items} loading={loading} isMore={false} Component={PodcastTile}/>}
                 />
             </div>
             <div>
-                <h2>Najnowsze</h2>
+                <h2 className='font-semibold text-3xl my-4'>Najnowsze</h2>
                 <PaginatedList
                     url={'api/podcasts/newest/'}
                     render={({items, isMore, loading, moreHandler}) => <List items={items} isMore={isMore}

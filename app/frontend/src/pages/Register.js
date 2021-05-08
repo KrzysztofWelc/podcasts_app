@@ -49,7 +49,7 @@ export default function Register() {
     }
 
     return (
-        <div className="card">
+        <div className="card mt-4">
             {errors.length > 0 && errors.map(err => <div className='alert-danger mb-4' key={err.slice(2, 7) + Math.random()}>{err}</div>)}
             <h2 className='text-2xl'>Register</h2>
             <form onSubmit={handleSubmit}>

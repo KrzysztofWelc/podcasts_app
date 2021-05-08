@@ -3,7 +3,7 @@ import {useHistory, Link} from 'react-router-dom'
 import axios from "../utils/axios";
 import {useAuth} from "../contexts/GlobalContext";
 
-export default function SearchInput() {
+export default function SearchInput({setIsNavbarActive}) {
     const [query, setQuery] = useState('')
     const [isPreviewVisible, setIsPreviewVisible] = useState(false)
     const [previewLists, setPreviewLists] = useState({users: [], podcasts: []})
@@ -25,7 +25,10 @@ export default function SearchInput() {
 
     function submitHandler(e) {
         e.preventDefault()
-        history.push('/search/' + query)
+        if (query !== '') {
+            setIsNavbarActive(false)
+            history.push('/search/' + query)
+        }
     }
 
     return (
@@ -33,7 +36,7 @@ export default function SearchInput() {
             <input value={query}
                    onChange={(e) => setQuery(e.target.value)}
                    onFocus={() => setIsPreviewVisible(true)}
-                   onBlur={() => setTimeout(()=>setIsPreviewVisible(false), 300)}
+                   onBlur={() => setTimeout(() => setIsPreviewVisible(false), 300)}
                    className="p-2 rounded-l-md text-grey-400 w-40"
                    type="search"
                    placeholder="Search"
@@ -41,14 +44,21 @@ export default function SearchInput() {
             <button className="p-2 rounded-r-md text-white bg-purple-600 " type="submit">Search</button>
             {((previewLists.users.length || previewLists.podcasts.length) && isPreviewVisible) ? (
                 <div
-                    className='bg-white border-l border-r border-b rounded-b-lg border-blue-500 p-3 absolute w-full top-0 '>
+                    className='bg-white border-l border-r border-b rounded-b-lg border-blue-500 p-3 absolute w-full'
+                    style={{
+                        bottom: '-250%'
+                    }}
+                >
                     {previewLists.podcasts.length ? (
                         <div>
                             <h4 className='text-xl my-3'>podcasts</h4>
                             <ul className="list-none">
                                 {previewLists.podcasts.length ? previewLists.podcasts.map(podcast => (
                                     <li key={podcast.id + 'podcast'}
-                                        onClick={()=>setPreviewedPodcast(podcast)}
+                                        onClick={() => {
+                                            setIsNavbarActive(false)
+                                            setPreviewedPodcast(podcast)
+                                        }}
                                         className="text-blue-500 text-lg cursor-pointer">{podcast.title}</li>
                                 )) : null}
                             </ul>
@@ -60,7 +70,7 @@ export default function SearchInput() {
                             <h4 className='text-xl my-3'>users</h4>
                             <ul className="list-none">
                                 {previewLists.users.length ? previewLists.users.map(user => (
-                                    <Link key={user.id + 'user'} to={`/user/${user.id}`}>
+                                    <Link onClick={()=>setIsNavbarActive(false)} key={user.id + 'user'} to={`/user/${user.id}`}>
                                         <li className="text-blue-500 text-lg ">{user.username}</li>
                                     </Link>)) : null}
                             </ul>

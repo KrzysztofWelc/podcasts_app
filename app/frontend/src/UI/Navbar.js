@@ -14,6 +14,7 @@ export default function Navbar() {
 
     async function handleLogout() {
         await logOut()
+        setIsNavbarActive(false)
         history.push('/')
     }
 
@@ -36,13 +37,13 @@ export default function Navbar() {
             {isNavbarActive && <Backdrop clickAction={() => setIsNavbarActive(false)}/>}
             <div
                 className={`items-center flex 
-                    ${isMobile && `border-box py-4 px-2 bg-gray-500 fixed inset-y-0 right-0 w-10/12 h-screen z-30 flex flex-col -right-full
+                    ${isMobile && `border-box py-4 px-2 bg-gray-700 fixed inset-y-0 right-0 w-10/12 h-screen z-30 flex flex-col -right-full
                     transition-transform
                     `}
                     ${isNavbarActive && `-translate-y-120`}
                 `}
             >
-                <SearchInput/>
+                <SearchInput setIsNavbarActive={setIsNavbarActive}/>
                 <ul className={`flex items-center ${isMobile && 'flex-col'}`}>
                     {currentUser ? <>
                         <li className="nav-item active">

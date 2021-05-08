@@ -52,7 +52,7 @@ export default function ChangePassword() {
     }
 
     return (
-        <div className='card'>
+        <div className='card mt-4'>
             <h3 className='text-2xl'>Zmień hasło</h3>
             <form onSubmit={submitHandler}>
                 {error && <div className='alert-danger'>{error}</div>}

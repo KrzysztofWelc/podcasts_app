@@ -10,6 +10,7 @@ export default function Search() {
 
 
     return (<div>
+        <h2 className='font-semibold text-3xl mt-4'>Podcasty</h2>
         <PaginatedList
             url={`/api/search/podcasts/${query}/`}
             render={({items, isMore, loading, moreHandler}) => <List items={items} isMore={isMore} loading={loading}
@@ -17,6 +18,7 @@ export default function Search() {
             }
         />
 
+        <h2 className='font-semibold text-3xl mt-4'>Użytkownicy</h2>
         <PaginatedList
             url={`/api/search/users/${query}/`}
             render={({items, isMore, loading, moreHandler}) => <List items={items} isMore={isMore} loading={loading}
