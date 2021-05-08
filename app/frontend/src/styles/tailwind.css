@@ -15,7 +15,7 @@ body{
 }
 
 .btn{
-    @apply rounded-md bg-blue-600 text-blue-50 px-3 py-1
+    @apply rounded-md bg-purple-900 text-blue-50 px-3 py-1
 }
 
 .btn-danger{

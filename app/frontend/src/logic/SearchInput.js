@@ -29,7 +29,7 @@ export default function SearchInput() {
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <form className='relative' onSubmit={submitHandler}>
             <input value={query}
                    onChange={(e) => setQuery(e.target.value)}
                    onFocus={() => setIsPreviewVisible(true)}
@@ -38,10 +38,10 @@ export default function SearchInput() {
                    type="search"
                    placeholder="Search"
                    aria-label="Search"/>
-            <button className="p-2 rounded-r-md text-white bg-blue-600 " type="submit">Search</button>
+            <button className="p-2 rounded-r-md text-white bg-purple-600 " type="submit">Search</button>
             {((previewLists.users.length || previewLists.podcasts.length) && isPreviewVisible) ? (
                 <div
-                    className='bg-white border-l border-r border-b rounded-b-lg border-blue-500 p-3 absolute w-full top-8 '>
+                    className='bg-white border-l border-r border-b rounded-b-lg border-blue-500 p-3 absolute w-full top-0 '>
                     {previewLists.podcasts.length ? (
                         <div>
                             <h4 className='text-xl my-3'>podcasts</h4>
@@ -49,7 +49,7 @@ export default function SearchInput() {
                                 {previewLists.podcasts.length ? previewLists.podcasts.map(podcast => (
                                     <li key={podcast.id + 'podcast'}
                                         onClick={()=>setPreviewedPodcast(podcast)}
-                                        className="text-blue-500 text-lg ">{podcast.title}</li>
+                                        className="text-blue-500 text-lg cursor-pointer">{podcast.title}</li>
                                 )) : null}
                             </ul>
                         </div>) : null}

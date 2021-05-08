@@ -3,7 +3,7 @@ import {useAuth} from "../contexts/GlobalContext";
 
 
 export default function Player() {
-    const {podcastURL, isPlaying, setIsPlaying} = useAuth()
+    const {podcastURL, isPlaying, setIsPlaying, currentPodcast} = useAuth()
     const [currentPromile, setCurrentPromile] = useState(0)
     const audio = useRef()
 
@@ -55,16 +55,20 @@ export default function Player() {
     }
 
     return (
-        <div id='player' className='fixed inset-x-0 bottom-0 z-50 border-box p-4 bg-green-500 text-center h-24'>
+        <div id='player' className='fixed inset-x-0 bottom-0 z-50 border-box p-4 bg-purple-900 text-center h-24'>
             <audio
                 onTimeUpdate={progressHandler}
                 onEnded={() => setIsPlaying(false)}
                 src={podcastURL} ref={audio}/>
-            <button
+            <div className='flex align-center justify-center' >
+                <button
                 onClick={playPauseHandler}
                 className='mb-3 border-0 bg-transparent'>
                 <img style={{height: '1.5rem'}} src={`${process.env.BASE_URL}assets/${isPlaying ? 'pause' : 'play'}.svg`} alt="play"/>
             </button>
+            <h3 className='ml-4 text-xl text-white inline'>{currentPodcast.title}</h3>
+            </div>
+
             <div className='mx-auto w-8/12 flex-1'>
                 {/*<span>{currentTime}</span>*/}
                 <input onChange={setTimeHandler} value={currentPromile} min='0' max='1000' type="range"
