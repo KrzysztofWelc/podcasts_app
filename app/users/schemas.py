@@ -34,6 +34,7 @@ class ChangePwdSchema(Schema):
 class UserSchema(Schema):
     email = fields.Email(required=True)
     username = fields.String(required=True)
+    bio = fields.String(required=True)
     id = fields.String(required=True)
     profile_img = fields.String(required=True)
 

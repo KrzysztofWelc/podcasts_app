@@ -1,9 +1,7 @@
 import React, {useState} from "react";
 import {useAuth} from "../../contexts/GlobalContext";
 import {useHistory} from "react-router-dom";
-import AnswerCommentForm from "./answers/AnswerCommentForm";
 import AnswerSection from "./answers/AnswersSection";
-import {AnswersProvider} from "../../contexts/AnswersContext";
 
 export default function Comment({comment, editCommentHandler, deleteCommentHandler}) {
     const {text, created_at, author} = comment
@@ -11,7 +9,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
     const [isAnswerMode, setAnswerMode] = useState(false)
     const [areAnswersVisible, setAnswersVisible] = useState(false)
     const [editText, setEditText] = useState(text)
-    const {currentUser, setPreviewedPodcast} = useAuth()
+    const {currentUser, setPreviewedPodcast, previewedPodcast} = useAuth()
     const history = useHistory()
 
     function editSubmitHandler(e) {
@@ -61,7 +59,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
                         onClick={() => setAnswersVisible(!areAnswersVisible)}
                     >Zaobacz odpowiedzi
                     </button>
-                    {currentUser &&
+                    {currentUser && (currentUser.id === author.id || currentUser.id === previewedPodcast.author.id) &&
                     <button
                         className='btn mr-3'
                         onClick={() => setAnswerMode(!isAnswerMode)}

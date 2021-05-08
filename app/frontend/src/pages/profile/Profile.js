@@ -38,6 +38,7 @@ export default function Profile() {
                     className='w-52 h-52 rounded-full block mx-auto'
                     src={`${process.env.BASE_URL}api/users/avatar/${user.profile_img}`} alt="użytkownik"/>
                 <h2 className='text-4xl text-center mb-3'>{user.username}</h2>
+                {user && user.bio && <p className={'text-center'}>{user.bio}</p>}
             </div>}
 
             {error &&
@@ -48,10 +49,10 @@ export default function Profile() {
 
             {currentUser && currentUser.id == id && <nav>
                 <ul className='border-b list-none w-2/6 mx-auto flex justify-around items-center'>
-                    <li><Link className='text-2xl text-blue-400 hover:text-blue-500 cursor-pointer'
+                    <li><Link className='text-2xl text-blue-400 hover:text-blue-500 cursor-pointer mx-2'
                               to={url}>podcasty</Link>
                     </li>
-                    <li><Link className='text-2xl text-blue-400 hover:text-blue-500 cursor-pointer'
+                    <li><Link className='text-2xl text-blue-400 hover:text-blue-500 cursor-pointer mx-2'
                               to={`${url}/edit_data`}>dane</Link></li>
                 </ul>
             </nav>

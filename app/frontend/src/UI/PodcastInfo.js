@@ -20,7 +20,7 @@ export default function PodcastInfo() {
             >
                 <button
                     onClick={() => setPreviewedPodcast(null)}
-                    className='border-0 bg-transparent absolute top-4 right-4'>
+                    className='border-0 bg-transparent absolute top-4 right-4 w-6'>
                     <img src={`${process.env.BASE_URL}assets/close.svg`} alt="iks"/>
                 </button>
                 <div className="flex-1">

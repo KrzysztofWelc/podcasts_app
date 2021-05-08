@@ -1,19 +1,19 @@
 import unittest
 import os
 from app import create_app, db, models
-from app.scripts import _set_most_popular, _generate_fake_views
+from app.scripts import set_most_popular_script, generate_fake_views_script
 
 app = create_app()
 
 
 @app.cli.command('set_most_popular')
 def set_most_popular():
-    _set_most_popular()
+    set_most_popular_script()
 
 
 @app.cli.command('generate_fake_views')
 def generate_fake_views():
-    _generate_fake_views()
+    generate_fake_views_script()
 
 
 @app.cli.command('test')
