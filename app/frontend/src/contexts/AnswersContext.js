@@ -58,6 +58,7 @@ export function AnswersProvider({children, commentId, areAnswersVisible}) {
             setAnswers([data].concat(answers))
             return null
         } catch (err) {
+            console.log(err)
             return 'coś poszło nie tak'
         }
     }

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 import axios from "../../utils/axios";
+import {useAuth} from "../../contexts/GlobalContext";
 import AddCommentSection from "./AddCommentForm";
 import CommentsList from "./CommentsList";
 
@@ -8,6 +9,7 @@ export default function CommentsSection({podcast}) {
     const [comments, setComments] = useState([])
     const [isMore, setIsMore] = useState(true)
     const [page, setPage] = useState(1)
+    const {currentUser} = useAuth()
     const cookies = useCookies()[0]
 
     async function addComment(text) {
@@ -97,7 +99,7 @@ export default function CommentsSection({podcast}) {
 
     return (
         <div>
-            <AddCommentSection addComment={addComment}/>
+            {currentUser && <AddCommentSection addComment={addComment}/>}
             <CommentsList
                 isMore={isMore}
                 comments={comments}
