@@ -9,7 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.users.decorators import login_required
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
 from app.podcasts.services import get_new_podcasts, get_most_popular, create_podcast, find_podcast, update_podcast, \
-    get_user_podcasts
+    get_user_podcasts, delete_podcast
 from app.podcasts.utils import get_chunk
 from app.exceptions import ResourceNotFound
 from app.celery_tasks.tasks import add_view_record
@@ -92,18 +92,20 @@ def patch_podcast(podcast_id):
         return make_response(e), 500
 
 
-# TODO: add delete_podcast route
-# @podcasts.route('/<podcast_id>', methods=['DELETE'])
-# def delete_podcast(podcast_id):
-#     try:
-#         podcast = get_podcast(id=podcast_id)
-#         if not podcast:
-#             return make_response({'general': 'podcast not found'}), 404
-#         delete_podcast(podcast)
-#         return make_response(), 200
-#     except ValidationError as err:
-#         return make_response(err.messages), 400
-#
+@podcasts.route('/<podcast_id>', methods=['DELETE'])
+@login_required
+def delete_podcast_r(podcast_id):
+    try:
+        podcast = find_podcast(id=podcast_id)
+        if not podcast:
+            return make_response({'general': 'podcast not found'}), 404
+        if request.user.id != podcast.author.id:
+            return make_response(), 401
+        delete_podcast(podcast)
+        return make_response(), 200
+    except ValidationError as err:
+        return make_response(err.messages), 400
+
 
 @podcasts.route('/stream/<podcast_file>')
 def stream_podcast(podcast_file):

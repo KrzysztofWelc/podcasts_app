@@ -1,8 +1,10 @@
 import unittest
 import json
 import io
+import os
 from random import randint
 
+from flask import current_app as app
 from faker import Faker
 from app import db
 from app.models import User, Podcast, PopularPodcast
@@ -110,7 +112,8 @@ class TestPodcastsPackage(BaseTestCase):
 
     def test_get_users_podcasts_list(self):
         for _ in range(20):
-            p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum', audio_file=faker.file_name(extension='mp3'))
+            p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum',
+                        audio_file=faker.file_name(extension='mp3'))
             db.session.add(p)
         db.session.commit()
 
@@ -124,7 +127,8 @@ class TestPodcastsPackage(BaseTestCase):
     def test_det_st_popular_podcasts(self):
         podcasts = []
         for _ in range(10):
-            p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum', audio_file=faker.file_name(extension='mp3'))
+            p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum',
+                        audio_file=faker.file_name(extension='mp3'))
             podcasts.append(p)
             db.session.add(p)
         db.session.commit()
@@ -165,6 +169,27 @@ class TestPodcastsPackage(BaseTestCase):
             data = json.loads(res.data.decode())
             self.assertEqual(data['title'], patch_data['title'])
             self.assertEqual(data['description'], patch_data['description'])
+
+    def test_podcast_delete(self):
+        p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum',
+                    audio_file=faker.file_name(extension='mp3'))
+        with open(os.path.abspath(os.path.join(app.root_path, 'static', 'podcasts', p.audio_file)), 'w') as f:
+            f.write('tesdasdas')
+        db.session.add(p)
+        db.session.commit()
+
+        with self.client:
+            res = self.client.delete(
+                '/api/podcasts/{}'.format(p.id),
+                content_type='application/json',
+                headers=dict(
+                    authToken='Bearer ' + self.user.generate_auth_token()
+                ),
+            )
+            self.assertEqual(res.status_code, 200)
+
+            check = Podcast.query.filter_by(id=p.id).first()
+            self.assertFalse(check)
 
     # TODO: add missing tests
     # def test_podcast_update_when_owner(self):

@@ -12,7 +12,7 @@ PAGE_SIZE = 10
 def delete_podcast(podcast):
     db.session.delete(podcast)
     db.session.commit()
-    path = os.path.join(app.root_path, 'static', 'podcasts', podcast.audio_file)
+    path = os.path.abspath(os.path.join(app.root_path, 'static', 'podcasts', podcast.audio_file))
     os.remove(path)
 
 
