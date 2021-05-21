@@ -12,7 +12,7 @@ export default function Podcasts() {
             <PaginatedList
                 url={`/api/podcasts/all/${id}/`}
                 render={({items, isMore, loading, moreHandler}) => <List items={items} isMore={isMore} loading={loading}
-                                                                         moreHandler={moreHandler} Component={PodcastTile}/>
+                                                                         moreHandler={moreHandler} CRUDMode={true} Component={PodcastTile}/>
                 }
             />
         </div>
