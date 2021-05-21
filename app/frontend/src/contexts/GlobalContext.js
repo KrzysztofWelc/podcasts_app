@@ -19,6 +19,8 @@ export function AuthProvider({children}) {
     const [currentPodcast, setCurrentPodcast] = useState(null)
     const [previewedPodcast, setPreviewedPodcast] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
+    const [hasInteractedBefore, setHasInteractedBefore] = useState(false)
+    const [currentTime, setCurrentTime] = useState(null)
 
 
     const value = {
@@ -26,24 +28,32 @@ export function AuthProvider({children}) {
         signUp, logIn, logOut,
         setGlobalPodcast, podcastURL, currentPodcast,
         previewedPodcast, setPreviewedPodcast,
-        isPlaying, setIsPlaying
+        isPlaying, setIsPlaying,
+        hasInteractedBefore, setHasInteractedBefore,
+        currentTime
     }
 
     //use this to start playing a podcast
-    function setGlobalPodcast(podcast, event) {
-        event.stopPropagation()
-        if (podcastURL == `${process.env.BASE_URL}api/podcasts/stream/${podcast.audio_file}`) {
+    function setGlobalPodcast(podcast, event = null, time = null) {
+        if(event){
+            event.stopPropagation()
+        }
+        const url = `${process.env.BASE_URL}api/podcasts/stream/${podcast.audio_file}`
+        if (podcastURL === url) {
             setIsPlaying(!isPlaying)
         } else {
             if (isPlaying) {
                 setIsPlaying(false)
             }
-            setPodcastURL(`${process.env.BASE_URL}api/podcasts/stream/${podcast.audio_file}`)
+            if(time) {
+                setCurrentTime(time)
+            }
+            setPodcastURL(url)
             setCurrentPodcast(podcast)
+            localStorage.setItem('podcast', JSON.stringify(podcast))
         }
-
-
     }
+
 
     async function logIn(email, password) {
         setLoading(true)

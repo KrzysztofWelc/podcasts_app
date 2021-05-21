@@ -3,7 +3,7 @@ import {useAuth} from "../contexts/GlobalContext";
 
 
 export default function Player() {
-    const {podcastURL, isPlaying, setIsPlaying, currentPodcast} = useAuth()
+    const {podcastURL, isPlaying, setIsPlaying, currentPodcast, hasInteractedBefore, setHasInteractedBefore, currentTime} = useAuth()
     const [currentPromile, setCurrentPromile] = useState(0)
     const audio = useRef()
 
@@ -12,10 +12,17 @@ export default function Player() {
         audio.current.load()
         audio.current.currentTime = 0
         setCurrentPromile(0)
-        setIsPlaying(true)
+        if(currentTime && !hasInteractedBefore){
+            audio.current.currentTime = currentTime
+        }
+
+        if(hasInteractedBefore){
+            setIsPlaying(true)
+        }
     }, [podcastURL])
 
     useEffect(() => {
+        setHasInteractedBefore(true)
         if (isPlaying) {
             audio.current.play()
         } else {
@@ -23,8 +30,16 @@ export default function Player() {
         }
     }, [isPlaying])
 
+    useEffect(()=>{
+        return ()=>{
+            const currentTime = audio.current.currentTime
+            localStorage.setItem('podcast_time', JSON.stringify(currentTime))
+        }
+    })
+
     function playPauseHandler(e) {
         e.preventDefault()
+
         if (audio.current.paused) {
             audio.current.play()
             setIsPlaying(true)
