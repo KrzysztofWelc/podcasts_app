@@ -142,6 +142,29 @@ class TestPodcastsPackage(BaseTestCase):
             for p in data['items']:
                 self.assertTrue(p['id'] in ids)
 
+    def test_podcast_update(self):
+        p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum',
+                    audio_file=faker.file_name(extension='mp3'))
+        db.session.add(p)
+        db.session.commit()
+
+        with self.client:
+            patch_data = dict(
+                title='etst1',
+                description='dasdasdasdsadsa'
+            )
+            res = self.client.patch(
+                '/api/podcasts/{}'.format(p.id),
+                data=json.dumps(patch_data),
+                content_type='application/json',
+                headers=dict(
+                    authToken='Bearer ' + self.user.generate_auth_token()
+                ),
+            )
+            self.assertEqual(res.status_code, 200)
+            data = json.loads(res.data.decode())
+            self.assertEqual(data['title'], patch_data['title'])
+            self.assertEqual(data['description'], patch_data['description'])
 
     # TODO: add missing tests
     # def test_podcast_update_when_owner(self):

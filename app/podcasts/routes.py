@@ -75,13 +75,21 @@ def patch_podcast(podcast_id):
     try:
         data = EditPodcastSchema().load(request.json)
         podcast = find_podcast(id=podcast_id)
+
         if not podcast:
             return make_response({'general': 'podcast not found'}), 404
+        if request.user.id != podcast.author.id:
+            return make_response(), 401
         updated_podcast = update_podcast(podcast, data)
 
         return make_response(PodcastSchema().dump(updated_podcast)), 200
     except ValidationError as err:
+        print(err)
         return make_response(err.messages), 400
+    except SQLAlchemyError as err:
+        e = str(err)
+        print(e)
+        return make_response(e), 500
 
 
 # TODO: add delete_podcast route
