@@ -35,7 +35,7 @@ export function AuthProvider({children}) {
 
     //use this to start playing a podcast
     function setGlobalPodcast(podcast, event = null, time = null) {
-        if(event){
+        if (event) {
             event.stopPropagation()
         }
         const url = `${process.env.BASE_URL}api/podcasts/stream/${podcast.audio_file}`
@@ -45,7 +45,7 @@ export function AuthProvider({children}) {
             if (isPlaying) {
                 setIsPlaying(false)
             }
-            if(time) {
+            if (time) {
                 setCurrentTime(time)
             }
             setPodcastURL(url)
@@ -62,13 +62,19 @@ export function AuthProvider({children}) {
                 email, password
             })
             setCurrentUser(res.data.user)
-            setCookie('authToken', res.data.token, {sameSite: true})
+            setCookie('authToken',
+                res.data.token,
+                {
+                    sameSite: true,
+                    expires: new Date("Fri, 31 Dec 9999 23:59:59 GMT")
+                })
             localStorage.setItem('user', JSON.stringify(res.data.user))
         } catch (e) {
             setLoading(false)
             if (e.response) {
                 return e.response.data
             } else {
+                console.log(e)
                 return {server: ['error']}
             }
         }
@@ -94,7 +100,12 @@ export function AuthProvider({children}) {
             })
             console.log(res)
             setCurrentUser(res.data.user)
-            setCookie('authToken', res.data.token, {sameSite: true})
+            setCookie('authToken',
+                res.data.token,
+                {
+                    sameSite: true,
+                    expires: new Date("Fri, 31 Dec 9999 23:59:59 GMT")
+                })
             localStorage.setItem('user', JSON.stringify(res.data.user))
         } catch (e) {
             setLoading(false)
