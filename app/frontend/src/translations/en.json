@@ -1,6 +1,71 @@
 {
-  "popular": "Popular",
-  "navbar_publish": "Publish",
-  "navbar_logOut": "Log out",
-  "navbar_search_placeholder": "searched "
+  "more": "more",
+  "podcasts": "Podcasts",
+  "users": "Users",
+  "error": "something went wrong",
+  "home": {
+    "popular": "Popular",
+    "newest": "Recent"
+  },
+  "navbar": {
+    "publish": "Publish",
+    "logOut": "Log out",
+    "login": "Log in",
+    "register": "Sign up",
+    "search_placeholder": "searched phrase",
+    "search_button": "search"
+  },
+  "register": {
+    "header": "Sign Up",
+    "email": "email",
+    "username": "username",
+    "password": "password",
+    "password2": "repeat password",
+    "avatar": "choose avatar",
+    "submit": "Sign up"
+  },
+  "login": {
+    "header": "Log in",
+    "email": "email",
+    "password": "password",
+    "submit": "Log in"
+  },
+  "publish": {
+    "header": "Publish podcast",
+    "title": "title",
+    "desc": "description",
+    "podcastFile": "wchoose podcast file",
+    "podcastCover": "choose cover file",
+    "submit": "send"
+  },
+  "podcastInfo": {
+    "comment": "comment",
+    "addComment": "comment",
+    "answer": "answer",
+    "addAnswer": "answer",
+    "showAnswers": "show answers"
+  },
+  "profile": {
+    "nav": {
+      "podcasts": "podcasts",
+      "data": "data"
+    },
+    "change_pwd": {
+      "header": "Change password",
+      "oldPassword": "old password",
+      "newPassword": "new password",
+      "newPassword2": "register new password",
+      "submit": "send"
+    },
+    "changeAvatar": {
+      "header": "Change avatar",
+      "label": "choose new avatar",
+      "submit": "send"
+    },
+    "changeBio": {
+      "header": "Set your bio",
+      "label": "write something about yourself",
+      "submit": "send"
+    }
+  }
 }

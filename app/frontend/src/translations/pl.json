@@ -17,25 +17,25 @@
   },
   "register": {
     "header": "Rejestracja",
-    "email":"email",
+    "email": "email",
     "username": "nazwa użytkownika",
-    "password":"hasło",
-    "password2":"powtórz hasło",
+    "password": "hasło",
+    "password2": "powtórz hasło",
     "avatar": "wybierz avatar",
     "submit": "Zarejestruj się"
   },
   "login": {
     "header": "Logowanie",
-    "email":"email",
-    "password":"hasło",
+    "email": "email",
+    "password": "hasło",
     "submit": "Zaloguj się"
   },
   "publish": {
     "header": "Opublikuj podcast",
-    "title":"tytuł",
-    "desc":"description",
-    "podcastFile":"wybierz plik podcastu",
-    "podcastCover":"wybierz okładkę",
+    "title": "tytuł",
+    "desc": "opis",
+    "podcastFile": "wybierz plik podcastu",
+    "podcastCover": "wybierz okładkę",
     "submit": "prześlij"
   },
   "podcastInfo": {
@@ -50,19 +50,19 @@
       "podcasts": "podcasty",
       "data": "dane"
     },
-    "change_pwd":{
+    "change_pwd": {
       "header": "Znień hasło",
       "oldPassword": "stare hasło",
       "newPassword": "nowe hasło",
       "newPassword2": "powtórz nowe hasło",
       "submit": "prześlij"
     },
-    "changeAvatar":{
+    "changeAvatar": {
       "header": "Znień avatar",
       "label": "wybierz nowy avatar",
       "submit": "prześlij"
     },
-    "changeBio":{
+    "changeBio": {
       "header": "Ustaw swój biogram",
       "label": "napisz coś o sobie",
       "submit": "prześlij"
