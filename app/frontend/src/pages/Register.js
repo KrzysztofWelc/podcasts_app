@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {useHistory} from 'react-router-dom'
 import {useAuth} from "../contexts/GlobalContext";
+import {useTranslation} from "react-i18next";
 
 
 export default function Register() {
@@ -12,6 +13,7 @@ export default function Register() {
     const [errors, setErrors] = useState([])
     const {signUp} = useAuth()
     const history = useHistory()
+    const {t} = useTranslation()
 
     function selectFileHandler(e) {
         setFile(e.target.files[0])
@@ -51,47 +53,47 @@ export default function Register() {
     return (
         <div className="card mt-4">
             {errors.length > 0 && errors.map(err => <div className='alert-danger mb-4' key={err.slice(2, 7) + Math.random()}>{err}</div>)}
-            <h2 className='text-2xl'>Register</h2>
+            <h2 className='text-2xl'>{t('register.header')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="email">Email address</label>
+                    <label htmlFor="email">{t('register.email')}</label>
                     <input value={email} onChange={(e) => setEmail(e.target.value)}
                            type="email"
                            className="text-input"
                            id="email"
-                           placeholder="email"/>
+                           placeholder={t('register.email')}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="username">{t('register.username')}</label>
                     <input value={username} onChange={(e) => setUsername(e.target.value)}
                            type="text"
                             className="text-input"
                            id="username"
-                           placeholder="username"/>
+                           placeholder={t('register.username')}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">{t('register.password')}</label>
                     <input value={password} onChange={(e) => setPassword(e.target.value)}
                            type="password"
                            className="text-input"
                            id="password"
-                           placeholder="password"/>
+                           placeholder={t('register.password')}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password2">Repeat Password</label>
+                    <label htmlFor="password2">{t('register.password2')}</label>
                     <input value={password2} onChange={(e) => setPassword2(e.target.value)}
                            type="password" className="text-input" id="password2"
-                           placeholder="password2"/>
+                           placeholder={t('register.password2')}/>
                 </div>
                 <div className="mb-3">
                     <label className="file-input-label"
-                                             htmlFor="customFileLangHTML">{file ? file.name : 'choose profile image'}</label>
+                                             htmlFor="customFileLangHTML">{file ? file.name : t('register.avatar')}</label>
                     <input onChange={selectFileHandler} type="file"
                            className="file-input"
                            id="customFileLangHTML" accept='image/jpeg, image/png'/>
 
                 </div>
-                <input type="submit" className='btn' value="Register"/>
+                <input type="submit" className='btn' value={t('register.submit')}/>
             </form>
         </div>
 

@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {useAuth} from "../../contexts/GlobalContext";
 import {useHistory} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 import AnswerSection from "./answers/AnswersSection";
 
 export default function Comment({comment, editCommentHandler, deleteCommentHandler}) {
@@ -11,6 +12,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
     const [editText, setEditText] = useState(text)
     const {currentUser, setPreviewedPodcast, previewedPodcast} = useAuth()
     const history = useHistory()
+    const {t} = useTranslation()
 
     function editSubmitHandler(e) {
         e.preventDefault()
@@ -57,13 +59,14 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
                     <button
                         className='btn mr-3'
                         onClick={() => setAnswersVisible(!areAnswersVisible)}
-                    >Zaobacz odpowiedzi
+                    >
+                        {t('podcastInfo.showAnswers')}
                     </button>
                     {currentUser && (currentUser.id === author.id || currentUser.id === previewedPodcast.author.id) &&
                     <button
                         className='btn mr-3'
                         onClick={() => setAnswerMode(!isAnswerMode)}
-                    >Odpowiedz
+                    >{t('podcastInfo.addComment')}
                     </button>}
                     {currentUser && currentUser.id == author.id && <>
                         <button onClick={() => setEditMode(!isEditMode)} className="btn mr-3">

@@ -2,13 +2,14 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {useAuth} from "../contexts/GlobalContext";
 import {useHistory} from 'react-router-dom'
-import {motion} from "framer-motion";
+import {useTranslation} from "react-i18next";
 import SearchInput from "../logic/SearchInput";
 import Backdrop from "./Backdrop";
 
 export default function Navbar() {
     const {currentUser, logOut} = useAuth()
     const history = useHistory()
+    const {t} = useTranslation()
     const [isMobile, setisMobile] = useState(window.matchMedia('(max-width: 640px)').matches)
     const [isNavbarActive, setIsNavbarActive] = useState(false)
 
@@ -50,17 +51,17 @@ export default function Navbar() {
                             <Link onClick={()=>setIsNavbarActive(false)} className="nav-link" to={`/user/${currentUser.id}`}>{currentUser.username}</Link>
                         </li>
                         <li className="nav-item active">
-                            <Link onClick={()=>setIsNavbarActive(false)} className="nav-link" to="/publish_podcast">Publish</Link>
+                            <Link onClick={()=>setIsNavbarActive(false)} className="nav-link" to="/publish_podcast">{t("navbar.publish")}</Link>
                         </li>
                         <li className="nav-item active">
-                            <button onClick={handleLogout} className="nav-link">Log out</button>
+                            <button onClick={handleLogout} className="nav-link">{t("navbar.logOut")}</button>
                         </li>
                     </> : <>
                         <li className="nav-item active">
-                            <Link onClick={()=>setIsNavbarActive(false)} className="nav-link" to="/register">Register</Link>
+                            <Link onClick={()=>setIsNavbarActive(false)} className="nav-link" to="/register">{t("navbar.register")}</Link>
                         </li>
                         <li className="nav-item active">
-                            <Link onClick={()=>setIsNavbarActive(false)} className="nav-link" to="/login">Login</Link>
+                            <Link onClick={()=>setIsNavbarActive(false)} className="nav-link" to="/login">{t("navbar.login")}</Link>
                         </li>
                     </>}
                 </ul>

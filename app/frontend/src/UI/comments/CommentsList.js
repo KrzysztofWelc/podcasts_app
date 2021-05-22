@@ -1,8 +1,10 @@
 import React from "react";
 import Comment from "./Comment";
-
+import {useTranslation} from "react-i18next";
 
 export default function CommentsList({isMore, comments, nextPageHandler, editCommentHandler, deleteCommentHandler}) {
+    const {t} = useTranslation()
+
     const commentList = comments.length ? comments.map(c => <Comment
         key={c.id}
         editCommentHandler={editCommentHandler}
@@ -15,7 +17,7 @@ export default function CommentsList({isMore, comments, nextPageHandler, editCom
             <ul>
                 {commentList}
             </ul>
-            {isMore && <button className="btn btn-primary" onClick={nextPageHandler}>more</button>}
+            {isMore && <button className="btn btn-primary" onClick={nextPageHandler}>{t('more')}</button>}
         </div>
 
     )

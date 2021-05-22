@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useParams, useRouteMatch, Switch, Route, Link} from 'react-router-dom'
 import axios from "../../utils/axios";
 import {useAuth} from "../../contexts/GlobalContext";
+import {useTranslation} from "react-i18next";
 import Podcasts from "./Podcasts";
 import EditData from "./EditData";
 import PrivateRoute from "../../logic/routes/PrivateRoute";
@@ -13,6 +14,7 @@ export default function Profile() {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
     const {currentUser} = useAuth()
+    const {t} = useTranslation()
 
     useEffect(() => {
             async function fetchUser() {
@@ -43,17 +45,21 @@ export default function Profile() {
 
             {error &&
             <div className="alert-danger fixed bottom-6 left-1/2 transform -translate-x-2/4" role="alert">
-                something went wrong
+                {t('error')}
             </div>}
 
 
             {currentUser && currentUser.id == id && <nav>
                 <ul className='border-b list-none w-2/6 mx-auto flex justify-around items-center'>
                     <li><Link className='text-2xl text-blue-400 hover:text-blue-500 cursor-pointer mx-2'
-                              to={url}>podcasty</Link>
+                              to={url}>
+                        {t('profile.nav.podcasts')}
+                    </Link>
                     </li>
                     <li><Link className='text-2xl text-blue-400 hover:text-blue-500 cursor-pointer mx-2'
-                              to={`${url}/edit_data`}>dane</Link></li>
+                              to={`${url}/edit_data`}>
+                        {t('profile.nav.data')}
+                    </Link></li>
                 </ul>
             </nav>
             }

@@ -9,6 +9,7 @@ import Profile from "./pages/profile/Profile";
 import PlayerWrapper from "./logic/PlayerWrapper";
 import Navbar from "./UI/Navbar";
 import Search from "./pages/Search";
+import './i18n'
 
 export default function App() {
     return (

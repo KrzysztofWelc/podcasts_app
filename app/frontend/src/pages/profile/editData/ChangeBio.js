@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "../../../utils/axios";
 import {useCookies} from "react-cookie";
 import {useHistory} from 'react-router-dom'
+import {useTranslation} from "react-i18next";
 
 
 export default function ChangeBio() {
@@ -10,7 +11,7 @@ export default function ChangeBio() {
     const [error, setError] = useState('')
     const cookies = useCookies()[0]
     const history = useHistory()
-
+    const {t} = useTranslation()
 
     async function submitHandler(e) {
         e.preventDefault()
@@ -51,18 +52,18 @@ export default function ChangeBio() {
 
     return (
         <div className='card'>
-            <h3 className='text-2xl'>Zmień hasło</h3>
+            <h3 className='text-2xl'>{t('profile.changeBio.header')}</h3>
             <form onSubmit={submitHandler}>
                 {error && <div className='alert-danger'>{error}</div>}
                 <div className="form-group">
-                    <label htmlFor="bio">Old Password</label>
+                    <label htmlFor="bio">{t('profile.changeBio.label')}</label>
                     <textarea value={bio} onChange={(e) => setBio(e.target.value)}
                            className="text-input" id="bio"
-                           placeholder="biogram"/>
+                           placeholder={t('profile.changeBio.label')}/>
                 </div>
                 <button className="btn btn-primary" disabled={!bio}
                         type='submit'>
-                    {loading ? <div className="spinner"/> : 'prześlij'}
+                    {loading ? <div className="spinner"/> : t('profile.changeBio.submit')}
                 </button>
             </form>
         </div>

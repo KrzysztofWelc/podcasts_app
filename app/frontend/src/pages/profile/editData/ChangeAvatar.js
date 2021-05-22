@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import axios from "../../../utils/axios";
 import {useCookies} from "react-cookie";
 import {useHistory} from 'react-router-dom'
-import Loader from "../../../UI/Loader";
+import {useTranslation} from "react-i18next";
 
 export default function ChangeAvatar() {
     const [file, setFile] = useState(null)
@@ -10,6 +10,7 @@ export default function ChangeAvatar() {
     const [loading, setLoading] = useState(false)
     const cookies = useCookies()[0]
     const history = useHistory()
+    const {t} = useTranslation()
 
     function selectFileHandler(e) {
         const _file = e.target.files[0]
@@ -48,18 +49,18 @@ export default function ChangeAvatar() {
 
     return (
         <div className='card mt-4'>
-            <h3 className='text-2xl'>Zmień zdjęcie profilowe</h3>
+            <h3 className='text-2xl'>{t('profile.changeAvatar.header')}</h3>
             <form onSubmit={submitHandler}>
                 {error && <div className='alert-danger'>{error}</div>}
                 <div className="custom-file mb-3">
                     <label className="custom-file-label" htmlFor="customFileLangHTML"
-                           data-browse="select">{file ? file.name : 'choose podcast file'}</label>
+                           data-browse="select">{file ? file.name : t('profile.changeAvatar.label')}</label>
                     <input onChange={selectFileHandler} type="file" className="file-input"
                            id="customFileLangHTML" accept='image/jpeg, image/png'/>
 
                 </div>
                 <button className="btn" disabled={!file || loading} type='submit'>
-                    {loading ? <div className="spinner"/> : 'prześlij'}
+                    {loading ? <div className="spinner"/> : t('profile.changeAvatar.submit')}
                 </button>
             </form>
         </div>

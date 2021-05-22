@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {useAuth} from "../contexts/GlobalContext";
+import {useTranslation} from "react-i18next";
 import Backdrop from "./Backdrop";
 import CommentsSection from "./comments/CommentsSection";
 
 export default function PodcastInfo() {
     const {previewedPodcast, currentPodcast, setGlobalPodcast, setPreviewedPodcast, isPlaying, podcastURL} = useAuth()
     const [isPlayingLocal, setIsPlayingLocal] = useState(false)
+    const {t} = useTranslation()
 
     useEffect(() => {
         const x = currentPodcast && (previewedPodcast.id == currentPodcast.id) && isPlaying

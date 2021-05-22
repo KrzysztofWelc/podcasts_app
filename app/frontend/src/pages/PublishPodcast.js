@@ -3,8 +3,7 @@ import axios from "../utils/axios";
 import {useCookies} from "react-cookie";
 import {useHistory} from 'react-router-dom'
 import {useAuth} from "../contexts/GlobalContext";
-
-//TODO: inspect the problem causing podcasts to be sometimes not uploaded
+import {useTranslation} from "react-i18next";
 
 export default function PublishPodcast() {
     const [title, setTitle] = useState('')
@@ -17,6 +16,7 @@ export default function PublishPodcast() {
     const cookies = useCookies()[0]
     const history = useHistory()
     const {currentUser} = useAuth()
+    const {t} = useTranslation()
 
     function selectFileHandler(e) {
         setFile(e.target.files[0])
@@ -79,38 +79,38 @@ export default function PublishPodcast() {
             </div>}
             {errors.length !== 0 && errors.map(msg => <div className='alert-danger'
                                                            key={Math.random()}>{msg}</div>)}
-            <h2 className='text-2xl'>Publish podcast</h2>
+            <h2 className='text-2xl'>{t('publish.header')}</h2>
             <form onSubmit={submitHandler}>
                 <div className="form-group">
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">{t('publish.title')}</label>
                     <input value={title} onChange={(e) => setTitle(e.target.value)}
                            type="text" className="text-input" id="title"
-                           placeholder="title"/>
+                           placeholder={t('publish.title')}/>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="description">Description</label>
+                    <label htmlFor="description">{t('publish.desc')}</label>
                     <input value={description} onChange={(e) => setDescription(e.target.value)}
                            type="text" className="text-input" id="description"
-                           placeholder="description"/>
+                           placeholder={t('publish.desc')}/>
                 </div>
 
                 <div className="custom-file mb-3">
                     <label className="custom-file-label" htmlFor="customFileLangHTML"
-                           data-browse="select">{file ? file.name : 'choose podcast file'}</label>
+                           data-browse="select">{file ? file.name : t('publish.podcastFile')}</label>
                     <input onChange={selectFileHandler} type="file" className="file-input"
                            id="customFileLangHTML" accept='audio/mpeg'/>
 
                 </div>
                 <div className="custom-file mb-3">
                     <label className="custom-file-label" htmlFor="customCOVERLangHTML"
-                    >{cover ? cover.name : 'choose cover file'}</label>
+                    >{cover ? cover.name : t('publish.podcastCover')}</label>
                     <input onChange={selectCoverHandler} type="file" className="file-input"
                            id="customCOVERLangHTML" accept='image/jpeg, image/png'/>
 
                 </div>
                 <input disabled={!file || !title || !description } type="submit"
-                       className='btn' value="Prześlij"/>
+                       className='btn' value={t('publish.submit')}/>
             </form>
         </div>
 

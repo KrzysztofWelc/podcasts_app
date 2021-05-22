@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useHistory, Link} from 'react-router-dom'
+import {useTranslation} from "react-i18next";
 import axios from "../utils/axios";
 import {useAuth} from "../contexts/GlobalContext";
 
@@ -7,6 +8,7 @@ export default function SearchInput({setIsNavbarActive}) {
     const [query, setQuery] = useState('')
     const [isPreviewVisible, setIsPreviewVisible] = useState(false)
     const [previewLists, setPreviewLists] = useState({users: [], podcasts: []})
+    const {t} = useTranslation()
     const history = useHistory()
     const {setPreviewedPodcast} = useAuth()
 
@@ -39,9 +41,9 @@ export default function SearchInput({setIsNavbarActive}) {
                    onBlur={() => setTimeout(() => setIsPreviewVisible(false), 300)}
                    className="p-2 rounded-l-md text-grey-400 w-40"
                    type="search"
-                   placeholder="Search"
+                   placeholder={t('navbar.search_placeholder')}
                    aria-label="Search"/>
-            <button className="p-2 rounded-r-md text-white bg-purple-600 " type="submit">Search</button>
+            <button className="p-2 rounded-r-md text-white bg-purple-600 " type="submit">{t('navbar.search_button')}</button>
             {((previewLists.users.length || previewLists.podcasts.length) && isPreviewVisible) ? (
                 <div
                     className='bg-white border-l border-r border-b rounded-b-lg border-blue-500 p-3 absolute w-full'
