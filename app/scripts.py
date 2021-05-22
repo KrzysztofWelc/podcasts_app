@@ -61,7 +61,7 @@ def generate_fake_views_script():
     db.session.commit()
 
     for p in podcasts:
-        for _ in range(10, 40):
+        for _ in range(0, randint(10, 40)):
             v = View(podcast_id=p.id, timestamp=faker.date_between(start_date='-3d', end_date='today'))
             db.session.add(v)
 

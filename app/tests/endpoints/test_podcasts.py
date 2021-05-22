@@ -7,7 +7,7 @@ from random import randint
 from flask import current_app as app
 from faker import Faker
 from app import db
-from app.models import User, Podcast, PopularPodcast
+from app.models import User, Podcast, PopularPodcast, View
 from app.tests.base import BaseTestCase
 from app.tests.utils import get_real_podcasts, delete_dummy_podcasts
 
@@ -30,8 +30,13 @@ class TestPodcastsPackage(BaseTestCase):
             p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum')
             p.audio_file = 'test.mp3'
             db.session.add(p)
+
+        p = Podcast(author=user, title=faker.text(20), description='lorem ipsum',
+                    audio_file=faker.file_name(extension='mp3'))
+        db.session.add(p)
         db.session.commit()
         self.user = user
+        self.podcast = p
 
         self.real_podcasts = get_real_podcasts()
 
@@ -171,11 +176,14 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(data['description'], patch_data['description'])
 
     def test_podcast_delete(self):
-        p = Podcast(author=self.user, title=faker.text(20), description='lorem ipsum',
-                    audio_file=faker.file_name(extension='mp3'))
+        p = self.podcast
         with open(os.path.abspath(os.path.join(app.root_path, 'static', 'podcasts', p.audio_file)), 'w') as f:
             f.write('tesdasdas')
-        db.session.add(p)
+        pp = PopularPodcast(podcast_id=p.id, views=99)
+        for _ in range(4):
+            v = View(podcast_id=p.id)
+            db.session.add(v)
+        db.session.add(pp)
         db.session.commit()
 
         with self.client:
@@ -189,7 +197,9 @@ class TestPodcastsPackage(BaseTestCase):
             self.assertEqual(res.status_code, 200)
 
             check = Podcast.query.filter_by(id=p.id).first()
+            check_v = View.query.filter_by(podcast_id=p.id).all()
             self.assertFalse(check)
+            self.assertEqual(len(check_v), 0)
 
     # TODO: add missing tests
     # def test_podcast_update_when_owner(self):

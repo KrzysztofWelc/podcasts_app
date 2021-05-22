@@ -2,7 +2,7 @@ import secrets, os
 from flask import current_app as app
 from PIL import Image
 from app import db
-from app.podcasts.models import Podcast, PopularPodcast
+from app.podcasts.models import Podcast, PopularPodcast, View
 from app.users.models import User
 from app.exceptions import ResourceNotFound
 
@@ -10,6 +10,9 @@ PAGE_SIZE = 10
 
 
 def delete_podcast(podcast):
+    podcast_id = podcast.id
+    db.session.query(View).filter_by(podcast_id=podcast_id).delete()
+    db.session.query(PopularPodcast).filter_by(podcast_id=podcast_id).delete()
     db.session.delete(podcast)
     db.session.commit()
     path = os.path.abspath(os.path.join(app.root_path, 'static', 'podcasts', podcast.audio_file))
