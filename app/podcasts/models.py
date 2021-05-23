@@ -24,7 +24,7 @@ class Podcast(db.Model):
 class View(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.String(20), default=date.today)
-    podcast_id = db.Column(db.Integer, db.ForeignKey('podcast.id'), nullable=False)
+    podcast_id = db.Column(db.Integer, db.ForeignKey('podcast.id'))
 
 
 class PopularPodcast(db.Model):
