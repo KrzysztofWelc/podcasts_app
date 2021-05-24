@@ -39,7 +39,7 @@ export default function Comment({comment, editCommentHandler, deleteCommentHandl
             >
                 {author.username}
             </a>
-            <span><small>{created_at}</small></span>
+            <span><small>{new Date(created_at).toLocaleString()}</small></span>
             <div className='flex align-center'>
                 {!isEditMode ?
                     (<p className='w-10/12 p-1'>{text}</p>)
