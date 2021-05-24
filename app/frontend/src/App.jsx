@@ -10,6 +10,7 @@ import PlayerWrapper from "./logic/PlayerWrapper";
 import Navbar from "./UI/Navbar";
 import Search from "./pages/Search";
 import './i18n'
+import Footer from "./UI/Footer";
 
 export default function App() {
     return (
@@ -26,6 +27,7 @@ export default function App() {
                         <Route path='/' component={MainPage}/>
                     </Switch>
                 </div>
+                <Footer/>
                 <PlayerWrapper />
             </Router>
         </AuthProvider>
