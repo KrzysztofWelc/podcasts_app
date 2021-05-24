@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useHistory} from 'react-router-dom'
+import {useHistory, Link} from 'react-router-dom'
 import {useAuth} from "../contexts/GlobalContext";
 import {useTranslation} from "react-i18next";
 
@@ -9,6 +9,7 @@ export default function Register() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
+    const [policyAccepted, setPolicyAccepted] = useState(false)
     const [file, setFile] = useState(null)
     const [errors, setErrors] = useState([])
     const {signUp} = useAuth()
@@ -24,8 +25,16 @@ export default function Register() {
 
         setErrors([])
 
+        if(!password || !email || !username || !password2){
+            return setErrors([...errors, 'fill all required inputs.'])
+        }
+
         if (password2 !== password) {
             return setErrors([...errors, 'Passwords must match.'])
+        }
+
+        if (!policyAccepted){
+            return setErrors([...errors, 'You have to accept service policy.'])
         }
 
 
@@ -52,7 +61,8 @@ export default function Register() {
 
     return (
         <div className="card mt-4">
-            {errors.length > 0 && errors.map(err => <div className='alert-danger mb-4' key={err.slice(2, 7) + Math.random()}>{err}</div>)}
+            {errors.length > 0 && errors.map(err => <div className='alert-danger mb-4'
+                                                         key={err.slice(2, 7) + Math.random()}>{err}</div>)}
             <h2 className='text-2xl'>{t('register.header')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -67,7 +77,7 @@ export default function Register() {
                     <label htmlFor="username">{t('register.username')}</label>
                     <input value={username} onChange={(e) => setUsername(e.target.value)}
                            type="text"
-                            className="text-input"
+                           className="text-input"
                            id="username"
                            placeholder={t('register.username')}/>
                 </div>
@@ -87,11 +97,19 @@ export default function Register() {
                 </div>
                 <div className="mb-3">
                     <label className="file-input-label"
-                                             htmlFor="customFileLangHTML">{file ? file.name : t('register.avatar')}</label>
+                           htmlFor="customFileLangHTML">{file ? file.name : t('register.avatar')}</label>
                     <input onChange={selectFileHandler} type="file"
                            className="file-input"
                            id="customFileLangHTML" accept='image/jpeg, image/png'/>
 
+                </div>
+                <div className="form-group">
+                    <label className="inline-flex items-center mt-3">
+                        <input checked={policyAccepted} onChange={(e)=>setPolicyAccepted(e.target.checked)} type="checkbox" className="form-checkbox h-5 w-5 text-purple-900"/>
+                        <span className="ml-2 text-gray-700">{t('acceptPolicy.accept')} <Link
+                            className='hover:text-purple-900'
+                            to='/policy'>{t('acceptPolicy.policy')}</Link></span>
+                    </label>
                 </div>
                 <input type="submit" className='btn' value={t('register.submit')}/>
             </form>

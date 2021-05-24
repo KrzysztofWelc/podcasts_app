@@ -68,5 +68,9 @@
       "submit": "prześlij"
     }
   },
-  "footer": "Autorem niniejszego serwisu jest  Krzysztof Welc. Serwis ten stanowi integralną część pracy licencjackiej (kierunek: Elektroniczne Przetwarzanie Informacji), przygotowanej pod kierunkiem prof. dr. hab. Wiesława Lubaszewskiego na Wydziale Zarządzania i Komunikacji Społecznej Uniwersytetu Jagiellońskiego."
+  "footer": "Autorem niniejszego serwisu jest  Krzysztof Welc. Serwis ten stanowi integralną część pracy licencjackiej (kierunek: Elektroniczne Przetwarzanie Informacji), przygotowanej pod kierunkiem prof. dr. hab. Wiesława Lubaszewskiego na Wydziale Zarządzania i Komunikacji Społecznej Uniwersytetu Jagiellońskiego.",
+  "acceptPolicy": {
+    "accept": "Akceptuję ",
+    "policy": "regulamin."
+  }
 }

@@ -11,6 +11,7 @@ import Navbar from "./UI/Navbar";
 import Search from "./pages/Search";
 import './i18n'
 import Footer from "./UI/Footer";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 export default function App() {
     return (
@@ -24,6 +25,7 @@ export default function App() {
                         <Route path='/publish_podcast' component={PublishPodcast}/>
                         <Route path='/user/:id' component={Profile}/>
                         <Route path='/search/:query' component={Search}/>
+                        <Route path='/policy' component={PrivacyPolicy}/>
                         <Route path='/' component={MainPage}/>
                     </Switch>
                 </div>
