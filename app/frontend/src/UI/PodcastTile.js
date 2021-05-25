@@ -33,30 +33,32 @@ export default function PodcastTile({data, CRUDMode}) {
              style={{minWidth: '16rem'}}
         >
             <img
-                className='w-full object-cover'
+                className='w-full object-cover max-h-56 h-56'
                 src={`${process.env.BASE_URL}api/podcasts/image/${data.cover_img}`} alt="Card image cap"/>
             <div className="p-3">
                 <h5 className="text-2xl md:text-4xl mb-2 truncate">{data.title}</h5>
                 <p onClick={e => goToAuthorProfileHandler(e, data.author.id)}
                    className="mb-2 text-lg">{data.author.username}</p>
-                <button onClick={(e) => setGlobalPodcast(data, e)}
-                        className='btn'>
-                    play
-                </button>
-                {CRUDMode && currentUser && currentUser.id == data.author.id && <>
-                    <button className='btn' onClick={showEditFormHandler}>edit</button>
-                    <button className='btn-danger' onClick={showDeleteFormHandler}>delete</button>
-                </>}
+                <div className='flex justify-between'>
+                    <button onClick={(e) => setGlobalPodcast(data, e)}
+                            className='btn'>
+                        play
+                    </button>
+                    {CRUDMode && currentUser && currentUser.id == data.author.id && <>
+                        <button className='btn' onClick={showEditFormHandler}>edit</button>
+                        <button className='btn-danger' onClick={showDeleteFormHandler}>delete</button>
+                    </>}
+                </div>
             </div>
-            {isDeleteFormVisible && <Backdrop clickAction={(e)=> {
+            {isDeleteFormVisible && <Backdrop clickAction={(e) => {
                 e.stopPropagation()
                 setIsDeleteFormVisible(false)
-            }}><DeleteForm cancelHAndler={()=>setIsDeleteFormVisible(false)} podcast={data}/></Backdrop>}
+            }}><DeleteForm cancelHAndler={() => setIsDeleteFormVisible(false)} podcast={data}/></Backdrop>}
 
-            {isEditFormVisible && <Backdrop clickAction={(e)=> {
+            {isEditFormVisible && <Backdrop clickAction={(e) => {
                 e.stopPropagation()
                 setIsEditFormVisible(false)
-            }}><EditPodcastForm cancelHAndler={()=>setIsEditFormVisible(false)} podcast={data}/></Backdrop>}
+            }}><EditPodcastForm cancelHAndler={() => setIsEditFormVisible(false)} podcast={data}/></Backdrop>}
         </div>
     )
 }
