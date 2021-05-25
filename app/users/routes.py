@@ -7,6 +7,7 @@ from app.users.services import register_user, login_user, logout_user, get_user_
     change_profile_img, change_users_bio
 from app.users.decorators import login_required
 from app.exceptions import OperationNotPermitted
+from app.translations.utils import t
 
 users = Blueprint('users', __name__)
 
@@ -17,7 +18,7 @@ def register():
         data = RegisterSchema().load(request.form)
         avatar = request.files.get('profile_img')
         if avatar and not os.path.splitext(avatar.filename)[1] in ['.jpg', '.jpeg', '.png']:
-            raise ValidationError({'profile_img': ['zdjęcie profilowe musi być w formacie jpg/jpeg/png.']})
+            raise ValidationError({'profile_img': [t('img_format_error')]})
         jwt, user = register_user(data, avatar)
         return make_response({'token': jwt, 'user': UserSchema().dump(user)}), 201
     except ValidationError as err:
@@ -92,10 +93,10 @@ def change_avatar():
     try:
         new_img = request.files.get('new_profile_pic')
         if not new_img:
-            raise OperationNotPermitted('no file upladed')
+            raise OperationNotPermitted(t('no_img_error'))
         _, ext = os.path.splitext(new_img.filename)
         if ext not in ['.jpg', '.jpeg', '.png']:
-            raise OperationNotPermitted('invalid file format')
+            raise OperationNotPermitted(t('img_format_error'))
 
         change_profile_img(request.user, new_img)
 

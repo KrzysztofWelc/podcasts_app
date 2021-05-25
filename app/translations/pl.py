@@ -1,0 +1,16 @@
+translations = {
+    'img_format_error': 'Zdjęcie profilowe musi być w formacie jpg/jpeg/png.',
+    'audio_format_error': 'Plik audio musi być w formacie mp3.',
+    'no_img_error': 'Obraz nie został przesłany.',
+    'no_audio_error': 'Plik audio nie został przesłany.',
+    'passwords_match_error': 'Hasła się różnią.',
+    'email_taken_error': 'Ten adres email jest zajęty.',
+    'title_taken_error': 'Ten tytuł jest zajęty.',
+    'username_taken_error': 'Ta nazwa użytkownika jest zajęta.',
+    'bio_length_error': 'Biogram może mieć maksymalnie 500 znaków.',
+    'not_found_error': 'Nie znaleziono obiektu.',
+    'server_error': 'Błąd servera.',
+    'cant_do_error': 'Nie możesz tego zrobić.',
+    'text_required_error': 'Tekst jest wymagany.',
+    'email_or_pass_error': 'Błędny email lub hasło.',
+}

@@ -6,6 +6,8 @@ import sys
 from flask import Blueprint, request, make_response, Response, send_from_directory, current_app as app
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
+
+from app.translations.utils import t
 from app.users.decorators import login_required
 from app.podcasts.schemas import AddPodcastSchema, PodcastSchema, EditPodcastSchema
 from app.podcasts.services import get_new_podcasts, get_most_popular, create_podcast, find_podcast, update_podcast, \
@@ -27,9 +29,9 @@ def post_podcast():
         audio = request.files.get('audio_file')
         cover_img = request.files.get('cover_file')
         if not audio:
-            raise ValidationError({'audio_file': ['audio file is required']})
+            raise ValidationError({'audio_file': [t('no_audio_error')]})
         if os.path.splitext(audio.filename)[1] != '.mp3':
-            raise ValidationError({'audio_file': ['audio file must be in mp3 format']})
+            raise ValidationError({'audio_file': [t('audio_format_error')]})
         p = create_podcast(data, audio, request.user, cover_img)
         res = PodcastSchema().dump(p)
         return make_response(res), 201
@@ -77,7 +79,7 @@ def patch_podcast(podcast_id):
         podcast = find_podcast(id=podcast_id)
 
         if not podcast:
-            return make_response({'general': 'podcast not found'}), 404
+            return make_response({'general': t('not_found_error')}), 404
         if request.user.id != podcast.author.id:
             return make_response(), 401
         updated_podcast = update_podcast(podcast, data)
@@ -98,7 +100,7 @@ def delete_podcast_r(podcast_id):
     try:
         podcast = find_podcast(id=podcast_id)
         if not podcast:
-            return make_response({'general': 'podcast not found'}), 404
+            return make_response({'general': t('not_found_error')}), 404
         if request.user.id != podcast.author.id:
             return make_response(), 401
         delete_podcast(podcast)

@@ -5,6 +5,7 @@ from app.exceptions import OperationNotPermitted, ResourceNotFound
 from app.comments.schemas import AddCommentSchema, CommentSchema, PutCommentSchema, AnswerSchema
 from app.comments.services import create_comment, get_comments, get_single_comment, delete_comment, update_comment, \
     answer_comment, get_answers, delete_answer, patch_answer
+from app.translations.utils import t
 from app.users.decorators import login_required
 
 comments = Blueprint('comments', __name__)
@@ -21,7 +22,7 @@ def post_comment():
     except ValidationError as err:
         return make_response(err.messages), 400
     except SQLAlchemyError as err:
-        return make_response({"_error": 'server error'}), 500
+        return make_response({"_error": t('server_error')}), 500
 
 
 @comments.route('/<podcast_id>/<page>')
@@ -33,7 +34,7 @@ def get_comments_list(podcast_id, page):
     except ValidationError as err:
         return make_response(err.messages), 400
     except SQLAlchemyError as err:
-        return make_response({"_error": 'server error'}), 500
+        return make_response({"_error": t('server_error')}), 500
 
 
 @comments.route('', methods=['DELETE'])
@@ -44,9 +45,9 @@ def remove_comment():
         comment = get_single_comment(id=comment_id)
 
         if not comment:
-            raise ResourceNotFound('No comment found')
+            raise ResourceNotFound(t('not_found_error'))
         elif comment.user_id != request.user.id:
-            raise OperationNotPermitted('You cannot delete this comment')
+            raise OperationNotPermitted(t('cant_do_error'))
         else:
             delete_comment(comment)
             return make_response()
@@ -58,7 +59,7 @@ def remove_comment():
     except ResourceNotFound as err:
         return make_response({'error': err.message}), 404
     except SQLAlchemyError as _err:
-        return make_response({"_error": 'server error'}), 500
+        return make_response({"_error": t('server_error')}), 500
 
 
 @comments.route('', methods=['PUT'])
@@ -70,7 +71,7 @@ def put_comment():
         if comment and comment.user_id == request.user.id:
             updated_comment = update_comment(comment, text=data['text'])
         else:
-            raise OperationNotPermitted('You cannot delete this comment')
+            raise OperationNotPermitted(t('cant_do_error'))
         res = CommentSchema().dump(updated_comment)
         return make_response(res)
     except ValidationError as err:
@@ -78,7 +79,7 @@ def put_comment():
     except OperationNotPermitted as err:
         return make_response({'error': err.message}), 401
     except SQLAlchemyError as err:
-        return make_response({"_error": 'server error'}), 500
+        return make_response({"_error": t('server_error')}), 500
 
 
 @comments.route('/<comment_id>/answer', methods=['POST'])
@@ -87,7 +88,7 @@ def comment_answer(comment_id):
     try:
         text = request.json.get('text')
         if not text:
-            raise ValidationError('no answer content provided.')
+            raise ValidationError(t('text_required_error'))
         a = answer_comment(comment_id, text, request.user)
         res = AnswerSchema().dump(a)
         return make_response(res), 201
@@ -96,7 +97,7 @@ def comment_answer(comment_id):
     except OperationNotPermitted as err:
         return make_response({'error': err.message}), 401
     except SQLAlchemyError as err:
-        return make_response({"_error": 'server error'}), 500
+        return make_response({"_error": t('server_error')}), 500
 
 
 @comments.route('/answer/<answer_id>', methods=['DELETE'])
@@ -111,7 +112,7 @@ def delete_answer_route(answer_id):
     except OperationNotPermitted as err:
         return make_response({'error': err.message}), 401
     except SQLAlchemyError as err:
-        return make_response({"_error": 'server error'}), 500
+        return make_response({"_error": t('server_error')}), 500
 
 
 @comments.route('/answer/<answer_id>', methods=['PATCH'])
@@ -120,7 +121,7 @@ def patch_answer_route(answer_id):
     try:
         text = request.json.get('text')
         if not text:
-            raise ValidationError('text is required')
+            raise ValidationError(t('text_required_error'))
         a = patch_answer(answer_id, text)
         res = AnswerSchema().dump(a)
         return make_response(res), 200
@@ -129,7 +130,7 @@ def patch_answer_route(answer_id):
     except OperationNotPermitted as err:
         return make_response({'error': err.message}), 401
     except SQLAlchemyError as err:
-        return make_response({"_error": 'server error'}), 500
+        return make_response({"_error": t('server_error')}), 500
 
 
 @comments.route('/<comment_id>/answers/<page>', methods=['GET'])
@@ -146,4 +147,4 @@ def get_answers_list(comment_id, page):
     except OperationNotPermitted as err:
         return make_response({'error': err.message}), 401
     except SQLAlchemyError as err:
-        return make_response({"_error": 'server error'}), 500
+        return make_response({"_error": t('server_error')}), 500

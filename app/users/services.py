@@ -2,6 +2,8 @@ import os, secrets
 from flask import current_app as app
 from marshmallow import ValidationError
 from PIL import Image
+
+from app.translations.utils import t
 from app.users.models import User, BlackListedToken
 from app import db
 from app.exceptions import OperationNotPermitted
@@ -42,7 +44,7 @@ def login_user(data):
     if user and user.check_password(data['password']):
         return user.generate_auth_token(), user
     else:
-        raise ValidationError({'general': ['wrong email of password']})
+        raise ValidationError({'general': [t('email_or_pass_error')]})
 
 
 def logout_user(token):

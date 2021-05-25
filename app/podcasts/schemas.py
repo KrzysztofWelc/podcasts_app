@@ -1,6 +1,7 @@
 from marshmallow import Schema, fields, validates, ValidationError
 from app.users.schemas import UserSchema
 from app.podcasts.models import Podcast
+from app.translations.utils import t
 
 
 class AddPodcastSchema(Schema):
@@ -11,7 +12,7 @@ class AddPodcastSchema(Schema):
     def validate_title(self, value):
         p = Podcast.query.filter_by(title=value).first()
         if p:
-            raise ValidationError('Title already taken.')
+            raise ValidationError(t('title_taken_error'))
 
 
 class EditPodcastSchema(Schema):

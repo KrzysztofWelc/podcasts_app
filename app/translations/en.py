@@ -1,0 +1,16 @@
+translations = {
+    'img_format_error': 'Avatar must be in jpg/jpeg/png format.',
+    'audio_format_error': 'Audio file must be in mp3 format.',
+    'no_img_error': 'No image was sent.',
+    'no_audio_error': 'No audio file was sent.',
+    'passwords_match_error': 'Passwords must match.',
+    'email_taken_error': 'Email address alerady taken.',
+    'title_taken_error': 'Title already taken.',
+    'username_taken_error': 'Username already taken.',
+    'bio_length_error': 'Bio can be 500 characters long max.',
+    'not_found_error': 'Object not found.',
+    'server_error': 'server error',
+    'cant_do_error': 'You cannot do this.',
+    'text_required_error': 'Text is required.',
+    'email_or_pass_error': 'Wrong email or password.',
+}
