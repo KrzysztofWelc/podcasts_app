@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
+import {useTranslation} from "react-i18next";
 import axios from "../utils/axios";
 
 
@@ -14,6 +15,7 @@ export function AnswersProvider({children, commentId, areAnswersVisible}) {
     const [answers, setAnswers] = useState([])
     const [answersPage, setAnswersPage] = useState(0)
     const [isMore, setIsMore] = useState(true)
+    const {t} = useTranslation()
 
     useEffect(() => {
         const fetchAnswers = async () => {
@@ -59,7 +61,7 @@ export function AnswersProvider({children, commentId, areAnswersVisible}) {
             return null
         } catch (err) {
             console.log(err)
-            return 'coś poszło nie tak'
+            return t('error.general')
         }
     }
 

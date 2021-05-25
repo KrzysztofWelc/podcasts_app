@@ -38,7 +38,7 @@ export default function ChangeAvatar() {
         } catch (e) {
             setLoading(false)
             if (e.status === 500) {
-                setError('Coś poszło nie tak.')
+                setError(t('error.general'))
             } else {
                 const err = e.response.data.error
 

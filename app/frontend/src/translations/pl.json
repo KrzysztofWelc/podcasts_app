@@ -2,7 +2,13 @@
   "more": "więcej",
   "podcasts": "Podcasty",
   "users": "Użytkownicy",
-  "error": "something went wrong",
+  "error": {
+    "general": "Coś poszło nie tak.",
+    "commentNotEmpty": "Komentarz musi zawierać treść.",
+    "allInputsRequired": "Wypełnij wszystkie wymagane pola.",
+    "matchPasswords": "Hasła muszą się zgadzać.",
+    "acceptPolicy": "Musisz zaakceptować regulamin."
+  },
   "home": {
     "popular": "Popularne",
     "newest": "Najnowsze"
@@ -72,5 +78,10 @@
   "acceptPolicy": {
     "accept": "Akceptuję ",
     "policy": "regulamin."
+  },
+  "button": {
+    "delete": "usuń",
+    "edit": "zmień",
+    "play": "odtwórz"
   }
 }

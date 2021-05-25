@@ -26,15 +26,15 @@ export default function Register() {
         setErrors([])
 
         if(!password || !email || !username || !password2){
-            return setErrors([...errors, 'fill all required inputs.'])
+            return setErrors([...errors, t('error.allInputsRequired')])
         }
 
         if (password2 !== password) {
-            return setErrors([...errors, 'Passwords must match.'])
+            return setErrors([...errors, t('error.matchPasswords')])
         }
 
         if (!policyAccepted){
-            return setErrors([...errors, 'You have to accept service policy.'])
+            return setErrors([...errors, t('error.acceptPolicy')])
         }
 
 

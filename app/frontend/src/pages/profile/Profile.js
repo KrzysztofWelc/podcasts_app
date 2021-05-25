@@ -45,7 +45,7 @@ export default function Profile() {
 
             {error &&
             <div className="alert-danger fixed bottom-6 left-1/2 transform -translate-x-2/4" role="alert">
-                {t('error')}
+                {t('error.general')}
             </div>}
 
 

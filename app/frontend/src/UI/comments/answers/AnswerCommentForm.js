@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {useAnswers} from "../../../contexts/AnswersContext";
+import {useTranslation} from "react-i18next";
 
 export default function AnswerCommentForm() {
     const [answer, setAnswer] = useState('')
     const [errors, setErrors] = useState([])
     const {addAnswer} = useAnswers()
+    const {t} = useTranslation()
 
     async function submitHandler(e) {
         e.preventDefault()
@@ -18,7 +20,7 @@ export default function AnswerCommentForm() {
             }
             
         } else {
-            setErrors(['comment can not be empty'].concat([...errors]))
+            setErrors([t('error.commentNotEmpty')].concat([...errors]))
         }
 
     }

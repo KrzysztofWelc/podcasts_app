@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {useAuth} from "../contexts/GlobalContext";
 import {useHistory} from 'react-router-dom'
+import {useTranslation} from "react-i18next";
 import Backdrop from "./Backdrop";
 import DeleteForm from "./DeleteForm";
 import EditPodcastForm from "./EditPodcastForm";
@@ -10,6 +11,7 @@ export default function PodcastTile({data, CRUDMode}) {
     const history = useHistory()
     const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false)
     const [isEditFormVisible, setIsEditFormVisible] = useState(false)
+    const {t} = useTranslation()
 
     function goToAuthorProfileHandler(e, author_id) {
         e.preventDefault()
@@ -42,11 +44,11 @@ export default function PodcastTile({data, CRUDMode}) {
                 <div className='flex justify-between'>
                     <button onClick={(e) => setGlobalPodcast(data, e)}
                             className='btn'>
-                        play
+                        {t('button.play')}
                     </button>
                     {CRUDMode && currentUser && currentUser.id == data.author.id && <>
-                        <button className='btn' onClick={showEditFormHandler}>edit</button>
-                        <button className='btn-danger' onClick={showDeleteFormHandler}>delete</button>
+                        <button className='btn' onClick={showEditFormHandler}>{t('button.edit')}</button>
+                        <button className='btn-danger' onClick={showDeleteFormHandler}>{t('button.delete')}</button>
                     </>}
                 </div>
             </div>

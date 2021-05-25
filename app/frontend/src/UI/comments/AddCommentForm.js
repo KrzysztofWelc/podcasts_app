@@ -13,7 +13,7 @@ export default function AddCommentSection({addComment}) {
             await addComment(comment)
             setComment('')
         } else {
-            setErrors(['comment can not be empty'].concat([...errors]))
+            setErrors([t('error.commentNotEmpty')].concat([...errors]))
         }
 
     }

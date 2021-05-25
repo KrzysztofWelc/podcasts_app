@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import axios from "../utils/axios";
 import {useCookies} from 'react-cookie'
+import {useTranslation} from "react-i18next";
 import Loader from "../UI/Loader";
 
 
@@ -21,6 +22,7 @@ export function AuthProvider({children}) {
     const [isPlaying, setIsPlaying] = useState(false)
     const [hasInteractedBefore, setHasInteractedBefore] = useState(false)
     const [currentTime, setCurrentTime] = useState(null)
+    const {t} = useTranslation()
 
 
     const value = {
@@ -112,7 +114,7 @@ export function AuthProvider({children}) {
             if (e.response) {
                 return e.response.data
             } else {
-                return {server: ['coś poszło nie tak']}
+                return {server: [t('error.general')]}
             }
         }
         setLoading(false)
