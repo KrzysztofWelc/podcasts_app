@@ -123,10 +123,10 @@ export function AuthProvider({children}) {
     async function logOut() {
         setLoading(true)
         try {
-            await axios.post('/api/users/logout', {}, {headers: {authToken: `Bearer ${cookies.authToken}`}})
             removeCookie('authToken')
             localStorage.removeItem('user')
             setCurrentUser(null)
+            await axios.post('/api/users/logout', {}, {headers: {authToken: `Bearer ${cookies.authToken}`}})
         } catch (e) {
             console.log(e.response)
         }
