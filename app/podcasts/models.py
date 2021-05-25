@@ -4,8 +4,8 @@ from datetime import date, datetime
 
 class Podcast(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(45), nullable=False, unique=True)
-    description = db.Column(db.String(500))
+    title = db.Column(db.String(250), nullable=False, unique=True)
+    description = db.Column(db.String(2000))
     publish_date = db.Column(db.String(60))
     audio_file = db.Column(db.String(60), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

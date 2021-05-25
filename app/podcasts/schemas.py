@@ -14,6 +14,14 @@ class AddPodcastSchema(Schema):
         if p:
             raise ValidationError(t('title_taken_error'))
 
+        if len(value) > 250:
+            raise ValidationError(t('title_too_long_error'))
+
+    @validates('description')
+    def validate_description(self, value):
+        if len(value) > 2000:
+            raise ValidationError(t('desc_too_long_error'))
+
 
 class EditPodcastSchema(Schema):
     title = fields.String()

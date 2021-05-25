@@ -13,4 +13,8 @@ translations = {
     'cant_do_error': 'You cannot do this.',
     'text_required_error': 'Text is required.',
     'email_or_pass_error': 'Wrong email or password.',
+    'title_too_long_error': 'Title can be 250 characters long max.',
+    'desc_too_long_error': 'Description can be 250 characters long max.',
+    'email_too_long_error': 'Email can be 120 characters long max.',
+    'username_too_long_error': 'Username can be 250 characters long max.',
 }

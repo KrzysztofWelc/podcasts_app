@@ -13,4 +13,8 @@ translations = {
     'cant_do_error': 'Nie możesz tego zrobić.',
     'text_required_error': 'Tekst jest wymagany.',
     'email_or_pass_error': 'Błędny email lub hasło.',
+    'title_too_long_error': 'Tytuł może mieć maksymalnie 250 znaków.',
+    'desc_too_long_error': 'Opis może mieć maksymalnie 250 znaków.',
+    'email_too_long_error': 'Email może mieć maksymalnie 120 znaków.',
+    'username_too_long_error': 'Nazwa użytkownika może mieć maksymalnie 120 znaków.',
 }

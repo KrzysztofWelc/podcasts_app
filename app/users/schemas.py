@@ -19,12 +19,16 @@ class RegisterSchema(Schema):
         user = User.query.filter_by(email=data['email']).first()
         if user:
             raise ValidationError({'email': [t('email_taken_error')]})
+        if len(data['email']) > 120:
+            raise ValidationError({'email': [t('email_too_long_error')]})
 
     @validates_schema
     def validate_username_accessibility(self, data, **kwargs):
         user = User.query.filter_by(username=data['username']).first()
         if user:
             raise ValidationError({'username': [t('username_taken_error')]})
+        if len(data['username']) > 120:
+            raise ValidationError({'username': [t('username_too_long_error')]})
 
 
 class ChangePwdSchema(Schema):
