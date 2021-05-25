@@ -2,7 +2,13 @@
   "more": "more",
   "podcasts": "Podcasts",
   "users": "Users",
-  "error": "something went wrong",
+  "error": {
+    "general": "Something went wrong.",
+    "commentNotEmpty": "Commen6 cannot be empty.",
+    "allInputsRequired": "Fill all required fields.",
+    "matchPasswords": "Passwords must match.",
+    "acceptPolicy": "You have to accept privacy policy."
+  },
   "home": {
     "popular": "Popular",
     "newest": "Recent"
@@ -67,5 +73,15 @@
       "label": "write something about yourself",
       "submit": "send"
     }
+  },
+  "footer": "Autorem niniejszego serwisu jest  Krzysztof Welc. Serwis ten stanowi integralną część pracy licencjackiej (kierunek: Elektroniczne Przetwarzanie Informacji), przygotowanej pod kierunkiem prof. dr. hab. Wiesława Lubaszewskiego na Wydziale Zarządzania i Komunikacji Społecznej Uniwersytetu Jagiellońskiego.",
+  "acceptPolicy": {
+    "accept": "Accept ",
+    "policy": "privacy policy."
+  },
+  "button": {
+    "delete": "delete",
+    "edit": "edit",
+    "play": "play"
   }
 }
