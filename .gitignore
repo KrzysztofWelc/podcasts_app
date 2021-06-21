@@ -15,4 +15,3 @@ app/static/js/main.js
 **/*.log
 app/frontend/.env
 app/env.py
-app/static/css/style.css
